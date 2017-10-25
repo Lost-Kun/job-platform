@@ -32,7 +32,7 @@ app.use(async (ctx, next) => {
     execTime = new Date().getTime() - start;
     ctx.response.set('X-Response-Time', `${execTime}ms`);
   });
-
+  
 app.use(staticFiles('/static',  path.join(__dirname, '/dist/static')));
 
 app.use(log4js.koaLogger(log4js.getLogger('http'), { level: 'auto' }));
