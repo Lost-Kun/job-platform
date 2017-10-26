@@ -37,6 +37,8 @@ export default {
 
 .headerContainer{
 	height: 60px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #E8E8E8;
 }
 
 .bodyContainer{
