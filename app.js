@@ -10,6 +10,8 @@ const config = require('./lib/config/config.js');
 
 const bodyParser = require('koa-bodyparser');
 
+const xmlParser = require('koa-xml-body');
+
 const staticFiles = require('./lib/utils/static-file');
 
 const router = require('./lib/utils/router');
@@ -36,6 +38,8 @@ app.use(async (ctx, next) => {
 app.use(staticFiles('/static',  path.join(__dirname, '/dist/static')));
 
 app.use(log4js.koaLogger(log4js.getLogger('http'), { level: 'auto' }));
+
+app.use(xmlParser());
 
 app.use(bodyParser());
 
