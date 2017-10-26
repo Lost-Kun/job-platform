@@ -31,17 +31,17 @@ export default {
 
 <style>
 .mainPage{
-  min-width: 1000px;
+  min-width: 1200px;
 	width: 100%;
+  z-index: 1;
 }
 
 .headerContainer{
 	height: 60px;
-  background-color: #ffffff;
   border-bottom: 1px solid #E8E8E8;
 }
 
 .bodyContainer{
-	position: relative;
+  position: relative;
 }
 </style>
