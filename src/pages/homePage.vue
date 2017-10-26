@@ -20,6 +20,11 @@ export default {
   },
   components:{
     myHeader
+  },
+  created(){
+    if(this.$route.path === '/homePage'){
+      this.$router.push('/homePage/index')
+    }
   }
 }
 </script>

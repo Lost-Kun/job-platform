@@ -18,6 +18,16 @@ export default new Router({
           path: 'index',
           name: '首页',
           component: () => import('@/pages/index'),
+        },
+        {
+          path: 'talent',
+          name: '浏览人才',
+          component: () => import('@/pages/findTalents'),
+        },
+        {
+          path: 'project',
+          name: '发现项目',
+          component: () => import('@/pages/findProjects'),
         }
       ]
     }
