@@ -14,11 +14,11 @@
           </div>
         </div>
         <div class="mainShowContainer_left_operation">
-
+          <a class="mainShowContainer_left_operation_button button_full">发布任务</a>
+          <a class="mainShowContainer_left_operation_button">寻找兼职</a>
         </div>
       </div>
       <div class="mainShowContainer_right">
-
       </div>
     </div>
   </div>
@@ -43,20 +43,101 @@ export default {
   justify-content: center;
 }
 
+.mainShowContainer_left_slogan{
+  font-size: 25px;
+  font-weight: bold;
+  height: 25%;
+  line-height: 80px;
+}
+
+.mainShowContainer_left_description{
+  height: 30%;
+}
+
+.mainShowContainer_left_description_item{
+  margin-top: 10px;
+}
+
+.mainShowContainer_left_operation{
+  height: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainShowContainer_left_operation_button{
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 6px;
+  border: 2px solid #5A9AD5;
+  font-size: 18px;
+  color: #5A9AD5;
+  cursor: pointer;
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.mainShowContainer_left_operation_button:hover{
+  color: #218EF7;
+  border: 2px solid #218EF7;
+}
+
+.button_full{
+  background-color: #5A9AD5;
+  color: #ffffff;
+}
+
+.button_full:hover{
+  color: #ffffff;
+  background-color: #50A5F5;
+  border: 2px solid #50A5F5;
+}
+
+@media screen and (max-width: 1366px){
+
 .mainShowContainer_left{
   width: 600px;
-  height: 450px;
+  height: 350px;
 }
 
 .mainShowContainer_right{
   width: 600px;
   height: 500px;
-  background-color: #000000;
+  margin-left: 20px;
 }
 
-.mainShowContainer_left_slogan{
-  font-size: 24px;
-  font-weight: bold;
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1600px){
+
+.mainShowContainer_left{
+  width: 650px;
+  height: 350px;
+}
+
+.mainShowContainer_right{
+  width: 650px;
+  height: 500px;
+  margin-left: 50px;
+}
+
+}
+
+@media screen and (min-width: 1601px){
+
+.mainShowContainer_left{
+  width: 750px;
+  height: 350px;
+}
+
+.mainShowContainer_right{
+  width: 750px;
+  height: 500px;
+  margin-left: 100px;
+}
+
 }
 </style>
 
