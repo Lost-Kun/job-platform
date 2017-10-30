@@ -19,16 +19,29 @@
         </div>
       </div>
       <div class="mainShowContainer_right">
+        <div class="mainShowContainer_right_carouselPictureBox">
+          <el-carousel height="400px" :arrow="'never'" :indicator-position="'outside'">
+            <el-carousel-item v-for="(item, key) in carouselPictures" :key="'carouselPicture'+key">
+              <img class="index_carouselPicture" :src="item" />
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
     </div>
+    <div></div>
   </div>
 </template>
 
 <script>
+// import carousel from '../components/carousel.vue'
 export default {
   data(){
     return {
-      
+      carouselPictures:[
+        '../static/images/wulimi.jpg',
+        '../static/images/baima.jpg',
+        '../static/images/huanxiang.jpg'
+      ],
     }
   }
 }
@@ -142,6 +155,16 @@ export default {
   margin-left: 100px;
 }
 
+}
+
+.mainShowContainer_right_carouselPictureBox{
+  width: 650px;
+  height: 500px;
+}
+
+.index_carouselPicture{
+  width: 100%;
+  height: 100%;
 }
 </style>
 
