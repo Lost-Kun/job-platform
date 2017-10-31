@@ -6,11 +6,13 @@
 		<div class="bodyContainer">
     	<router-view/>
 		</div>
+    <my-footer></my-footer>
   </div>
 </template>
 
 <script>
 import myHeader from '../components/header.vue'
+import myFooter from '../components/footer.vue'
 
 export default {
   data(){
@@ -19,7 +21,8 @@ export default {
     }
   },
   components:{
-    myHeader
+    myHeader,
+    myFooter
   },
   created(){
     if(this.$route.path === '/homePage'){
@@ -31,17 +34,20 @@ export default {
 
 <style>
 .mainPage{
-  min-width: 1200px;
+  min-width: 1300px;
 	width: 100%;
   z-index: 1;
 }
 
 .headerContainer{
 	height: 60px;
-  border-bottom: 1px solid #E8E8E8;
+  width: 100%;
 }
 
 .bodyContainer{
   position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  min-height: 600px;
 }
 </style>

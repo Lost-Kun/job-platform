@@ -52,20 +52,56 @@
     <div class="theySay">
       <div class="theySay_box">
           <el-carousel height="350px" :arrow="'never'" type="card" :autoplay="false" indicator-position="none">
-            <el-carousel-item v-for="(item, key) in carouselPictures" :key="'theySay'+key">
-              <img class="index_carouselPicture" style="width:500px;margin: 0 auto;" :src="item" />
+            <el-carousel-item v-for="(theySayItem, key) in theySayArr" :key="'theySay'+key">
+              <div class="theySay_item">
+                <div class="theySay_item_icon">
+                  <div class="theySay_item_icon_box">
+                    <img class="theySay_item_icon_img" :src="theySayItem.src"/>
+                  </div>
+                </div>
+                <div class="theySay_item_name">
+                  {{theySayItem.name}}
+                </div>
+                <div class="theySay_item_info">
+                  {{theySayItem.info}}
+                </div>
+                <div class="theySay_item_saidWord">
+                  <div class="theySay_item_saidWord_left">
+
+                  </div>
+                  <div class="theySay_item_saidWord_center">
+                    {{theySayItem.saidWord}}
+                  </div>
+                  <div class="theySay_item_saidWord_right">
+
+                  </div>
+                </div>
+              </div>
             </el-carousel-item>
           </el-carousel>
       </div>
     </div>
     <div class="sentenceBlock">
       立即发布您的项目！
-    </div> 
+    </div>
+    <div class="publishProject">
+      <div class="publishProject_container">
+        <div class="publishProject_item" v-for="(publishItem, key) in publishProjectArr" :key="'publishKey'+key">
+          <div class="publishProject_item_icon">
+            <div class="publishProject_item_icon_imgBox">
+              <img class="publishProject_item_icon_img" :src="publishItem.src" />
+            </div>
+          </div>
+          <div class="publishProject_item_name">
+            {{publishItem.name}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import carousel from '../components/carousel.vue'
 export default {
   data(){
     return {
@@ -93,6 +129,44 @@ export default {
           isHover:false,
           description:'创业公司将薪酬先预付到平台，待确认工程师完工后再实际支付，一小时内免费退款，保证项目顺利进展和资金安全！'
         }
+      ],
+      theySayArr:[
+        {
+          src:'../static/images/wulimi.jpg',
+          name:'罗明',
+          info:'品牌策划推广|9年',
+          saidWord:'程序员特别负责，透彻理解需求，逻辑很清晰，时间概念也很强。更重要的是程序员使用最新的热门技术开发，可以帮助创业团队少走一些技术坑。101分，多一分换辛苦，以后还会来平台找你的！'
+        },
+        {
+          src:'../static/images/baima.jpg',
+          name:'吴楠',
+          info:'软件架构师|10年',
+          saidWord:'我们是初创企业，做电影影评相关app，公司技术只有一个前端和一个后端CTO，其他的PHP、iOS都是在猿急送找的。工程师的技术水平很高，我们很满意，iOS做完之后Android工程师也会在猿急送找。'
+        },
+        {
+          src:'../static/images/huanxiang.jpg',
+          name:'上海励识科技',
+          info:'王永春|CEO',
+          saidWord:'工程师是自由职业者，来我们这儿坐班过来的，程序架构设计的非常好，帮助我们解决了一些技术上的难点，总共项目做了3周，验收竟然几乎没有bug，十几年经验的工程师做出来的东西确实不错，以后还会用。'
+        }
+      ],
+      publishProjectArr:[
+        {
+          src:'../static/images/people.jpg',
+          name:'Website Development'
+        },
+        {
+          src:'../static/images/rocket.jpg',
+          name:'Graphic Design'
+        },
+        {
+          src:'../static/images/people.jpg',
+          name:'Internet Marketing'
+        },
+        {
+          src:'../static/images/rocket.jpg',
+          name:'Mobie App'
+        }
       ]
     }
   },
@@ -111,10 +185,12 @@ export default {
 <style>
 .index{
   position: relative;
+  width: 100%;
 }
 
 .mainShowContainer{
   position: relative;
+  width: 100%;
   height: 600px;
   display: flex;
   align-items: center;
@@ -134,6 +210,7 @@ export default {
 
 .mainShowContainer_left_description_item{
   margin-top: 10px;
+  font-size: 17px;
 }
 
 .mainShowContainer_left_operation{
@@ -158,8 +235,9 @@ export default {
 }
 
 .mainShowContainer_left_operation_button:hover{
-  color: #218EF7;
-  border: 2px solid #218EF7;
+  /* color: #218EF7; */
+  color: #118EF7;
+  border: 2px solid #118EF7;
 }
 
 .button_full{
@@ -219,7 +297,7 @@ export default {
 }
 
 .mainShowContainer_right_carouselPictureBox{
-  width: 650px;
+  width: 600px;
   height: 500px;
 }
 
@@ -229,18 +307,20 @@ export default {
 }
 
 .sentenceBlock{
+  width: 100%;
   height: 60px;
   line-height: 60px;
   font-size: 25px;
 }
 
 .whyChoose{
+  width: 100%;
   height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-  margin-bottom: 50px;
+  margin-bottom: 80px;
 }
 
 .whyChoose_item_box{
@@ -255,11 +335,12 @@ export default {
   width: 350px;
   height: 380px;
   border: 1px solid #F5F5F5;
+  cursor: pointer;
 }
 
 .whyChoose_item--hover{
   /* border: 2px solid #F5F5F5; */
-  box-shadow: 0 4px 6px 0 rgba(0,0,0,.24), 0 0 8px 0 rgba(0,0,0,.08);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.24), 0 0 6px 0 rgba(0,0,0,.08);
 }
 
 .whyChoose_item_icon{
@@ -296,27 +377,163 @@ export default {
 .whyChoose_item_description{
   height: 30%;
   width: 80%;
-  font-size: 16px;
+  font-size: 15px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
 .whyChoose_item_description--hover{
   width: 85%;
-  font-size: 17px;
+  font-size: 16px;
 }
 
 .theySay{
+  width: 100%;
   height: 350px;
   margin-top: 30px;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 
 .theySay_box{
-  width: 80%;
-  min-width: 1000px;
+  width: 85%;
+  /* min-width: 1000px; */
   height: 100%;
   margin: 0 auto;
+}
+
+.theySay_item{
+  height: 340px;
+  width: 500px;
+  margin: 5px auto;
+  background: #ffffff;
+  border-radius: 5px;
+  /* border: 1px solid #F5F5F5; */
+  box-shadow: 0 2px 3px 0 rgba(0,0,0,.24), 0 0 6px 0 rgba(0,0,0,.08);
+}
+
+.theySay_item_icon{
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.theySay_item_icon_box{
+  width: 90px;
+  height: 90px;
+  border-radius: 45px;
+  border: 1px solid #DEDBDB;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.theySay_item_icon_img{
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  border: 1px solid #DEDBDB;
+}
+
+.theySay_item_name{
+  height: 30px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.theySay_item_info{
+  height: 30px;
+  font-size: 15px;
+}
+
+.theySay_item_saidWord{
+  margin-top: 20px;
+  height: 140px;
+  position: relative;
+}
+
+.theySay_item_saidWord_left{
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 30px;
+  bottom: 0;
+}
+
+.theySay_item_saidWord_center{
+  position: absolute;
+  top: 0;
+  left: 70px;
+  right: 70px;
+  bottom: 0;
+  font-size: 14px;
+  line-height: 2;
+  overflow: hidden;
+}
+
+.theySay_item_saidWord_right{
+  position: absolute;
+  top: 0;
+  right: 40px;
+  width: 30px;
+  bottom: 0;
+}
+
+.publishProject{
+  width: 100%;
+  height: 260px;
+  margin-top: 30px;
+}
+
+.publishProject_container{
+  width: 80%;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.publishProject_item{
+  width: 22%;
+  height: 100%;
+  position: relative;
+}
+
+.publishProject_item_icon{
+  position: absolute;
+  top: 0;
+  right: 10px;
+  left: 10px;
+  bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.publishProject_item_icon_imgBox{
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: 1px solid #C8C8E8;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.publishProject_item_icon_img{
+  width: 102px;
+  height: 102px;
+  margin-top: -1px;
+  margin-left: -1px;
+}
+
+.publishProject_item_name{
+  position: absolute;
+  right: 10px;
+  left: 10px;
+  bottom: 0;
+  height: 60px;
 }
 
 </style>

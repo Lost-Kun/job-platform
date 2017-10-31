@@ -75,9 +75,9 @@ export default {
   height: 60px;
   display: flex;
   align-items: center;
-  min-width: 1200px;
   z-index: 100;
   background-color: #ffffff;
+  border-bottom: 1px solid #E8E8E8;
 }
 
 .logo{
