@@ -51,7 +51,7 @@
     </div> 
     <div class="theySay">
       <div class="theySay_box">
-          <el-carousel height="350px" :arrow="'never'" type="card" :autoplay="false" indicator-position="none">
+          <el-carousel height="350px" :arrow="'never'" type="card" indicator-position="none">
             <el-carousel-item v-for="(theySayItem, key) in theySayArr" :key="'theySay'+key">
               <div class="theySay_item">
                 <div class="theySay_item_icon">
