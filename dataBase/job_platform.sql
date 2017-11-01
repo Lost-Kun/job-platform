@@ -2,7 +2,8 @@
 SQLyog Ultimate v8.32 
 MySQL - 5.7.17-log : Database - job_platform
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -116,7 +117,7 @@ CREATE TABLE `operating` (
   `Employee_ID` varchar(255) DEFAULT NULL COMMENT '雇主和设计师的ID二选一',
   `Ip_address` varchar(50) DEFAULT NULL COMMENT 'ip地址',
   `Page_url` varchar(255) DEFAULT NULL COMMENT '当前页面',
-  `Element` varchar(255) DEFAULT NULL COMMENT '操作对象，具体操作的html元素（具体可以讨论）',
+  `Element` varchar(255) DEFAULT NULL COMMENT '操作对象，具体操作的html元素',
   `Event` varchar(50) DEFAULT NULL COMMENT '操作类型，比如“点击”、“搜索”等等',
   `Desp` varchar(255) DEFAULT NULL COMMENT '这项操作的详情，比如操作是“搜索”，那么这里就记录搜索内容',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '这项操作的具体日期',
