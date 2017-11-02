@@ -1,100 +1,118 @@
 <template>
   <div class="index">
-    <div class="mainShowContainer">
-      <div class="mainShowContainer_left">
-        <div class="mainShowContainer_left_slogan">
-          国内互联网行业顶级设计师为您服务！
-        </div>
-        <div class="mainShowContainer_left_description">
-          <div class="mainShowContainer_left_description_item">
-            节假日无休，12小时内对需求
-          </div>
-          <div class="mainShowContainer_left_description_item">
-            快捷操作，无需注册，快速发布需求，高效匹配专家
-          </div>
-        </div>
-        <div class="mainShowContainer_left_operation">
-          <a class="mainShowContainer_left_operation_button button_full">发布任务</a>
-          <a class="mainShowContainer_left_operation_button">寻找兼职</a>
-        </div>
-      </div>
-      <div class="mainShowContainer_right">
-        <div class="mainShowContainer_right_carouselPictureBox">
-          <el-carousel height="400px" :arrow="'never'">
-            <el-carousel-item v-for="(item, key) in carouselPictures" :key="'carouselPicture'+key">
-              <img class="index_carouselPicture" :src="item" />
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-      </div>
-    </div>
-    <div class="sentenceBlock">
-      为什么选择我们？
-    </div>
-    <div class="whyChoose">
-      <div class="whyChoose_item_box" v-for="(chooseItem, index) in whyChooseArr" :key="'choose'+index" >
-        <div :class="['whyChoose_item',chooseItem.isHover?'whyChoose_item--hover':'']" @mouseover="whyChooseMouseOver(chooseItem)" @mouseout="whyChooseMouseOut(chooseItem)">
-          <div class="whyChoose_item_icon">
-            <img :class="['whyChoose_item_icon_img',chooseItem.isHover?'whyChoose_item_icon_img--hover':'']" :src="chooseItem.src"/>
-          </div>
-          <div :class="['whyChoose_item_title',chooseItem.isHover?'whyChoose_item_title--hover':'']">
-            {{chooseItem.title}}
-          </div>
-          <div :class="['whyChoose_item_description',chooseItem.isHover?'whyChoose_item_description--hover':'']">
-            {{chooseItem.description}}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="sentenceBlock">
-      他们这么说
-    </div> 
-    <div class="theySay">
-      <div class="theySay_box">
-          <el-carousel height="350px" :arrow="'never'" type="card" indicator-position="none">
-            <el-carousel-item v-for="(theySayItem, key) in theySayArr" :key="'theySay'+key">
-              <div class="theySay_item">
-                <div class="theySay_item_icon">
-                  <div class="theySay_item_icon_box">
-                    <img class="theySay_item_icon_img" :src="theySayItem.src"/>
-                  </div>
-                </div>
-                <div class="theySay_item_name">
-                  {{theySayItem.name}}
-                </div>
-                <div class="theySay_item_info">
-                  {{theySayItem.info}}
-                </div>
-                <div class="theySay_item_saidWord">
-                  <div class="theySay_item_saidWord_left">
-
-                  </div>
-                  <div class="theySay_item_saidWord_center">
-                    {{theySayItem.saidWord}}
-                  </div>
-                  <div class="theySay_item_saidWord_right">
-
-                  </div>
-                </div>
+    <div id="fullpage">
+      <div class="section index_item">
+        <div style="width:100%">
+        <div class="mainShowContainer">
+          <div class="mainShowContainer_left">
+            <div class="mainShowContainer_left_slogan">
+              国内互联网行业顶级设计师为您服务！
+            </div>
+            <div class="mainShowContainer_left_description">
+              <div class="mainShowContainer_left_description_item">
+                节假日无休，12小时内对需求
               </div>
-            </el-carousel-item>
-          </el-carousel>
-      </div>
-    </div>
-    <div class="sentenceBlock">
-      立即发布您的项目！
-    </div>
-    <div class="publishProject">
-      <div class="publishProject_container">
-        <div class="publishProject_item" v-for="(publishItem, key) in publishProjectArr" :key="'publishKey'+key">
-          <div class="publishProject_item_icon">
-            <div class="publishProject_item_icon_imgBox">
-              <img class="publishProject_item_icon_img" :src="publishItem.src" />
+              <div class="mainShowContainer_left_description_item">
+                快捷操作，无需注册，快速发布需求，高效匹配专家
+              </div>
+            </div>
+            <div class="mainShowContainer_left_operation">
+              <a class="mainShowContainer_left_operation_button button_full">发布任务</a>
+              <a class="mainShowContainer_left_operation_button">寻找兼职</a>
             </div>
           </div>
-          <div class="publishProject_item_name">
-            {{publishItem.name}}
+          <div class="mainShowContainer_right">
+            <div class="mainShowContainer_right_carouselPictureBox">
+              <el-carousel height="400px" :arrow="'never'">
+                <el-carousel-item v-for="(item, key) in carouselPictures" :key="'carouselPicture'+key">
+                  <img class="index_carouselPicture" :src="item" />
+                </el-carousel-item>
+              </el-carousel>
+            </div>
           </div>
+        </div>
+        </div>
+      </div>
+      <div class="section index_item">
+        <div style="width:100%">
+        <div class="sentenceBlock">
+          为什么选择我们？
+        </div>
+        <div class="whyChoose">
+          <div class="whyChoose_item_box" v-for="(chooseItem, index) in whyChooseArr" :key="'choose'+index" >
+            <div :class="['whyChoose_item',chooseItem.isHover?'whyChoose_item--hover':'']" @mouseover="whyChooseMouseOver(chooseItem)" @mouseout="whyChooseMouseOut(chooseItem)">
+              <div class="whyChoose_item_icon">
+                <img :class="['whyChoose_item_icon_img',chooseItem.isHover?'whyChoose_item_icon_img--hover':'']" :src="chooseItem.src"/>
+              </div>
+              <div :class="['whyChoose_item_title',chooseItem.isHover?'whyChoose_item_title--hover':'']">
+                {{chooseItem.title}}
+              </div>
+              <div :class="['whyChoose_item_description',chooseItem.isHover?'whyChoose_item_description--hover':'']">
+                {{chooseItem.description}}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="section index_item">
+        <div style="width:100%">
+        <div class="sentenceBlock">
+          他们这么说
+        </div> 
+        <div class="theySay">
+          <div class="theySay_box">
+              <el-carousel height="350px" :arrow="'never'" type="card" indicator-position="none">
+                <el-carousel-item v-for="(theySayItem, key) in theySayArr" :key="'theySay'+key">
+                  <div class="theySay_item">
+                    <div class="theySay_item_icon">
+                      <div class="theySay_item_icon_box">
+                        <img class="theySay_item_icon_img" :src="theySayItem.src"/>
+                      </div>
+                    </div>
+                    <div class="theySay_item_name">
+                      {{theySayItem.name}}
+                    </div>
+                    <div class="theySay_item_info">
+                      {{theySayItem.info}}
+                    </div>
+                    <div class="theySay_item_saidWord">
+                      <div class="theySay_item_saidWord_left">
+
+                      </div>
+                      <div class="theySay_item_saidWord_center">
+                        {{theySayItem.saidWord}}
+                      </div>
+                      <div class="theySay_item_saidWord_right">
+
+                      </div>
+                    </div>
+                  </div>
+                </el-carousel-item>
+              </el-carousel>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="section index_item">
+        <div style="width:100%">
+        <div class="sentenceBlock">
+          立即发布您的项目！
+        </div>
+        <div class="publishProject">
+          <div class="publishProject_container">
+            <div class="publishProject_item" v-for="(publishItem, key) in publishProjectArr" :key="'publishKey'+key">
+              <div class="publishProject_item_icon">
+                <div class="publishProject_item_icon_imgBox">
+                  <img class="publishProject_item_icon_img" :src="publishItem.src" />
+                </div>
+              </div>
+              <div class="publishProject_item_name">
+                {{publishItem.name}}
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -169,6 +187,14 @@ export default {
         }
       ]
     }
+  },
+  mounted(){
+    $('#fullpage').fullpage({
+      autoScrolling:false
+    });
+  },
+  beforeDestroy(){
+    $.fn.fullpage.destroy('all');
   },
   methods:{
     whyChooseMouseOver(item){
@@ -534,6 +560,13 @@ export default {
   left: 10px;
   bottom: 0;
   height: 60px;
+}
+
+.index_item{
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; */
 }
 
 </style>
