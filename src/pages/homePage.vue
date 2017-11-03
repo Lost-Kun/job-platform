@@ -6,7 +6,7 @@
 		<div class="bodyContainer">
     	<router-view/>
 		</div>
-    <my-footer></my-footer>
+    <my-footer v-if="!isIndex"></my-footer>
   </div>
 </template>
 
@@ -17,7 +17,8 @@ import myFooter from '../components/footer.vue'
 export default {
   data(){
     return {
-      name:'主页面'
+      name:'主页面',
+      isIndex: false
     }
   },
   components:{
@@ -26,7 +27,21 @@ export default {
   },
   created(){
     if(this.$route.path === '/homePage'){
-      this.$router.push('/homePage/index')
+      this.$router.push('/homePage/index');
+      this.isIndex = true;
+    }else if(this.$route.path === '/homePage/index'){
+      this.isIndex = true;
+    }else{
+      this.isIndex = false;
+    }
+  },
+  watch:{
+    $route(){
+      if(this.$route.path === '/homePage/index'){
+        this.isIndex = true;
+      }else{
+        this.isIndex = false;
+      }
     }
   }
 }
