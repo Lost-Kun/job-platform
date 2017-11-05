@@ -61,7 +61,7 @@
         <div class="talent_infoItem_right">
           <div class="talent_infoItem_right_item">800/天</div>
           <div class="talent_infoItem_right_item">   
-            <a :class="['talent_infoItem_right_order',true?'talent_infoItem_right_order--disable':'']">立即预约</a>
+            <a :class="['talent_infoItem_right_order',i%2 === 0?'talent_infoItem_right_order--disable':'']">{{i%2 === 0?'已被预约':'立即预约'}}</a>
           </div>
         </div>
       </div> 

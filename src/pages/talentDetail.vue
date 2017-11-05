@@ -40,22 +40,55 @@
 				</div>
 			</div>
 			<div class="talentDetail_basicInfo_right">
-				<div class="talentDetail_basicInfo_right_item">日薪：{{talentInfo.Wage}}元/天</div>
-				<div class="talentDetail_basicInfo_right_item">
+				<div class="talentDetail_basicInfo_right_item">日薪：{{talentInfo.Wage}}元/天&nbsp;&nbsp;</div>
+				<div class="talentDetail_basicInfo_right_item" style="margin-top:10px;">
 					<a class="talentDetail_basicInfo_right_button">联系专家</a>
-					<a class="talentDetail_basicInfo_right_fullButton">下单预约</a>
+					<a class="talentDetail_basicInfo_right_button talentDetail_button_full">下单预约</a>
 				</div>
 			</div>
 		</div>
     <div class="talentDetail_detailedInfo">
 			<div class="talentDetail_detailedInfo_skill">
-
+				<div class="talentDetail_detailedInfo_title">掌握技能</div>
+				<div class="talentDetail_detailedInfo_content" v-html="talentInfo.Skills"></div>
 			</div>
 			<div class="talentDetail_detailedInfo_experience">
-
+				<div class="talentDetail_detailedInfo_title">项目经验</div>
+				<div class="talentDetail_detailedInfo_content" v-html="talentInfo.Projects"></div>
 			</div>
 			<div class="talentDetail_detailedInfo_rate">
-
+				<div class="talentDetail_detailedInfo_title">用户评价</div>
+				<div class="talentDetail_detailedInfo_content">
+					<div class="talentDetail_detailedInfo_rate_item" v-for="rateItem in rateList">
+						<div class="talentDetail_detailedInfo_rate_item_left">
+							<div class="talentDetail_detailedInfo_rate_item_left_icon">
+								<img class="talentDetail_detailedInfo_rate_item_left_iconImg" :src="rateItem.HeadImageUrl"/>
+							</div>
+						</div>
+						<div class="talentDetail_detailedInfo_rate_item_center">
+							<div class="talentDetail_detailedInfo_rate_item_center_name">
+								{{rateItem.Name}}
+							</div>
+							<div class="talentDetail_detailedInfo_rate_item_center_comment">
+								{{rateItem.Comment}}
+							</div>
+						</div>
+						<div class="talentDetail_detailedInfo_rate_item_right">
+							<div class="talentDetail_detailedInfo_rate_item_right_riqi">
+								{{rateItem.Riqi}}
+							</div>
+							<div class="talentDetail_detailedInfo_rate_item_right_rating">
+								<el-rate
+									v-model="rateItem.Rating"
+									disabled
+									show-score
+									text-color="#ff9900"
+									score-template="{value}">
+								</el-rate>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
   </div>
@@ -73,9 +106,27 @@ export default {
 					Job_experience:12,
 					Ordered_number:6,
 					Rating:3.1,
-					Wage:800
+					Wage:800,
+					Skills:'1 XXXXXXX <br>2 XXXXXX <br>3 XXXXXX<br>2 XXXXXX <br>3 XXXXXX<br>2 XXXXXX <br>3 XXXXXX',
+					Projects:'1、三一重工门户网站开发建设，团队接单完成。整体项目算法重构，权限系统重构。官网的改版和重建、网站会员中心、会员支撑系统改造、前台页面改造、业务支撑系统改造。 <br>2、腾讯旗下创业频道CMS系统大改版，内容展示算法重新设计。数据库升级优化，搜索效率提升。 <br>3、曾在某初创公司负责技术研发部分，包括公司内部管理系统的设计和开发，以及其他与营销业务相关的应用开发（关键词处理和分析、网页爬虫等）。具体有：外贸B2C咨询平台的设计和研发，功能包括集中展示国内知名外贸B2C平台上的热门产品、促销信息，发布和管理与B2C相关的主题咨询等；基于Magento系统的外贸B2C平台的二次开发。 <br>4、目前担任公司的技术总监，技术联合创始人。负责公司所有IT系统的研发工作。包括所有内部系统的研发，系统服务器的架设，官网的开发等。'
 				},
-				rateNumber:2345
+				rateNumber:2345,
+				rateList:[
+					{
+						Name:'陈妍希',
+						HeadImageUrl:'../static/images/baima.jpg',
+						Comment:'积极、主动、负责，确保项目顺利完成',
+						Rating: 3.2,
+						Riqi:'2017-08-11 12:32:16'
+					},
+					{
+						Name:'陈妍希',
+						HeadImageUrl:'../static/images/baima.jpg',
+						Comment:'积极、主动、负责，确保项目顺利完成',
+						Rating: 4.8,
+						Riqi:'2017-08-11 12:32:16'
+					}
+				]
 			}
 	},
 	created(){
@@ -235,29 +286,146 @@ export default {
 }
 
 .talentDetail_basicInfo_right_button{
-
+  display: inline-block;
+  width: 70px;
+  height: 25px;
+  line-height: 25px;
+  border-radius: 3px;
+  border: 1px solid #5A9AD5;
+  color: #5A9AD5;
+  cursor: pointer;
+	margin-right: 10px;
+	font-size: 14px;
+	font-weight: normal;
 }
 
-.talentDetail_basicInfo_right_fullButton{
-	
+.talentDetail_basicInfo_right_button:hover{
+  color: #118EF7;
+  border: 1px solid #118EF7;
+}
+
+.talentDetail_button_full{
+  background-color: #5A9AD5;
+  color: #ffffff;
+}
+
+.talentDetail_button_full:hover{
+  color: #ffffff;
+  background-color: #50A5F5;
+  border: 1px solid #50A5F5;
 }
 
 .talentDetail_detailedInfo{
-	margin: 20px auto;
+	margin: 15px auto;
+	padding-bottom: 5px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.24), 0 0 6px 0 rgba(0,0,0,.08);
+}
+
+.talentDetail_detailedInfo_title{
+	height: 50px;
+	line-height: 50px;
+	text-align: left;
+	padding-left: 20px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.talentDetail_detailedInfo_content{
+	width: 90%;
+	margin: 10px auto 30px auto;
+	font-size: 15px;
+	line-height: 1.8;
+	text-align: left;
+	/* white-space: pre; */
 }
 
 .talentDetail_detailedInfo_skill{
 	min-height: 165px;
-
+	border-bottom: 1px solid #E1E1E1;
 }
 
 .talentDetail_detailedInfo_experience{
 	min-height: 165px;
+	border-bottom: 1px solid #E1E1E1;
 }
 
 .talentDetail_detailedInfo_rate{
 	min-height: 165px;
+}
+
+.talentDetail_detailedInfo_rate_item{
+	position: relative;
+	height: 60px;
+	margin: 15px auto;
+}
+
+.talentDetail_detailedInfo_rate_item_left{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.talentDetail_detailedInfo_rate_item_left_icon{
+	width: 52px;
+	height: 52px;
+	border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid #C8C8E8;
+}
+
+.talentDetail_detailedInfo_rate_item_left_iconImg {
+    width: 54px;
+    height: 54px;
+    margin-top: -1px;
+    margin-left: -1px;
+}
+
+.talentDetail_detailedInfo_rate_item_center{
+	position: absolute;
+	top: 0;
+	left: 80px;
+	bottom: 0;
+	right: 200px;
+	font-size: 14px;
+}
+
+.talentDetail_detailedInfo_rate_item_center_name{
+	height: 50%;
+	text-align: left;
+	padding: auto 10px;
+	font-weight: bold;
+}
+
+.talentDetail_detailedInfo_rate_item_center_comment{
+	height: 50%;
+	text-align: left;
+	padding: auto 10px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.talentDetail_detailedInfo_rate_item_right{	
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 250px;
+	text-align: left;
+	font-size: 14px;
+}
+
+.talentDetail_detailedInfo_rate_item_right_riqi{
+	height: 50%;
+}
+
+.talentDetail_detailedInfo_rate_item_right_rating{
+	height: 50%;
 }
 </style>
 
