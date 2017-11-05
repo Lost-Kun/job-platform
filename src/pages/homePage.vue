@@ -63,6 +63,6 @@ export default {
   position: relative;
   width: 100%;
   background-color: #ffffff;
-  min-height: 600px;
+  min-height: 650px;
 }
 </style>

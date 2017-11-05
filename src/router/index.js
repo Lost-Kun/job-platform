@@ -25,6 +25,11 @@ export default new Router({
           component: () => import('@/pages/findTalents'),
         },
         {
+          path: 'talentDetail',
+          name: '人才详细',
+          component: () => import('@/pages/talentDetail'),
+        },
+        {
           path: 'project',
           name: '发现项目',
           component: () => import('@/pages/findProjects'),
