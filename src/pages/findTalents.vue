@@ -67,7 +67,10 @@
       </div> 
     </div>
     <div class="talent_pagingBox">
-
+      <el-pagination
+        layout="prev, pager, next"
+        :total="100">
+      </el-pagination>
     </div>
   </div>
 </template> 
@@ -303,5 +306,10 @@ export default {
 
 .talent_infoItem_right_order--disable{
   color: #D5D5D5;
+}
+
+.talent_pagingBox{
+  margin: 10px;
+  height: 60px;
 }
 </style>

@@ -11,3 +11,33 @@
 .el-carousel__indicators--outside button{
     background-color: rgb(106, 165, 221);
 }
+
+.el-pager li{
+    border: 1px solid #d1dbe5;
+    border-right: 0;
+    height: 35px;
+    line-height: 35px;
+}
+
+.el-pagination button, .el-pagination span:not([class*=suffix]){
+    height: 35px;
+    line-height: 35px;
+}
+
+.el-pager li.btn-quicknext, .el-pager li.btn-quickprev{
+    line-height: 35px;
+}
+
+.el-pagination .btn-next, .el-pagination .btn-prev{
+    border: 1px solid #d1dbe5;
+}
+
+.el-pagination .btn-prev{
+    border-right: 0;
+}
+
+.el-pager li.active{
+    border-color: #20a0ff;
+    background-color: #20a0ff;
+    color: #fff;
+}

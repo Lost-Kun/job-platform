@@ -33,6 +33,14 @@
       </div>
     </div>
     <div class="project_infoListBox">
+      <div class="project_infoItem">
+        <div class="project_infoItem_left">
+          <!-- <div style="height:300px;">
+
+          </div> -->
+        </div>
+        <div class="project_infoItem_right"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -134,5 +142,27 @@ export default {
 
 .project_infoListBox{
   margin-top: 10px;
+}
+
+.project_infoItem{
+  position: relative;
+  min-height: 160px;
+  margin-top: 20px;
+  margin-bottom: 20px; 
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.24), 0 0 4px 0 rgba(0,0,0,.08);
+  text-align: left;
+}
+
+.project_infoItem_left{
+  /* height: 300px; */
+  width: calc(100% - 300px);
+}
+
+.project_infoItem_right{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 160px;
 }
 </style>
