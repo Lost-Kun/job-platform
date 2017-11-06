@@ -59,10 +59,33 @@ export default {
   width: 100%;
 }
 
+@media screen and (max-width: 1366px){
 .bodyContainer{
   position: relative;
   width: 100%;
   background-color: #ffffff;
-  min-height: 650px;
+  min-height: 648px;
+  overflow: hidden;
+}
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1600px){
+.bodyContainer{
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  min-height: 780px;
+  overflow: hidden;
+}
+}
+
+@media screen and (min-width: 1601px){
+.bodyContainer{
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  min-height: 960px;
+  overflow: hidden;
+}
 }
 </style>
