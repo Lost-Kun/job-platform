@@ -33,14 +33,31 @@
       </div>
     </div>
     <div class="project_infoListBox">
-      <div class="project_infoItem">
+      <div class="project_infoItem" v-for="projectItem in projectList">
         <div class="project_infoItem_left">
-          <!-- <div style="height:300px;">
-
-          </div> -->
         </div>
-        <div class="project_infoItem_right"></div>
+        <div class="project_infoItem_right">
+          <div class="project_infoItem_right_top">
+            <div class="project_infoItem_right_top_item">日薪：{{projectItem.Wage}}元/天</div>
+            <div class="project_infoItem_right_top_item">工时：{{projectItem.Length}}天</div>
+            <div class="project_infoItem_right_top_item">总价：{{projectItem.Length * projectItem.Wage}}元</div>
+          </div>
+          <div class="project_infoItem_right_bottom">
+            <div class="project_infoItem_right_bottom_left">
+              <a>立即投递</a>
+            </div>
+            <div class="project_infoItem_right_bottom_right">
+              已有234人投递
+            </div>
+          </div>
+        </div> 
       </div>
+    </div>
+    <div class="project_pagingBox">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="100">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -49,6 +66,35 @@
 export default {
   data(){
     return {
+      projectList:[
+        {
+          Project_ID: 1,
+          Name: '消费信息分享评论网站搭建',
+          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
+          Wage: 800,
+          Length: 20,
+          State: 0,
+          Employer_ID: 1
+        },
+        {
+          Project_ID: 2,
+          Name: '消费信息分享评论网站搭建',
+          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
+          Wage: 800,
+          Length: 20,
+          State: 0,
+          Employer_ID: 2
+        },
+        {
+          Project_ID: 3,
+          Name: '消费信息分享评论网站搭建',
+          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
+          Wage: 800,
+          Length: 20,
+          State: 0,
+          Employer_ID: 3
+        }
+      ]
     }
   }
 }
@@ -146,7 +192,7 @@ export default {
 
 .project_infoItem{
   position: relative;
-  min-height: 160px;
+  min-height: 180px;
   margin-top: 20px;
   margin-bottom: 20px; 
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.24), 0 0 4px 0 rgba(0,0,0,.08);
@@ -155,14 +201,64 @@ export default {
 
 .project_infoItem_left{
   /* height: 300px; */
-  width: calc(100% - 300px);
+  width: calc(100% - 250px);
 }
 
 .project_infoItem_right{
   position: absolute;
   top: 0;
   right: 0;
-  width: 300px;
-  height: 160px;
+  width: 250px;
+  height: 180px;
+}
+
+.project_infoItem_right_top{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
+.project_infoItem_right_top_item{
+  width: 70%;
+  font-size: 15px;
+  font-weight: bold;
+  height: 30px;
+  line-height: 30px;
+}
+
+.project_infoItem_right_bottom{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+}
+
+.project_infoItem_right_bottom_left{
+  width: 50%;
+  height: 100%;
+  float: left;
+  display: flex;
+  justify-content: center;
+}
+
+.project_infoItem_right_bottom_right{
+  width: 50%;
+  height: 100%;
+  float: left;
+  /* display: flex;
+  justify-content: center; */
+  /* padding: 0 10px; */
+}
+
+.project_pagingBox{
+  margin: 10px auto;
+  height: 60px;
 }
 </style>

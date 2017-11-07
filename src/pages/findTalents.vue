@@ -309,7 +309,7 @@ export default {
 }
 
 .talent_pagingBox{
-  margin: 10px;
+  margin: 10px auto;
   height: 60px;
 }
 </style>
