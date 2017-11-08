@@ -33,8 +33,16 @@
       </div>
     </div>
     <div class="project_infoListBox">
-      <div class="project_infoItem" v-for="projectItem in projectList">
+      <div class="project_infoItem" v-for="(projectItem, key) in projectList" :key="'projectItem'+key">
         <div class="project_infoItem_left">
+          <div class="project_infoItem_left_title">
+            {{projectItem.Name}}
+          </div>
+          <div class="project_infoItem_left_content">
+            {{projectItem.Desp}}
+            <a class="project_infoItem_left_content_expend"><span>展开</span><i class="el-icon-arrow-down"></i></a>
+          </div>
+
         </div>
         <div class="project_infoItem_right">
           <div class="project_infoItem_right_top">
@@ -44,7 +52,7 @@
           </div>
           <div class="project_infoItem_right_bottom">
             <div class="project_infoItem_right_bottom_left">
-              <a>立即投递</a>
+              <a :class="['project_infoItem_right_bottom_left_a',(projectItem.State === 5 || projectItem.State === 7)?'project_infoItem_right_bottom_left_a--disable':'']">立即投递</a>
             </div>
             <div class="project_infoItem_right_bottom_right">
               已有234人投递
@@ -79,11 +87,11 @@ export default {
         {
           Project_ID: 2,
           Name: '消费信息分享评论网站搭建',
-          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
+          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
           Wage: 800,
           Length: 20,
-          State: 0,
-          Employer_ID: 2
+          State: 5,
+          Employer_ID:2
         },
         {
           Project_ID: 3,
@@ -95,6 +103,35 @@ export default {
           Employer_ID: 3
         }
       ]
+    }
+  },
+  mounted(){
+    this.expandBind();
+  },
+  updated(){
+    this.expandBind();
+  },
+  methods:{
+    expandBind(){
+      $(".project_infoListBox .project_infoItem_left_content").each(function(){
+        if($(this).height() > 160){
+          $(this).children('.project_infoItem_left_content_expend').show();
+          $(this).children('.project_infoItem_left_content_expend').off().on("click",function(){
+            if($(this).children('span').text() === "展开"){
+              $(this).parent().removeClass("project_infoItem_left_content--overflowHide");
+              $(this).children('span').text("收起");
+              $(this).children('i').removeClass("el-icon-arrow-down").addClass("el-icon-arrow-up");
+            }else{
+              $(this).parent().addClass("project_infoItem_left_content--overflowHide");
+              $(this).children('span').text("展开");
+              $(this).children('i').removeClass("el-icon-arrow-up").addClass("el-icon-arrow-down");
+            }
+          })
+        }else{
+          $(this).children('.project_infoItem_left_content_expend').hide();
+        }
+        $(this).addClass("project_infoItem_left_content--overflowHide");
+      })
     }
   }
 }
@@ -197,11 +234,41 @@ export default {
   margin-bottom: 20px; 
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.24), 0 0 4px 0 rgba(0,0,0,.08);
   text-align: left;
+  padding: 10px 0;
 }
 
 .project_infoItem_left{
   /* height: 300px; */
   width: calc(100% - 250px);
+}
+
+.project_infoItem_left_title{
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.project_infoItem_left_content{
+  position: relative;
+  min-height: 94px;
+  font-size: 15px;
+  padding: 0 50px 0 20px;
+  line-height: 1.6;
+}
+
+.project_infoItem_left_content--overflowHide{
+  height: 94px;
+  overflow: hidden;
+}
+
+.project_infoItem_left_content_expend{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .project_infoItem_right{
@@ -217,7 +284,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 50px;
+  bottom: 30px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -226,7 +293,7 @@ export default {
 
 .project_infoItem_right_top_item{
   width: 70%;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   height: 30px;
   line-height: 30px;
@@ -237,7 +304,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 30px;
 }
 
 .project_infoItem_right_bottom_left{
@@ -248,10 +315,22 @@ export default {
   justify-content: center;
 }
 
+.project_infoItem_right_bottom_left_a{
+  color: #1A93EC;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.project_infoItem_right_bottom_left_a--disable{
+  color: #D5D5D5;
+}
+
 .project_infoItem_right_bottom_right{
   width: 50%;
   height: 100%;
   float: left;
+  font-size: 14px;
+  color: #D5D5D5;
   /* display: flex;
   justify-content: center; */
   /* padding: 0 10px; */
