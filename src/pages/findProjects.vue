@@ -275,6 +275,7 @@ export default {
   padding: 0 20px;
   font-size: 16px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .project_infoItem_left_content{
