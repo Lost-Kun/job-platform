@@ -3,7 +3,7 @@
         <div class="project_searchBox"> 
       <input class="project_searchBox_input"/>
       <a class="project_searchBox_search">搜索</a>
-      <a class="project_searchBox_contactWoker">注册成为兼职专家</a>
+      <a class="project_searchBox_contactWoker" @click="editTalentInfo">注册成为兼职专家</a>
     </div>
     <div class="project_sortBox">
       <div class="project_sortBox_item">
@@ -35,7 +35,7 @@
     <div class="project_infoListBox">
       <div class="project_infoItem" v-for="(projectItem, key) in projectList" :key="'projectItem'+key">
         <div class="project_infoItem_left">
-          <div class="project_infoItem_left_title">
+          <div class="project_infoItem_left_title" @click="intoProjectDetail(projectItem)">
             {{projectItem.Name}}
           </div>
           <div class="project_infoItem_left_content">
@@ -158,6 +158,19 @@ export default {
           $(this).children('.project_infoItem_left_content_expend').hide();
         }
         $(this).addClass("project_infoItem_left_content--overflowHide");
+      })
+    },
+    intoProjectDetail(projectItem){
+      this.$router.push({
+        path:'/homePage/projectDetail',
+        query:{
+          id: projectItem.Project_ID
+        }
+      })
+    },
+    editTalentInfo(){
+      this.$router.push({
+        path:'/homePage/editTalentInfo'
       })
     }
   }

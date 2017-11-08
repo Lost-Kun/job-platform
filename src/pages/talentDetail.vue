@@ -138,9 +138,9 @@ export default {
 <style>
 .talentDetail{
 	position: relative;
-  min-width: 1100px;
-  margin: 0 auto;
-  width: 80%; 
+  	min-width: 1100px;
+  	margin: 0 auto;
+  	width: 80%; 
 }
 
 .talentDetail_basicInfo{
@@ -272,11 +272,11 @@ export default {
 	right: 0;
 	width: 200px;
 	bottom: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  font-size: 15px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
+	font-size: 15px;
 }
 
 .talentDetail_basicInfo_right_item{
@@ -295,9 +295,9 @@ export default {
   border: 1px solid #5A9AD5;
   color: #5A9AD5;
   cursor: pointer;
-	margin-right: 10px;
-	font-size: 14px;
-	font-weight: normal;
+  margin-right: 10px;
+  font-size: 14px;
+  font-weight: normal;
 }
 
 .talentDetail_basicInfo_right_button:hover{
@@ -319,7 +319,7 @@ export default {
 .talentDetail_detailedInfo{
 	margin: 15px auto;
 	padding-bottom: 5px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.24), 0 0 6px 0 rgba(0,0,0,.08);
+  	box-shadow: 0 2px 4px 0 rgba(0,0,0,.24), 0 0 6px 0 rgba(0,0,0,.08);
 }
 
 .talentDetail_detailedInfo_title{
