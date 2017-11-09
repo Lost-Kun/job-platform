@@ -6,16 +6,175 @@
           <div class="editTalentInfo_item_title_text_tooltips">（私密信息，不公开展示）</div>
         </div>
       </div>
-      <div class="editTalentInfo_item_content">
-
+      <div class="editTalentInfo_item_contentItem">
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">您的昵称</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+					</div>
+				</div>
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">您的手机</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+					</div>
+				</div>
       </div>
     </div>
+    <div class="editTalentInfo_item">
+      <div class="editTalentInfo_item_title">
+        <div class="editTalentInfo_item_title_text">兼职要求
+        </div>
+      </div>
+      <div class="editTalentInfo_item_contentItem">
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">兼职岗位</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-select v-model="value" placeholder="请选择" style="width:90%;" size="small">
+							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						</el-select>
+					</div>
+				</div>
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">兼职日薪</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-select v-model="value" placeholder="请选择" style="width:90%;" size="small">
+							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						</el-select>
+					</div>
+				</div>
+      </div>
+    </div>
+    <div class="editTalentInfo_item">
+      <div class="editTalentInfo_item_title">
+        <div class="editTalentInfo_item_title_text">工作经历
+        </div>
+      </div>
+      <div class="editTalentInfo_item_contentItem">
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">工作单位</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+					</div>
+				</div>
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">工作职位</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+					</div>
+				</div>
+      </div>
+      <div class="editTalentInfo_item_contentItem">
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">工作经验</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-select v-model="value" placeholder="请选择" style="width:90%;" size="small">
+							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						</el-select>
+					</div>
+				</div>
+				<div class="editTalentInfo_item_contentItem_item">
+					<div class="editTalentInfo_item_contentItem_item_left">所在地区</div>
+					<div class="editTalentInfo_item_contentItem_item_right">
+						<el-select v-model="value" placeholder="请选择" style="width:42%;" size="small">
+							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						</el-select>
+						<el-select v-model="value" placeholder="请选择" style="width:42%;margin-left:6%;" size="small">
+							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						</el-select>
+					</div>
+				</div>
+      </div>
+    </div>
+		<div class="editTalentInfo_promptBox" v-show="!showSuppleInfoFlag">
+			<div class="editTalentInfo_promptBox_left">
+				<i class="el-icon-circle-check" style="cursor: pointer;" @click="showSuppleInfo"></i>
+			</div>
+			<div class="editTalentInfo_promptBox_right">是否补充详细信息，增加接单成功率</div>
+		</div>
+		<div class="editTalentInfo_otherInfo" v-show="showSuppleInfoFlag">
+			<div class="editTalentInfo_item">
+				<div class="editTalentInfo_item_title">
+					<div class="editTalentInfo_item_title_text">教育经历
+					</div>
+				</div>
+				<div class="editTalentInfo_item_contentItem">
+					<div class="editTalentInfo_item_contentItem_item">
+						<div class="editTalentInfo_item_contentItem_item_left">就读学校	</div>
+						<div class="editTalentInfo_item_contentItem_item_right">
+							<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						</div>
+					</div>
+					<div class="editTalentInfo_item_contentItem_item">
+						<div class="editTalentInfo_item_contentItem_item_left">所在系别</div>
+						<div class="editTalentInfo_item_contentItem_item_right">
+							<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						</div>
+					</div>
+				</div>
+				<div class="editTalentInfo_item_contentItem">
+					<div class="editTalentInfo_item_contentItem_item">
+						<div class="editTalentInfo_item_contentItem_item_left">最高学历	</div>
+						<div class="editTalentInfo_item_contentItem_item_right">
+							<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="editTalentInfo_item">
+				<div class="editTalentInfo_item_title">
+					<div class="editTalentInfo_item_title_text">技能与作品
+          	<div class="editTalentInfo_item_title_text_tooltips">（建议您认真填写，可提高接单概率）</div>
+					</div>
+				</div>
+				<div class="editTalentInfo_otherInfo_contentItem">
+					<div class="editTalentInfo_otherInfo_contentItem_left">
+						掌握技能
+					</div>
+					<div class="editTalentInfo_otherInfo_contentItem_right">
+						<el-input
+							type="textarea"
+							style="width:95%;"
+							:rows="5"
+							placeholder="请输入内容"
+							v-model="textarea">
+						</el-input>
+					</div>
+				</div>
+				<div class="editTalentInfo_otherInfo_contentItem">
+					<div class="editTalentInfo_otherInfo_contentItem_left">
+						项目经验
+					</div>
+					<div class="editTalentInfo_otherInfo_contentItem_right">
+						<el-input
+							type="textarea"
+							style="width:95%;"
+							:rows="5"
+							placeholder="请输入内容"
+							v-model="textarea">
+						</el-input>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="editTalentInfo_submitBox">
+			<a class="editTalentInfo_submitBox_button">提交</a>
+		</div>
   </div>
 </template>
 
 <script>
 export default {
-  
+	data(){
+		return {
+			showSuppleInfoFlag:false
+		}
+	},
+	methods:{
+		showSuppleInfo(){
+			this.showSuppleInfoFlag = true;
+		}
+	}
 }
 </script>
 
@@ -23,12 +182,12 @@ export default {
 .editTalentInfo{
 	position: relative;
 	min-width: 1100px;
-	margin: 0 auto;
+	margin: 0 auto 40px auto;
 	width: 80%;
 }
 
 .editTalentInfo_item{
-  margin: 20px auto;
+  margin: 30px auto;
 }
 
 .editTalentInfo_item_title{
@@ -42,19 +201,144 @@ export default {
   position: relative;
   height: 30px;
   line-height: 30px;
-  font-size: 19px;
-  font-weight: bold;
+  font-size: 18px;
+  /* font-weight: bold; */
   color: #64A1D7;
 }
 
 .editTalentInfo_item_title_text_tooltips{
-    position: absolute;
-    top: 0;
-    left: calc(100% + 10px);
-    white-space: nowrap;
-    font-size: 15px;
-    color: red;
+	position: absolute;
+	top: 0;
+	left: calc(100% + 10px);
+	white-space: nowrap;
+	font-size: 15px;
+	color: red;
 }
+
+.editTalentInfo_item_contentItem{
+	height: 40px;
+	margin: 10px auto;
+}
+
+.editTalentInfo_item_contentItem_item{
+	width: 50%;
+	height: 100%;
+	float: left;
+	position: relative;
+}
+
+.editTalentInfo_item_contentItem_item_left{
+	position: absolute;
+	top:0;
+	left: 0;
+	bottom: 0;
+	width: 20%;
+	float: left;
+	font-size: 16px;
+	/* padding: 0 10px; */
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.editTalentInfo_item_contentItem_item_right{
+	position: absolute;
+	top:0;
+	right: 0;
+	bottom: 0;
+	width: 75%;
+	float: left;
+	/* padding-left: 20px; */
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.editTalentInfo_promptBox{
+	position: relative;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.editTalentInfo_promptBox_left{
+	width: 10%;
+	font-size: 25px;
+	color: #AFADAD;
+	text-align: right;
+	cursor: pointer;
+}
+
+.editTalentInfo_promptBox_left .el-icon-circle-check:hover{
+	color: #07C404;
+}
+
+.editTalentInfo_promptBox_right{
+	margin-left: 30px;
+	font-size: 15px;
+}
+
+.editTalentInfo_submitBox{
+	position: relative;
+	height: 40px;
+	margin: 10px auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.editTalentInfo_submitBox_button{
+	display: inline-block;
+  width: 120px;
+  height: 35px;
+  line-height: 35px;
+  border-radius: 5px;
+  border: 1px solid #5A9AD5;
+  background-color: #5A9AD5;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.editTalentInfo_submitBox_button:hover{
+  color: #ffffff;
+  background-color: #50A5F5;
+  border: 1px solid #50A5F5;
+}
+
+.editTalentInfo_otherInfo{
+  margin: 30px auto;
+}
+
+.editTalentInfo_otherInfo_contentItem{
+	position: relative;
+	height: 140px;
+	margin: 10px auto;
+}
+
+.editTalentInfo_otherInfo_contentItem_left{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10%;
+	bottom: 0;
+	font-size: 16px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-end;
+}
+
+.editTalentInfo_otherInfo_contentItem_right{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 87.5%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
 </style>
 
 
