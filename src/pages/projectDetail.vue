@@ -169,7 +169,7 @@ export default {
 }
 
 .projectDetail_descripInfo_descrip{
-	min-height: 300px;
+	min-height: 400px;
 }
 
 .projectDetail_descripInfo_title{
