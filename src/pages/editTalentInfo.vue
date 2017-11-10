@@ -1,6 +1,6 @@
 <template>
   <div class="editTalentInfo">
-    <div class="editTalentInfo_item">
+    <div class="editTalentInfo_item editTalentInfo_spacing">
       <div class="editTalentInfo_item_title">
         <div class="editTalentInfo_item_title_text">个人信息
           <div class="editTalentInfo_item_title_text_tooltips">（私密信息，不公开展示）</div>
@@ -21,7 +21,7 @@
 				</div>
       </div>
     </div>
-    <div class="editTalentInfo_item">
+    <div class="editTalentInfo_item editTalentInfo_spacing">
       <div class="editTalentInfo_item_title">
         <div class="editTalentInfo_item_title_text">兼职要求
         </div>
@@ -45,7 +45,7 @@
 				</div>
       </div>
     </div>
-    <div class="editTalentInfo_item">
+    <div class="editTalentInfo_item editTalentInfo_spacing">
       <div class="editTalentInfo_item_title">
         <div class="editTalentInfo_item_title_text">工作经历
         </div>
@@ -86,14 +86,14 @@
 				</div>
       </div>
     </div>
-		<div class="editTalentInfo_promptBox" v-show="!showSuppleInfoFlag">
+		<div class="editTalentInfo_promptBox editTalentInfo_spacing" v-show="!showSuppleInfoFlag">
 			<div class="editTalentInfo_promptBox_left">
 				<i class="el-icon-circle-check" style="cursor: pointer;" @click="showSuppleInfo"></i>
 			</div>
 			<div class="editTalentInfo_promptBox_right">是否补充详细信息，增加接单成功率</div>
 		</div>
 		<div class="editTalentInfo_otherInfo" v-show="showSuppleInfoFlag">
-			<div class="editTalentInfo_item">
+			<div class="editTalentInfo_item editTalentInfo_spacing">
 				<div class="editTalentInfo_item_title">
 					<div class="editTalentInfo_item_title_text">教育经历
 					</div>
@@ -121,7 +121,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="editTalentInfo_item">
+			<div class="editTalentInfo_item editTalentInfo_spacing">
 				<div class="editTalentInfo_item_title">
 					<div class="editTalentInfo_item_title_text">技能与作品
           	<div class="editTalentInfo_item_title_text_tooltips">（建议您认真填写，可提高接单概率）</div>
@@ -157,7 +157,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="editTalentInfo_submitBox">
+		<div class="editTalentInfo_submitBox editTalentInfo_spacing">
 			<a class="editTalentInfo_submitBox_button">提交</a>
 		</div>
   </div>
@@ -182,7 +182,7 @@ export default {
 .editTalentInfo{
 	position: relative;
 	min-width: 1100px;
-	margin: 0 auto 40px auto;
+  margin: 0 auto 30px auto;
 	width: 80%;
 }
 
@@ -337,6 +337,25 @@ export default {
 	display: flex;
 	align-items: flex-start;
 	justify-content: flex-start;
+}
+
+
+@media screen and (max-width: 1366px){
+  .editTalentInfo_spacing{
+    margin: 30px auto;
+  }
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1600px){
+  .editTalentInfo_spacing{
+    margin: 55px auto;
+  }
+}
+
+@media screen and (min-width: 1601px){
+  .editTalentInfo_spacing{
+    margin: 90px auto;
+  }
 }
 
 </style>
