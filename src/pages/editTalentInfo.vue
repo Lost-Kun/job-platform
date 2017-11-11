@@ -156,7 +156,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="editTalentInfo_item">
+			<!-- <div class="editTalentInfo_item editTalentInfo_spacing">
 				<div class="editTalentInfo_item_title">
 					<div class="editTalentInfo_item_title_text">专业社区展示
 					</div>
