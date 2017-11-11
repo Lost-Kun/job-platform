@@ -43,6 +43,11 @@ export default new Router({
           path: 'editTalentInfo',
           name: '设计师信息编辑',
           component: () => import('@/pages/editTalentInfo'),
+        },
+        {
+          path: 'editProjectInfo',
+          name: '项目信息编辑',
+          component: () => import('@/pages/editProjectInfo'),
         }
       ]
     }

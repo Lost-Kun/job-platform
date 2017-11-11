@@ -17,7 +17,7 @@
                 </div>
               </div>
               <div class="mainShowContainer_left_operation">
-                <a class="mainShowContainer_left_operation_button button_full">发布任务</a>
+                <a class="mainShowContainer_left_operation_button button_full" @click="editProjectInfo">发布任务</a>
                 <a class="mainShowContainer_left_operation_button">寻找兼职</a>
               </div>
             </div>
@@ -209,8 +209,12 @@ export default {
     },
     whyChooseMouseOut(item){
       item.isHover = false;
+    },
+    editProjectInfo(){
+      this.$router.push({
+        path:'/homePage/editProjectInfo'
+      })
     }
-
   }
 }
 </script>

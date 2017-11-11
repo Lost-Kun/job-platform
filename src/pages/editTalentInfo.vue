@@ -124,7 +124,7 @@
 			<div class="editTalentInfo_item">
 				<div class="editTalentInfo_item_title">
 					<div class="editTalentInfo_item_title_text">技能与作品
-          	<div class="editTalentInfo_item_title_text_tooltips">（建议您认真填写，可提高接单概率）</div>
+          				<div class="editTalentInfo_item_title_text_tooltips">（建议您认真填写，可提高接单概率）</div>
 					</div>
 				</div>
 				<div class="editTalentInfo_otherInfo_contentItem">
@@ -156,6 +156,36 @@
 					</div>
 				</div>
 			</div>
+			<!-- <div class="editTalentInfo_item">
+				<div class="editTalentInfo_item_title">
+					<div class="editTalentInfo_item_title_text">专业社区展示
+					</div>
+				</div>
+				<div class="editTalentInfo_otherInfo_contentItem" style="height:40px;">
+					<div class="editTalentInfo_otherInfo_contentItem_left">
+						Githud
+					</div>
+					<div class="editTalentInfo_otherInfo_contentItem_right">
+						<el-input style="width:95%" size="small" placeholder="请输入内容"></el-input>
+					</div>
+				</div>
+				<div class="editTalentInfo_otherInfo_contentItem" style="height:40px;">
+					<div class="editTalentInfo_otherInfo_contentItem_left">
+						Linkedin
+					</div>
+					<div class="editTalentInfo_otherInfo_contentItem_right">
+						<el-input style="width:95%" size="small" placeholder="请输入内容"></el-input>
+					</div>
+				</div>
+				<div class="editTalentInfo_otherInfo_contentItem" style="height:40px;">
+					<div class="editTalentInfo_otherInfo_contentItem_left">
+						知乎
+					</div>
+					<div class="editTalentInfo_otherInfo_contentItem_right">
+						<el-input style="width:95%" size="small" placeholder="请输入内容"></el-input>
+					</div>
+				</div>
+			</div> -->
 		</div>
 		<div class="editTalentInfo_submitBox">
 			<a class="editTalentInfo_submitBox_button">提交</a>
