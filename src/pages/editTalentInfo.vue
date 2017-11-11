@@ -132,13 +132,7 @@
 						掌握技能
 					</div>
 					<div class="editTalentInfo_otherInfo_contentItem_right">
-						<el-input
-							type="textarea"
-							style="width:95%;"
-							:rows="5"
-							placeholder="请输入内容"
-							v-model="textarea">
-						</el-input>
+						<el-input type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
 					</div>
 				</div>
 				<div class="editTalentInfo_otherInfo_contentItem">
@@ -146,13 +140,7 @@
 						项目经验
 					</div>
 					<div class="editTalentInfo_otherInfo_contentItem_right">
-						<el-input
-							type="textarea"
-							style="width:95%;"
-							:rows="5"
-							placeholder="请输入内容"
-							v-model="textarea">
-						</el-input>
+						<el-input type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
 					</div>
 				</div>
 			</div>

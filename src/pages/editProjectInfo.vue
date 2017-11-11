@@ -9,6 +9,30 @@
 				<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
 			</div>
 		</div>
+		<div class="editProjectInfo_item" style="height:150px;">
+			<div class="editProjectInfo_item_left">具体描述</div>
+			<div class="editProjectInfo_item_right">
+				<el-input type="textarea" style="width:90%;margin-top:8px;" :rows="6" placeholder="请输入内容"></el-input>
+			</div>
+		</div>
+		<div class="editProjectInfo_item">
+			<div class="editProjectInfo_itemHalf">
+				<div class="editProjectInfo_itemHalf_left">项目日薪</div>
+				<div class="editProjectInfo_itemHalf_right">
+						<el-select placeholder="请选择" style="width:78%;" size="small">
+							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						</el-select>
+				</div>
+			</div>
+			<div class="editProjectInfo_itemHalf">
+				<div class="editProjectInfo_itemHalf_left">项目工时</div>
+				<div class="editProjectInfo_itemHalf_right">
+						<el-select placeholder="请选择" style="width:78%;" size="small">
+							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						</el-select>
+				</div>
+			</div>
+		</div>
   </div>
 </template>
 
@@ -32,29 +56,42 @@ export default {
 
 .editProjectInfo_item{
 	position: relative;
-	min-height: 40px;
+	height: 40px;
 	margin: 10px auto;
 	line-height: 40px;
 	font-size: 16px;
 	text-align: left;
 }
 
+.editProjectInfo_itemHalf{
+	position: relative;
+	float: left;
+	width: 50%;
+	min-height: 40px;
+}
+
 .editProjectInfo_item_left{
-	position: absolute;
-	top: 0;
-	left: 0;
+	float: left;
 	width: 10%;
 	min-height: 40px;
-	/* line-height: 40px; */
 }
 
 .editProjectInfo_item_right{
-	position: absolute;
-	top: 0;
-	right: 0;
+	float: left;
 	width: 90%;
 	min-height: 40px;
-	/* line-height: 40px; */
+}
+
+.editProjectInfo_itemHalf_left{
+	float: left;
+	width: 20%;
+	min-height: 40px;
+}
+
+.editProjectInfo_itemHalf_right{
+	float: left;
+	width: 80%;
+	min-height: 40px;
 }
 
 @media screen and (max-width: 1366px){
