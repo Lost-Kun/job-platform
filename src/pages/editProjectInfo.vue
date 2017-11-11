@@ -164,7 +164,7 @@ export default {
 
 @media screen and (min-width: 1601px){
   .editProjectInfo_spacing{
-    margin: 40px auto;
+    margin: 50px auto;
   }
 }
 </style>
