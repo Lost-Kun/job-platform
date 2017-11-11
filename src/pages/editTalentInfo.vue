@@ -308,14 +308,14 @@ export default {
 
 .editTalentInfo_submitBox_button{
 	display: inline-block;
-  width: 120px;
-  height: 35px;
-  line-height: 35px;
-  border-radius: 5px;
-  border: 1px solid #5A9AD5;
-  background-color: #5A9AD5;
-  color: #ffffff;
-  cursor: pointer;
+	width: 120px;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 5px;
+	border: 1px solid #5A9AD5;
+	background-color: #5A9AD5;
+	color: #ffffff;
+	cursor: pointer;
 }
 
 .editTalentInfo_submitBox_button:hover{
