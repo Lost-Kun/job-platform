@@ -48,6 +48,11 @@ export default new Router({
           path: 'editProjectInfo',
           name: '项目信息编辑',
           component: () => import('@/pages/editProjectInfo'),
+        },
+        {
+          path: 'userInfo',
+          name: '个人主页',
+          component: () => import('@/pages/userInfo'),
         }
       ]
     }

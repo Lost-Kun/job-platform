@@ -62,7 +62,9 @@ export default {
     },
     //二维码登录
     showLoginPicture(){
-
+      this.$router.push({
+        path:'/homePage/userInfo'
+      })
     }
   }
 }
