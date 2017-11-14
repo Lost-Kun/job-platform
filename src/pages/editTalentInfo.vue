@@ -30,16 +30,16 @@
 				<div class="editTalentInfo_item_contentItem_item">
 					<div class="editTalentInfo_item_contentItem_item_left">兼职岗位</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-select v-model="value" placeholder="请选择" style="width:90%;" size="small">
-							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						<el-select v-model="partTimeJob" placeholder="请选择" style="width:90%;" size="small">
+							<el-option v-for="item in partTimeJobList" :label="item" :value="item"></el-option>
 						</el-select>
 					</div>
 				</div>
 				<div class="editTalentInfo_item_contentItem_item">
 					<div class="editTalentInfo_item_contentItem_item_left">兼职日薪</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-select v-model="value" placeholder="请选择" style="width:90%;" size="small">
-							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						<el-select v-model="wage" placeholder="请选择" style="width:90%;" size="small">
+							<el-option v-for="item in wageList" :label="item" :value="item"></el-option>
 						</el-select>
 					</div>
 				</div>
@@ -68,19 +68,19 @@
 				<div class="editTalentInfo_item_contentItem_item">
 					<div class="editTalentInfo_item_contentItem_item_left">工作经验</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-select v-model="value" placeholder="请选择" style="width:90%;" size="small">
-							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						<el-select v-model="experience" placeholder="请选择" style="width:90%;" size="small">
+							<el-option v-for="item in 15" :label="item" :value="item"></el-option>
 						</el-select>
 					</div>
 				</div>
 				<div class="editTalentInfo_item_contentItem_item">
 					<div class="editTalentInfo_item_contentItem_item_left">所在地区</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-select v-model="value" placeholder="请选择" style="width:42%;" size="small">
-							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						<el-select v-model="selectedArea" placeholder="请选择" style="width:42%;" size="small">
+							<el-option v-for="item in partTimeJobAreaList" :label="item.name" :value="item.name"></el-option>
 						</el-select>
-						<el-select v-model="value" placeholder="请选择" style="width:42%;margin-left:6%;" size="small">
-							<el-option v-for="item in 10" :label="item" :value="item"></el-option>
+						<el-select v-model="selectedRegion" placeholder="请选择" style="width:42%;margin-left:6%;" size="small">
+							<el-option v-for="item in regionList" :label="item.name" :value="item.name"></el-option>
 						</el-select>
 					</div>
 				</div>
@@ -102,13 +102,13 @@
 					<div class="editTalentInfo_item_contentItem_item">
 						<div class="editTalentInfo_item_contentItem_item_left">就读学校	</div>
 						<div class="editTalentInfo_item_contentItem_item_right">
-							<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+							<el-input v-model="school" style="width:90%" size="small" placeholder="请输入内容"></el-input>
 						</div>
 					</div>
 					<div class="editTalentInfo_item_contentItem_item">
 						<div class="editTalentInfo_item_contentItem_item_left">所在系别</div>
 						<div class="editTalentInfo_item_contentItem_item_right">
-							<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+							<el-input v-model="department" style="width:90%" size="small" placeholder="请输入内容"></el-input>
 						</div>
 					</div>
 				</div>
@@ -116,7 +116,9 @@
 					<div class="editTalentInfo_item_contentItem_item">
 						<div class="editTalentInfo_item_contentItem_item_left">最高学历	</div>
 						<div class="editTalentInfo_item_contentItem_item_right">
-							<el-input style="width:90%" size="small" placeholder="请输入内容"></el-input>
+							<el-select v-model="education" placeholder="请选择" style="width:90%;" size="small">
+								<el-option v-for="item in educationList" :label="item" :value="item"></el-option>
+							</el-select>
 						</div>
 					</div>
 				</div>
@@ -132,7 +134,7 @@
 						掌握技能
 					</div>
 					<div class="editTalentInfo_otherInfo_contentItem_right">
-						<el-input type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
+						<el-input v-model="skills" type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
 					</div>
 				</div>
 				<div class="editTalentInfo_otherInfo_contentItem">
@@ -140,7 +142,7 @@
 						项目经验
 					</div>
 					<div class="editTalentInfo_otherInfo_contentItem_right">
-						<el-input type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
+						<el-input v-model="projects" type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
 					</div>
 				</div>
 			</div>
@@ -185,12 +187,70 @@
 export default {
 	data(){
 		return {
-			showSuppleInfoFlag:false
+			partTimeJobList: ['JAVA工程师','前端工程师','算法工程师'],
+			wageList: Array.apply(null, { length: 16 }).map((item, index) => {return 500+index*100}),
+			partTimeJobAreaList:[
+				{
+					name:'北京',
+					children:[
+						{
+							name:'海淀区'
+						},
+						{
+							name:'朝阳区'
+						}
+					]
+				},
+				{
+					name:'上海',
+					children:[
+						{
+							name:'黄埔区'
+						},
+						{
+							name:'徐汇区'
+						}
+					]
+				}
+			],
+			educationList: ['本科', '硕士', '博士'],
+			showSuppleInfoFlag: false,
+			userName: '',
+			phoneNumber: '',
+			partTimeJob: null,
+			wage: null,
+			company:'',
+			position:'',
+			experience: null,
+			selectedArea: '北京',
+			selectedRegion: '海淀区',
+			school:'',
+			department:'',
+			education:'',
+			skills:'',
+			projects:''
+		}
+	},
+	computed:{
+		regionList(){
+			let selectedArea = this.selectedArea;
+			let areaList = this.partTimeJobAreaList;
+			let resultList = [];
+			for(let i = 0; i<areaList.length; i++){
+				if(areaList[i].name === selectedArea){
+					resultList = areaList[i].children;
+				}
+			}
+			this.selectedRegion = resultList[0].name;
+			return resultList;
 		}
 	},
 	methods:{
 		showSuppleInfo(){
 			this.showSuppleInfoFlag = true;
+		},
+		saveTalentInfo(){
+			
 		}
 	}
 }
