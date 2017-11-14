@@ -37,7 +37,7 @@ DROP TABLE IF EXISTS `employee`;
 CREATE TABLE `employee` (
   `Employee_ID` varchar(255) NOT NULL COMMENT '设计师的唯一编号',
   `HeadImgUrl` varchar(255) DEFAULT NULL COMMENT '头像地址',
-  `Name` varchar(255) NOT NULL COMMENT '设计师昵称',
+  `Name` varchar(255) DEFAULT NULL COMMENT '设计师昵称',
   `Name_real` varchar(255) DEFAULT NULL COMMENT '真实姓名',
   `Mobile` varchar(50) DEFAULT NULL COMMENT '手机号',
   `Zhifubao` varchar(100) DEFAULT NULL COMMENT '支付宝账号（用户薪酬发放）',
@@ -69,7 +69,7 @@ DROP TABLE IF EXISTS `employer`;
 CREATE TABLE `employer` (
   `Employer_ID` varchar(255) NOT NULL COMMENT '雇主的唯一编号',
   `HeadImgUrl` varchar(255) DEFAULT NULL COMMENT '头像地址',
-  `Name` varchar(255) NOT NULL COMMENT '雇主昵称',
+  `Name` varchar(255) DEFAULT NULL COMMENT '雇主昵称',
   `Name_real` varchar(100) DEFAULT NULL COMMENT '真实姓名',
   `Mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
   `Company` varchar(255) DEFAULT NULL COMMENT '公司名称（报销用）',
