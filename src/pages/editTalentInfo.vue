@@ -178,7 +178,7 @@
 			</div> -->
 		</div>
 		<div class="editTalentInfo_submitBox editTalentInfo_spacing">
-			<a class="editTalentInfo_submitBox_button">提交</a>
+			<a class="editTalentInfo_submitBox_button" @click="saveTalentInfo">提交</a>
 		</div>
   </div>
 </template>
@@ -228,7 +228,8 @@ export default {
 			Edu_department:'',
 			Edu_degree:'',
 			Skills:'',
-			Projects:''
+			Projects:'',
+			employeeId: "2"
 		}
 	},
 	computed:{
@@ -245,13 +246,61 @@ export default {
 			return resultList;
 		}
 	},
+	created(){
+		this.getTalentInfo();
+	},
 	methods:{
 		showSuppleInfo(){
 			this.showSuppleInfoFlag = true;
 		},
+		getTalentInfo(){
+			this.$http.post('/talent/getEmployeeInfo',{employeeId: this.employeeId}).then((res) => {
+				let result = res.data;
+				if(result.success){
+					this.initPage(result.data);
+				}
+			})
+		},
+		initPage(employeeInfo){
+			this.Name = employeeInfo.Name ? employeeInfo.Name:'';
+			this.Mobile = employeeInfo.Mobile ? employeeInfo.Mobile:'';
+			this.Position = employeeInfo.Position ? employeeInfo.Position:null;
+			this.Wage = employeeInfo.Wage ? employeeInfo.Wage:null;
+			this.Job_company = employeeInfo.Job_company ? employeeInfo.Job_company:'';
+			this.Job_position = employeeInfo.Job_position ? employeeInfo.Job_position:'';
+			this.Job_experience = employeeInfo.Job_experience ? employeeInfo.Job_experience:null;
+			this.Job_city = employeeInfo.Job_city ? employeeInfo.Job_city:'北京';
+			this.Job_district = employeeInfo.Job_district ? employeeInfo.Job_district:'海淀区';
+			this.Edu_school = employeeInfo.Edu_school ? employeeInfo.Edu_school:'';
+			this.Edu_department = employeeInfo.Edu_department ? employeeInfo.Edu_department:'';
+			this.Edu_degree = employeeInfo.Edu_degree ? employeeInfo.Edu_degree:'';
+			this.Skills = employeeInfo.Skills ? employeeInfo.Skills:'';
+			this.Projects = employeeInfo.Projects ? employeeInfo.Projects:'';
+		},
 		saveTalentInfo(){
-			this.$http.post('/talent/editTalentInfo',{}).then((res) => {
-
+			let param = {
+				Employee_ID: this.employeeId,
+				showSuppleInfoFlag: this.showSuppleInfoFlag,
+				Name: this.Name,
+				Mobile: this.Mobile,
+				Position: this.Position,
+				Wage: this.Wage,
+				Job_company: this.Job_company,
+				Job_position: this.Job_position,
+				Job_experience: this.Job_experience,
+				Job_city: this.Job_city,
+				Job_district: this.Job_district,
+				Edu_school: this.Edu_school,
+				Edu_department: this.Edu_department,
+				Edu_degree: this.Edu_degree,
+				Skills: this.Skills,
+				Projects: this.Projects
+			}
+			this.$http.post('/talent/editTalentInfo', param).then((res) => {
+				 let result = res.data;
+				 if(result.success){
+					 this.$alert('保存成功');
+				 }
 			}).catch((err) => {
 				
 			})
@@ -264,7 +313,7 @@ export default {
 .editTalentInfo{
 	position: relative;
 	min-width: 1100px;
-  margin: 0 auto 30px auto;
+	margin: 0 auto 30px auto;
 	width: 80%;
 }
 

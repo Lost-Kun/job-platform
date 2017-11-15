@@ -32,7 +32,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/user':{
+      '/talent':{
+        target:'http://localhost:8086'
+      },
+      '/project':{
         target:'http://localhost:8086'
       },
     },
