@@ -62,7 +62,7 @@ CREATE TABLE `employee` (
 
 /*Data for the table `employee` */
 
-insert  into `employee`(`Employee_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Zhifubao`,`Position`,`Wage`,`Job_company`,`Job_position`,`Job_experience`,`Job_city`,`Job_district`,`Edu_school`,`Edu_department`,`Edu_degree`,`Skills`,`Skills_list`,`Projects`,`Projects_list`,`Riqi`,`Rating`) values ('1',NULL,NULL,NULL,'18332551342',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-11-14 19:15:00',5),('2',NULL,NULL,NULL,'18410171035',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-11-14 19:16:00',5);
+insert  into `employee`(`Employee_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Zhifubao`,`Position`,`Wage`,`Job_company`,`Job_position`,`Job_experience`,`Job_city`,`Job_district`,`Edu_school`,`Edu_department`,`Edu_degree`,`Skills`,`Skills_list`,`Projects`,`Projects_list`,`Riqi`,`Rating`) values ('1',NULL,'洛',NULL,'18332551342',NULL,'前端工程师',1000,'百度','前端工程师',4,'北京','海淀区','北京大学','信息学院','本科','1、精通JS、HTML、CSS\n2、精通Vue、React',NULL,'百度地图',NULL,'2017-11-14 19:15:00',5),('2',NULL,'夏',NULL,'18410171035',NULL,'算法工程师',1100,'阿里巴巴','算法工程师',6,'上海','徐汇区','复旦大学','信息学院','硕士','1、精通Java\n2、精通算法结构',NULL,'淘宝',NULL,'2017-11-14 19:16:00',5);
 
 /*Table structure for table `employer` */
 
