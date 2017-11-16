@@ -1,40 +1,40 @@
 <template>
   <div class="talent">
     <div class="talent_searchBox"> 
-      <input class="talent_searchBox_input"/>
-      <a class="talent_searchBox_search">搜索</a>
+      <input class="talent_searchBox_input" v-model="searchText"/>
+      <a class="talent_searchBox_search" @click="search">搜索</a>
       <a class="talent_searchBox_contactWoker">联系专员为您推荐</a>
     </div>
     <div class="talent_sortBox">
       <div class="talent_sortBox_item">
-        <a class="talent_sortBox_a">默认排序</a>
+        <a class="talent_sortBox_a" @click="sortTalentList(0)">默认排序</a>
       </div>
       <div class="talent_sortBox_item">
-        <el-dropdown>
+        <el-dropdown @command="sortTalentList">
           <span class="el-dropdown-link">
             日薪排序<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>升序</el-dropdown-item>
-            <el-dropdown-item>降序</el-dropdown-item>
+            <el-dropdown-item :command="1">升序</el-dropdown-item>
+            <el-dropdown-item :command="2">降序</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div class="talent_sortBox_item">
-        <el-dropdown>
+        <el-dropdown @command="sortTalentList">
           <span class="el-dropdown-link">
             经验排序<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>升序</el-dropdown-item>
-            <el-dropdown-item>降序</el-dropdown-item>
+            <el-dropdown-item :command="3">升序</el-dropdown-item>
+            <el-dropdown-item :command="4">降序</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
     </div>
     <div class="talent_infoListBox">
-      <div class="talent_infoItem" v-for="item in talentList">
-        <div class="talent_infoItem_left" @click="enterTalentDetail">
+      <div class="talent_infoItem" v-for="(item, index) in talentList" :key="'talent_'+index">
+        <div class="talent_infoItem_left" @click="enterTalentDetail(item)">
           <div class="talent_infoItem_left_title">
             <div class="talent_infoItem_left_title_company">{{item.Job_company}}</div>
             <div class="talent_infoItem_left_title_position">{{item.Job_position}}</div>
@@ -80,7 +80,10 @@ export default {
   data(){
     return {
       talentList:[],
-      total: 0
+      total: 0,
+      searchText:'',
+      isSearchingText:'',
+      sortType: 0
     }
   },
   created(){
@@ -91,13 +94,14 @@ export default {
       this.$router.push({
         path:'/homePage/talentDetail',
         query:{
-          id:'123'
+          id:talentItem.Employee_ID
         }
       })
     },
     getTalentList(){
       let param = {
-
+        searchText: this.isSearchingText,
+        sortType: this.sortType
       };
 			this.$http.post('/talent/getTalentList', param).then((res) => {
 				 let result = res.data;
@@ -106,6 +110,14 @@ export default {
            this.total = result.total;
 				 }
 			})
+    },
+    search(){
+      this.isSearchingText = this.searchText.replace(/(^\s*)|(\s*$)/g,'');
+      this.getTalentList();
+    },
+    sortTalentList(command){
+      this.sortType = command;
+      this.getTalentList();
     }
   }
 }
