@@ -1,33 +1,33 @@
 <template>
   <div class="project">
         <div class="project_searchBox"> 
-      <input class="project_searchBox_input"/>
-      <a class="project_searchBox_search">搜索</a>
+      <input class="project_searchBox_input" v-model="searchText"/>
+      <a class="project_searchBox_search" @click="search">搜索</a>
       <a class="project_searchBox_contactWoker" @click="editTalentInfo">注册成为兼职专家</a>
     </div>
     <div class="project_sortBox">
       <div class="project_sortBox_item">
-        <a class="project_sortBox_a">最新发布</a>
+        <a class="project_sortBox_a" @click="sortProjectList(0)">最新发布</a>
       </div>
       <div class="project_sortBox_item">
-        <el-dropdown>
+        <el-dropdown @command="sortProjectList">
           <span class="el-dropdown-link">
             日薪排序<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>升序</el-dropdown-item>
-            <el-dropdown-item>降序</el-dropdown-item>
+            <el-dropdown-item :command="1">升序</el-dropdown-item>
+            <el-dropdown-item :command="2">降序</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div class="project_sortBox_item">
-        <el-dropdown>
+        <el-dropdown @command="sortProjectList">
           <span class="el-dropdown-link">
             总价排序<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>升序</el-dropdown-item>
-            <el-dropdown-item>降序</el-dropdown-item>
+            <el-dropdown-item :command="3">升序</el-dropdown-item>
+            <el-dropdown-item :command="4">降序</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -48,7 +48,7 @@
           <div class="project_infoItem_right_top">
             <div class="project_infoItem_right_top_item">日薪：{{projectItem.Wage}}元/天</div>
             <div class="project_infoItem_right_top_item">工时：{{projectItem.Length}}天</div>
-            <div class="project_infoItem_right_top_item">总价：{{projectItem.Length * projectItem.Wage}}元</div>
+            <div class="project_infoItem_right_top_item">总价：{{projectItem.totalWage}}元</div>
           </div>
           <div class="project_infoItem_right_bottom">
             <div class="project_infoItem_right_bottom_left">
@@ -61,10 +61,13 @@
         </div> 
       </div>
     </div>
-    <div class="project_pagingBox">
+    <div class="project_pagingBox" v-show="total > pageSize">
       <el-pagination
         layout="prev, pager, next"
-        :total="100">
+        @current-change="currentPageChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        :total="total">
       </el-pagination>
     </div>
   </div>
@@ -74,75 +77,52 @@
 export default {
   data(){
     return {
-      projectList:[
-        {
-          Project_ID: 1,
-          Name: '消费信息分享评论网站搭建',
-          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-          Wage: 800,
-          Length: 20,
-          State: 0,
-          Employer_ID: 1
-        },
-        {
-          Project_ID: 2,
-          Name: '消费信息分享评论网站搭建',
-          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-          Wage: 800,
-          Length: 20,
-          State: 5,
-          Employer_ID:2
-        },
-        {
-          Project_ID: 3,
-          Name: '消费信息分享评论网站搭建',
-          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-          Wage: 800,
-          Length: 20,
-          State: 0,
-          Employer_ID: 3
-        },
-        {
-          Project_ID: 1,
-          Name: '消费信息分享评论网站搭建',
-          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-          Wage: 800,
-          Length: 20,
-          State: 0,
-          Employer_ID: 1
-        },
-        {
-          Project_ID: 2,
-          Name: '消费信息分享评论网站搭建',
-          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-          Wage: 800,
-          Length: 20,
-          State: 5,
-          Employer_ID:2
-        },
-        {
-          Project_ID: 3,
-          Name: '消费信息分享评论网站搭建',
-          Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-          Wage: 800,
-          Length: 20,
-          State: 0,
-          Employer_ID: 3
-        }
-      ]
+      projectList:[],
+      pageSize: 10,
+      currentPage: 1,
+      total: 0,
+      searchText:'',
+      isSearchingText:'',
+      sortType: 0
     }
   },
   mounted(){
     this.expandBind();
   },
+  created(){
+    this.getProjectList();
+  },
   updated(){
-    this.expandBind();
+    $(".project_infoListBox .project_infoItem_left_content").each(function(){
+      $(this).removeClass("project_infoItem_left_content--overflowHide");
+    })
+    this.$nextTick(() => {
+      this.expandBind();
+    })
   },
   methods:{
+    getProjectList(){
+      let param = {
+        searchText: this.isSearchingText,
+        sortType: this.sortType,
+        pageIndex: this.currentPage,
+        pageSize: this.pageSize
+      };
+			this.$http.post('/project/getProjectList', param).then((res) => {
+				 let result = res.data;
+				 if(result.success){
+           this.projectList = result.data;
+           this.total = result.total;
+				 }
+			})
+    },
     expandBind(){
       $(".project_infoListBox .project_infoItem_left_content").each(function(){
         if($(this).height() > 160){
           $(this).children('.project_infoItem_left_content_expend').show();
+          $(this).addClass("project_infoItem_left_content--overflowHide");
+          $(this).children('.project_infoItem_left_content_expend').children('span').text("展开");
+          $(this).children('.project_infoItem_left_content_expend').children('i').removeClass("el-icon-arrow-up").addClass("el-icon-arrow-down");
           $(this).children('.project_infoItem_left_content_expend').off().on("click",function(){
             if($(this).children('span').text() === "展开"){
               $(this).parent().removeClass("project_infoItem_left_content--overflowHide");
@@ -157,7 +137,6 @@ export default {
         }else{
           $(this).children('.project_infoItem_left_content_expend').hide();
         }
-        $(this).addClass("project_infoItem_left_content--overflowHide");
       })
     },
     intoProjectDetail(projectItem){
@@ -172,6 +151,19 @@ export default {
       this.$router.push({
         path:'/homePage/editTalentInfo'
       })
+    },
+    search(){
+      this.isSearchingText = this.searchText.replace(/(^\s*)|(\s*$)/g,'');
+      this.currentPage = 1;
+      this.getProjectList();
+    },
+    sortProjectList(command){
+      this.sortType = command;
+      this.currentPage = 1;
+      this.getProjectList();
+    },
+    currentPageChange(){
+      this.getProjectList();
     }
   }
 }

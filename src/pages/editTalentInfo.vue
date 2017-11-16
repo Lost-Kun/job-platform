@@ -39,7 +39,7 @@
 					<div class="editTalentInfo_item_contentItem_item_left">兼职日薪</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-select v-model="Wage" placeholder="请选择" style="width:90%;" size="small">
-							<el-option v-for="item in WageList" :label="item" :value="item"></el-option>
+							<el-option v-for="item in WageList" :label="item+'元/天'" :value="item"></el-option>
 						</el-select>
 					</div>
 				</div>
@@ -69,7 +69,7 @@
 					<div class="editTalentInfo_item_contentItem_item_left">工作经验</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-select v-model="Job_experience" placeholder="请选择" style="width:90%;" size="small">
-							<el-option v-for="item in 15" :label="item" :value="item"></el-option>
+							<el-option v-for="item in 15" :label="item+'年'" :value="item"></el-option>
 						</el-select>
 					</div>
 				</div>
@@ -254,7 +254,7 @@ export default {
 			this.showSuppleInfoFlag = true;
 		},
 		getTalentInfo(){
-			this.$http.post('/talent/getEmployeeInfo',{employeeId: this.employeeId}).then((res) => {
+			this.$http.post('/talent/getSelfInfo',{employeeId: this.employeeId}).then((res) => {
 				let result = res.data;
 				if(result.success){
 					this.initPage(result.data);

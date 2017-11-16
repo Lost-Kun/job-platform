@@ -56,7 +56,9 @@ CREATE TABLE `employee` (
   `Projects` varchar(1000) DEFAULT NULL COMMENT '展示项目（文字）',
   `Projects_list` varchar(1000) DEFAULT NULL COMMENT '隐性，展示项目列表（json：项目名称+链接）',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '注册日期，格式为年-月-日 时:分:秒',
+  `Ordered_number` int(11) DEFAULT '0' COMMENT '被预约次数',
   `Rating` float DEFAULT '5' COMMENT '隐性，雇主对这位设计师的综合评分',
+  `State` int(1) DEFAULT '0' COMMENT '预约状态,0:未预约,1:已预约',
   PRIMARY KEY (`Employee_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -61,14 +61,17 @@
         <div class="talent_infoItem_right">
           <div class="talent_infoItem_right_item">{{item.Wage}}/天</div>
           <div class="talent_infoItem_right_item">   
-            <a :class="['talent_infoItem_right_order',i%2 === 0?'talent_infoItem_right_order--disable':'']">{{i%2 === 0?'已被预约':'立即预约'}}</a>
+            <a :class="['talent_infoItem_right_order',item.State === 1?'talent_infoItem_right_order--disable':'']">{{item.State === 1?'已被预约':'立即预约'}}</a>
           </div>
         </div>
       </div> 
     </div>
-    <div class="talent_pagingBox" v-show="total > 10">
+    <div class="talent_pagingBox" v-show="total > pageSize">
       <el-pagination
         layout="prev, pager, next"
+        @current-change="currentPageChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
         :total="total">
       </el-pagination>
     </div>
@@ -80,6 +83,8 @@ export default {
   data(){
     return {
       talentList:[],
+      pageSize: 10,
+      currentPage: 1,
       total: 0,
       searchText:'',
       isSearchingText:'',
@@ -101,7 +106,9 @@ export default {
     getTalentList(){
       let param = {
         searchText: this.isSearchingText,
-        sortType: this.sortType
+        sortType: this.sortType,
+        pageIndex: this.currentPage,
+        pageSize: this.pageSize
       };
 			this.$http.post('/talent/getTalentList', param).then((res) => {
 				 let result = res.data;
@@ -113,10 +120,15 @@ export default {
     },
     search(){
       this.isSearchingText = this.searchText.replace(/(^\s*)|(\s*$)/g,'');
+      this.currentPage = 1;
       this.getTalentList();
     },
     sortTalentList(command){
       this.sortType = command;
+      this.currentPage = 1;
+      this.getTalentList();
+    },
+    currentPageChange(){
       this.getTalentList();
     }
   }

@@ -4,7 +4,7 @@
 			<div class="talentDetail_basicInfo_left">
 				<div class="talentDetail_basicInfo_left_top">
 					<div class="talentDetail_basicInfo_left_iconBox">
-						<img class="talentDetail_basicInfo_left_iconImg" :src="talentInfo.HeadImageUrl"/>
+						<img class="talentDetail_basicInfo_left_iconImg" :src="talentInfo.HeadImageUrl||defultHeadImage"/>
 					</div>
 				</div>
 				<div class="talentDetail_basicInfo_left_bottom">
@@ -98,19 +98,21 @@
 export default {
 	data(){
 			return{
+				talentId: null,
+				defultHeadImage:'../static/images/defaultHeadImg.jpg',
 				talentInfo:{
-					Name:'余温散尽ぺ',
-					HeadImageUrl:'../static/images/baima.jpg',
-					Job_company:'上海微创软件股份有限公司',
-					Job_position:'.net开发工程师',
-					Job_experience:12,
-					Ordered_number:6,
-					Rating:3.1,
-					Wage:800,
-					Skills:'1 精通Object-C，node，js，html，css等iOS和前后端开发技术，熟练搭建基于微信公众号的h5页面 <br>2 熟悉使用redis mongo mysql等数据库技术，擅长前后端一体化 <br>3 熟练使用 Plist 文件读取、NSUserDefaults 以及归档方式将数据持久化存储 <br>4 熟悉使用redis mongo mysql等数据库技术，擅长前后端一体化 <br>5 熟练使用 Plist 文件读取、NSUserDefaults 以及归档方式将数据持久化存储<br>6 熟悉使用redis mongo mysql等数据库技术，擅长前后端一体化 <br>7 熟练使用 Plist 文件读取、NSUserDefaults 以及归档方式将数据持久化存储',
-					Projects:'1、三一重工门户网站开发建设，团队接单完成。整体项目算法重构，权限系统重构。官网的改版和重建、网站会员中心、会员支撑系统改造、前台页面改造、业务支撑系统改造。 <br>2、腾讯旗下创业频道CMS系统大改版，内容展示算法重新设计。数据库升级优化，搜索效率提升。 <br>3、曾在某初创公司负责技术研发部分，包括公司内部管理系统的设计和开发，以及其他与营销业务相关的应用开发（关键词处理和分析、网页爬虫等）。具体有：外贸B2C咨询平台的设计和研发，功能包括集中展示国内知名外贸B2C平台上的热门产品、促销信息，发布和管理与B2C相关的主题咨询等；基于Magento系统的外贸B2C平台的二次开发。 <br>4、目前担任公司的技术总监，技术联合创始人。负责公司所有IT系统的研发工作。包括所有内部系统的研发，系统服务器的架设，官网的开发等。'
+					Name:'',
+					HeadImageUrl: null,
+					Job_company:'',
+					Job_position:'',
+					Job_experience:1,
+					Ordered_number:0,
+					Rating:5,
+					Wage:500,
+					Skills:'',
+					Projects:''
 				},
-				rateNumber:2345,
+				rateNumber:0,
 				rateList:[
 					{
 						Name:'陈妍希',
@@ -130,10 +132,20 @@ export default {
 			}
 	},
 	created(){
-
+		this.talentId = this.$route.query.id;
+		this.getTalentInfo();
 	},
 	methods:{
-		
+		getTalentInfo(){
+			this.$http.post('/talent/getEmployeeInfo',{employeeId: this.talentId}).then((res) => {
+				let result = res.data;
+				if(result.success){
+					this.talentInfo = result.data;
+					this.talentInfo.Skills = result.data.Skills.replace(/\n/g,'<br>');
+					this.talentInfo.Projects = result.data.Projects.replace(/\n/g,'<br>');
+				}
+			})
+		}
 	}
 }
 </script>
