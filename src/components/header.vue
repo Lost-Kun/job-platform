@@ -66,6 +66,13 @@ export default {
         path:'/homePage/userInfo'
       })
     }
+  },
+  watch:{
+    $route(){
+      this.navList.forEach((item) => {
+        item.isSelected = this.$route.path === item.path;
+      })
+    }
   }
 }
 </script>

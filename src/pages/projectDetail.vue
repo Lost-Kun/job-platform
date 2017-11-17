@@ -7,7 +7,7 @@
 					<div class="projectDetail_basicInfo_left_center_wage">日薪：{{projectInfo.Wage}}元/天</div>
 					<div class="projectDetail_basicInfo_left_center_length">预计工期：{{projectInfo.Length}}天</div>
 				</div>
-				<div class="projectDetail_basicInfo_left_bottom">发布者：{{employerInfo.Name}}</div>
+				<div class="projectDetail_basicInfo_left_bottom">发布者：{{projectInfo.Employer_Name}}</div>
 			</div>
 			<div class="projectDetail_basicInfo_right">
 				<div class="projectDetail_basicInfo_right_item">总价：{{projectInfo.Wage*projectInfo.Length}}元</div>
@@ -30,19 +30,24 @@
 export default {
   data(){
 		return {
-			projectInfo:{
-				Project_ID: 1,
-				Name: '消费信息分享评论网站搭建',
-				Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-				Wage: 800,
-				Length: 20,
-				State: 0,
-				Employer_ID: 1
-			},
-			employerInfo:{
-				Name:'张天雪'
-			},
+			projectId: null,
+			projectInfo:{},
 			deliveriesNumber: 234
+		}
+	},
+	created(){
+		this.projectId = this.$route.query.id;
+		this.getProjectInfo();
+	},
+	methods:{
+		getProjectInfo(){
+			this.$http.post('/project/getProjectInfo',{projectId: this.projectId}).then((res) => {
+				let result = res.data;
+				if(result.success){
+					this.projectInfo = result.data;
+					this.projectInfo.Desp = result.data.Desp.replace(/\n/g,'<br>');
+				}
+			})
 		}
 	}
 }
