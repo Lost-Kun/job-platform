@@ -248,9 +248,9 @@ export default {
 .talentDetail_basicInfo_center_rate{
 	height: 35%;
 	width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 }
 
 .talentDetail_basicInfo_center_orderedNumber{

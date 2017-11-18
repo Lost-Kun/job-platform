@@ -45,6 +45,11 @@ export default new Router({
           component: () => import('@/pages/editTalentInfo'),
         },
         {
+          path: 'editEmployerInfo',
+          name: '雇主信息编辑',
+          component: () => import('@/pages/editEmployerInfo'),
+        },
+        {
           path: 'editProjectInfo',
           name: '项目信息编辑',
           component: () => import('@/pages/editProjectInfo'),

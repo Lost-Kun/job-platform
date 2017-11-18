@@ -76,6 +76,7 @@ CREATE TABLE `employer` (
   `Mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
   `Company` varchar(255) DEFAULT NULL COMMENT '公司名称（报销用）',
   `Location` varchar(255) DEFAULT NULL COMMENT '发票寄送地址',
+  `Company_introduction` varchar(1000) DEFAULT NULL COMMENT '公司产品介绍',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '注册日期，格式为年-月-日 时:分:秒',
   `Rating` float DEFAULT '5' COMMENT '设计师对雇主的平均打分',
   PRIMARY KEY (`Employer_ID`)
@@ -146,9 +147,10 @@ CREATE TABLE `project` (
   `Employee_ID` varchar(255) DEFAULT NULL COMMENT '选中的设计师的编号',
   `Skills_list` varchar(500) DEFAULT NULL COMMENT '隐性，项目需要的技能列表，json',
   `Position` varchar(255) DEFAULT NULL COMMENT '隐性，项目需要的岗位',
-  `State` int(11) DEFAULT NULL COMMENT '项目状态（非常重要）',
+  `State` int(1) DEFAULT '0' COMMENT '项目状态（非常重要）',
   `Refund` int(11) DEFAULT NULL COMMENT '项目退款金额（申请）',
   `Refund_real` int(11) DEFAULT NULL COMMENT '项目退款金额（实际）',
+  `Delivery_number` int(1) DEFAULT '0' COMMENT '投递次数',
   PRIMARY KEY (`Project_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

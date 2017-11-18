@@ -7,6 +7,8 @@ import router from './router'
 import elementUi from 'element-ui'
 import fullpage from 'fullpage.js'
 import Axios from 'axios'
+import messageBox from './assets/js/login.js'
+import './assets/css/login.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/main.css'
 
@@ -15,6 +17,8 @@ Vue.config.productionTip = false
 Vue.prototype.$http = Axios
 
 Vue.use(elementUi)
+
+Vue.use(messageBox)
 
 router.afterEach((to,from,next) => {
   window.scrollTo(0,0);

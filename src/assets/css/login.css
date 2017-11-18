@@ -1,0 +1,157 @@
+.messageBox_hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.messageBox_popupBox {
+    position: absolute;
+    width: 300px;
+    height: 180px;
+    border: 3px solid #1567A1;
+    border-radius: 10px;
+    background-color: #172742;
+    top: 50%;
+    left: 50%;
+    margin-top: -90px;
+    margin-left: -125px;
+}
+
+.messageBox_popupBox_title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    border-bottom: 2px solid #0F639A;
+    line-height: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.messageBox_popupBox_title_span {
+    margin-left: 15px;
+    font-size: 15px;
+    color: #ffffff;
+    display: inline-block;
+}
+
+.messageBox_popupBox_title_close {
+    margin-right: 20px;
+    font-size: 13px;
+    color: #0F6CAD;
+    display: inline-block;
+}
+
+.messageBox_popupBox_title_close:hover {
+    color: #00CAFF;
+}
+
+.messageBox_popupBox_content {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 35px;
+}
+
+.messageBox_popupBox_content_box {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    right: 20px;
+    bottom: 5px;
+    text-align: left;
+    color: #ffffff;
+    font-size: 14px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.messageBox_popupBox_bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.messageBox_popupBox_bottom_button {
+    width: 70px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 13px;
+    font-family: "微软雅黑", "Trebuchet MS", sans-serif;
+    margin-left: 20px;
+    border-radius: 4px;
+    background-color: #15649C;
+    border: 1px solid #15649C;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.messageBox_popupBox_bottom_button:hover {
+    background-color: #0A76C1;
+}
+
+.el-loading-mask {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.el-loading-spinner .path {
+    stroke: #ffffff;
+}
+
+.el-loading-spinner .el-loading-text {
+    color: #ffffff;
+}
+
+.powerEnvAlarmThrehold_selectBox .el-input__inner {
+    background-color: rgba(0, 41, 93, 0.6);
+    border: 1px solid rgba(55, 117, 221, 0.6);
+    border-radius: 2px;
+    height: 29px;
+    color: #ffffff;
+}
+
+.powerEnvAlarmThrehold_selectBox .el-input__inner:hover {
+    border: 1px solid rgba(55, 117, 221, 0.6);
+}
+
+.powerEnvAlarmThrehold_selectBox .el-select .el-input .el-input__icon {
+    color: #265F9E;
+}
+
+.powerEnvAlarmThrehold_selectBox .el-select__tags>span {
+    white-space: nowrap;
+}
+
+.powerEnvAlarmThrehold_selectBox .el-select__tags {
+    overflow: hidden;
+}
+
+.el-scrollbar {
+    background-color: #C1C1C1;
+}

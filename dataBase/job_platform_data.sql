@@ -78,6 +78,7 @@ CREATE TABLE `employer` (
   `Mobile` varchar(20) DEFAULT NULL COMMENT '手机号',
   `Company` varchar(255) DEFAULT NULL COMMENT '公司名称（报销用）',
   `Location` varchar(255) DEFAULT NULL COMMENT '发票寄送地址',
+  `Company_introduction` varchar(1000) DEFAULT NULL COMMENT '公司产品介绍',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '注册日期，格式为年-月-日 时:分:秒',
   `Rating` float DEFAULT '5' COMMENT '设计师对雇主的平均打分',
   PRIMARY KEY (`Employer_ID`)
@@ -85,7 +86,7 @@ CREATE TABLE `employer` (
 
 /*Data for the table `employer` */
 
-insert  into `employer`(`Employer_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Company`,`Location`,`Riqi`,`Rating`) values ('1',NULL,'张天雪',NULL,NULL,NULL,NULL,NULL,5),('2',NULL,'徐向东',NULL,NULL,NULL,NULL,NULL,5);
+insert  into `employer`(`Employer_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Company`,`Location`,`Company_introduction`,`Riqi`,`Rating`) values ('1',NULL,'雪','张天雪','18332551342','腾讯','深圳','微信\nQQ',NULL,5),('2',NULL,'东','徐向东','18368551342','京东','北京','京东商城',NULL,5);
 
 /*Table structure for table `ip` */
 
@@ -150,15 +151,16 @@ CREATE TABLE `project` (
   `Employee_ID` varchar(255) DEFAULT NULL COMMENT '选中的设计师的编号',
   `Skills_list` varchar(500) DEFAULT NULL COMMENT '隐性，项目需要的技能列表，json',
   `Position` varchar(255) DEFAULT NULL COMMENT '隐性，项目需要的岗位',
-  `State` int(11) DEFAULT NULL COMMENT '项目状态（非常重要）',
+  `State` int(1) DEFAULT '0' COMMENT '项目状态（非常重要）',
   `Refund` int(11) DEFAULT NULL COMMENT '项目退款金额（申请）',
   `Refund_real` int(11) DEFAULT NULL COMMENT '项目退款金额（实际）',
+  `Delivery_number` int(11) DEFAULT '0' COMMENT '投递次数',
   PRIMARY KEY (`Project_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `project` */
 
-insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`) values (1,'2017-11-17 00:49:00','前端网页开发','针对宠物的一款平台项目,使用的技术包括 javascript, vue, iview 等前端技术,项目已经进行大半，目前在页面方面有很大问题，需要技术支持。  ',500,10,NULL,NULL,'1','2',NULL,NULL,0,NULL,NULL),(2,'2017-11-16 10:49:00','境外电商开发','国外实力集团布局新马泰的社交  ＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立',800,20,NULL,NULL,'2','1',NULL,NULL,0,NULL,NULL);
+insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`,`Delivery_number`) values (0,'2017-11-16 10:49:00','境外电商开发','国外实力集团布局新马泰的社交  ＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立',800,20,NULL,NULL,'2','1',NULL,NULL,0,NULL,NULL,0),(1,'2017-11-17 00:49:00','前端网页开发','针对宠物的一款平台项目,使用的技术包括 javascript, vue, iview 等前端技术,项目已经进行大半，目前在页面方面有很大问题，需要技术支持。  ',500,10,NULL,NULL,'1','2',NULL,NULL,0,NULL,NULL,0),(3,'2017-11-19 01:17:01','测试发布','测试发布测试发布测试发布测试发布测试发布测试发布测试发布\n测试发布测试发布测试发布测试发布测试发布测试发布测试发布',1100,54,NULL,NULL,'2',NULL,NULL,NULL,0,NULL,NULL,0);
 
 /*Table structure for table `rating` */
 

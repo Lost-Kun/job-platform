@@ -13,7 +13,7 @@
 				<div class="projectDetail_basicInfo_right_item">总价：{{projectInfo.Wage*projectInfo.Length}}元</div>
 				<div class="projectDetail_basicInfo_right_item">
 					<a class="projectDetail_basicInfo_right_button projectDetail_button_full">立即投递</a>
-					<span class="projectDetail_basicInfo_right_span">已有{{deliveriesNumber}}人投递</span>
+					<span class="projectDetail_basicInfo_right_span">已有{{projectInfo.Delivery_number}}人投递</span>
 				</div>
 			</div>
 		</div>
@@ -31,8 +31,7 @@ export default {
   data(){
 		return {
 			projectId: null,
-			projectInfo:{},
-			deliveriesNumber: 234
+			projectInfo:{}
 		}
 	},
 	created(){

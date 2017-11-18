@@ -7,18 +7,18 @@
         </div>
       </div>
       <div class="editTalentInfo_item_contentItem">
-				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">您的昵称</div>
-					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容"></el-input>
-					</div>
-				</div>
-				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">您的手机</div>
-					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容"></el-input>
-					</div>
-				</div>
+		<div class="editTalentInfo_item_contentItem_item">
+			<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">您的昵称</div>
+			<div class="editTalentInfo_item_contentItem_item_right">
+				<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+			</div>
+		</div>
+		<div class="editTalentInfo_item_contentItem_item">
+			<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">您的手机</div>
+			<div class="editTalentInfo_item_contentItem_item_right">
+				<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+			</div>
+		</div>
       </div>
     </div>
     <div class="editTalentInfo_item editTalentInfo_spacing">
@@ -28,7 +28,7 @@
       </div>
       <div class="editTalentInfo_item_contentItem">
 				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">兼职岗位</div>
+					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">兼职岗位</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-select v-model="Position" placeholder="请选择" style="width:90%;" size="small">
 							<el-option v-for="item in PositionList" :label="item" :value="item"></el-option>
@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">兼职日薪</div>
+					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">兼职日薪</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-select v-model="Wage" placeholder="请选择" style="width:90%;" size="small">
 							<el-option v-for="item in WageList" :label="item+'元/天'" :value="item"></el-option>
@@ -52,13 +52,13 @@
       </div>
       <div class="editTalentInfo_item_contentItem">
 				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">工作单位</div>
+					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">工作单位</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-input v-model="Job_company" style="width:90%" size="small" placeholder="请输入内容"></el-input>
 					</div>
 				</div>
 				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">工作职位</div>
+					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">工作职位</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-input v-model="Job_position" style="width:90%" size="small" placeholder="请输入内容"></el-input>
 					</div>
@@ -66,7 +66,7 @@
       </div>
       <div class="editTalentInfo_item_contentItem">
 				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">工作经验</div>
+					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">工作经验</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-select v-model="Job_experience" placeholder="请选择" style="width:90%;" size="small">
 							<el-option v-for="item in 15" :label="item+'年'" :value="item"></el-option>
@@ -74,7 +74,7 @@
 					</div>
 				</div>
 				<div class="editTalentInfo_item_contentItem_item">
-					<div class="editTalentInfo_item_contentItem_item_left">所在地区</div>
+					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">所在地区</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
 						<el-select v-model="Job_city" placeholder="请选择" style="width:42%;" size="small">
 							<el-option v-for="item in PositionAreaList" :label="item.name" :value="item.name"></el-option>
@@ -86,12 +86,6 @@
 				</div>
       </div>
     </div>
-		<div class="editTalentInfo_promptBox editTalentInfo_spacing" v-show="!showSuppleInfoFlag">
-			<div class="editTalentInfo_promptBox_left">
-				<i class="el-icon-circle-check" style="cursor: pointer;" @click="showSuppleInfo"></i>
-			</div>
-			<div class="editTalentInfo_promptBox_right">是否补充详细信息，增加接单成功率</div>
-		</div>
 		<div class="editTalentInfo_otherInfo" v-show="showSuppleInfoFlag">
 			<div class="editTalentInfo_item editTalentInfo_spacing">
 				<div class="editTalentInfo_item_title">
@@ -114,7 +108,7 @@
 				</div>
 				<div class="editTalentInfo_item_contentItem">
 					<div class="editTalentInfo_item_contentItem_item">
-						<div class="editTalentInfo_item_contentItem_item_left">最高学历	</div>
+						<div class="editTalentInfo_item_contentItem_item_left">最高学历</div>
 						<div class="editTalentInfo_item_contentItem_item_right">
 							<el-select v-model="Edu_degree" placeholder="请选择" style="width:90%;" size="small">
 								<el-option v-for="item in degreeList" :label="item" :value="item"></el-option>
@@ -177,6 +171,12 @@
 				</div>
 			</div> -->
 		</div>
+		<div class="editTalentInfo_promptBox editTalentInfo_spacing">
+			<div :class="['editTalentInfo_promptBox_left',showSuppleInfoFlag?'editTalentInfo_promptBox_left--checked':'']">
+				<i class="el-icon-circle-check" style="cursor: pointer;" @click="showSuppleInfo"></i>
+			</div>
+			<div class="editTalentInfo_promptBox_right">是否补充详细信息，增加接单成功率</div>
+		</div>
 		<div class="editTalentInfo_submitBox editTalentInfo_spacing">
 			<a class="editTalentInfo_submitBox_button" @click="saveTalentInfo">提交</a>
 		</div>
@@ -229,7 +229,7 @@ export default {
 			Edu_degree:'',
 			Skills:'',
 			Projects:'',
-			employeeId: "2"
+			employeeId: "3"
 		}
 	},
 	computed:{
@@ -251,7 +251,7 @@ export default {
 	},
 	methods:{
 		showSuppleInfo(){
-			this.showSuppleInfoFlag = true;
+			this.showSuppleInfoFlag = !this.showSuppleInfoFlag;
 		},
 		getTalentInfo(){
 			this.$http.post('/talent/getSelfInfo',{employeeId: this.employeeId}).then((res) => {
@@ -278,31 +278,69 @@ export default {
 			this.Projects = employeeInfo.Projects ? employeeInfo.Projects:'';
 		},
 		saveTalentInfo(){
+			let Name = this.Name.replace(/(^\s*)|(\s*$)/g,'');
+			if(Name === ''){
+				this.$alert('请填写昵称');
+				return;
+			}
+			let Mobile = this.Mobile.replace(/(^\s*)|(\s*$)/g,'');
+			let reg = /^1\d{10}$/;
+			if(Mobile === '' || !reg.test(Mobile)){
+				this.$alert('请填写正确的手机号');
+				return;
+			}
+			let Position = this.Position;
+			if(Position === null){
+				this.$alert('请选择兼职岗位');
+				return;
+			}
+			let Wage = this.Wage;
+			if(Wage === null){
+				this.$alert('请选择兼职日薪');
+				return;
+			}
+			let Job_company = this.Job_company.replace(/(^\s*)|(\s*$)/g,'');
+			if(Job_company === ''){
+				this.$alert('请填写工作单位');
+				return;
+			}
+			let Job_position = this.Job_position.replace(/(^\s*)|(\s*$)/g,'');
+			if(Job_position === ''){
+				this.$alert('请填写工作职位');
+				return;
+			}
+			let Job_experience = this.Job_experience;
+			if(Job_experience === null){
+				this.$alert('请选择工作经验');
+				return;
+			}
 			let param = {
 				Employee_ID: this.employeeId,
 				showSuppleInfoFlag: this.showSuppleInfoFlag,
-				Name: this.Name,
-				Mobile: this.Mobile,
-				Position: this.Position,
-				Wage: this.Wage,
-				Job_company: this.Job_company,
-				Job_position: this.Job_position,
-				Job_experience: this.Job_experience,
+				Name,
+				Mobile,
+				Position,
+				Wage,
+				Job_company,
+				Job_position,
+				Job_experience,
 				Job_city: this.Job_city,
 				Job_district: this.Job_district,
-				Edu_school: this.Edu_school,
-				Edu_department: this.Edu_department,
+				Edu_school: this.Edu_school.replace(/(^\s*)|(\s*$)/g,''),
+				Edu_department: this.Edu_department.replace(/(^\s*)|(\s*$)/g,''),
 				Edu_degree: this.Edu_degree,
-				Skills: this.Skills,
-				Projects: this.Projects
+				Skills: this.Skills.replace(/(^\s*)|(\s*$)/g,''),
+				Projects: this.Projects.replace(/(^\s*)|(\s*$)/g,'')
 			}
 			this.$http.post('/talent/editTalentInfo', param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
 					 this.$alert('保存成功');
+				 }else{
+					 this.$alert(result.msg);
 				 }
 			}).catch((err) => {
-				
+				this.$alert(err.message);
 			})
 		}
 	}
@@ -372,6 +410,12 @@ export default {
 	justify-content: flex-end;
 }
 
+.editTalentInfo_required:before {
+    content: "*";
+    color: #fa5555;
+    margin-right: 4px;
+}
+
 .editTalentInfo_item_contentItem_item_right{
 	position: absolute;
 	top:0;
@@ -402,6 +446,10 @@ export default {
 }
 
 .editTalentInfo_promptBox_left .el-icon-circle-check:hover{
+	color: #07C404;
+}
+
+.editTalentInfo_promptBox_left--checked{
 	color: #07C404;
 }
 

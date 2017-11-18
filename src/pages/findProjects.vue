@@ -55,7 +55,7 @@
               <a :class="['project_infoItem_right_bottom_left_a',(projectItem.State === 5 || projectItem.State === 7)?'project_infoItem_right_bottom_left_a--disable':'']">立即投递</a>
             </div>
             <div class="project_infoItem_right_bottom_right">
-              已有234人投递
+              已有{{projectItem.Delivery_number}}人投递
             </div>
           </div>
         </div> 
