@@ -100,9 +100,6 @@ export default {
   },
   methods:{
     editEmployerInfo(){
-      this.$login(()=>{
-        this.$alert('返回');
-      });
     }
   }
 }

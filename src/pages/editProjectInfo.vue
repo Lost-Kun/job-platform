@@ -54,7 +54,7 @@
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">验证码</div>
 				<div class="editProjectInfo_itemHalf_right">
-					<el-input v-model="verificationCode" style="width:76%" size="small" placeholder="请输入内容"></el-input>
+					<el-input v-model="verificationCode" style="width:76%" size="small" placeholder="请输入内容" :maxlength="6"></el-input>
 				</div>
 			</div>
 		</div>
@@ -100,7 +100,24 @@ export default {
 		},
 		getVerificationCode(){
 			if(!this.countDownFlag){
-				this.startCountDown();
+				let Mobile = this.Employer_mobile.replace(/(^\s*)|(\s*$)/g,'');
+                let reg = /^1\d{10}$/;
+                if(Mobile === '' || !reg.test(Mobile)){
+                  this.$alert('请填写正确的手机号');
+                  return;
+                }
+                this.startCountDown();
+                let param = {
+                  Mobile
+                };
+                this.$http.post('/sys/getVerificationCode', param).then((res) => {
+                  let result = res.data;
+                  if(!result.success){
+                    this.$alert(result.msg);
+                  }
+               }).catch((err) => {
+                 this.$alert(err.message);
+               })
 			}
 		},
 		startCountDown(){

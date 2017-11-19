@@ -1,32 +1,35 @@
-.messageBox_hover {
-    position: absolute;
+.login_hover {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(201, 199, 199, 0.6);
 }
 
-.messageBox_popupBox {
+.login_overflow{
+    overflow: hidden;
+}
+
+.login_popupBox {
     position: absolute;
-    width: 300px;
-    height: 180px;
-    border: 3px solid #1567A1;
-    border-radius: 10px;
-    background-color: #172742;
+    width: 450px;
+    height: 300px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.4), 0 0 6px 0 rgba(0,0,0,.1);
     top: 50%;
     left: 50%;
-    margin-top: -90px;
-    margin-left: -125px;
+    margin-top: -150px;
+    margin-left: -225px;
 }
 
-.messageBox_popupBox_title {
+.login_popupBox_title {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 40px;
-    border-bottom: 2px solid #0F639A;
+    /* border-bottom: 2px solid #0F639A; */
     line-height: 40px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -39,119 +42,156 @@
     align-items: center;
 }
 
-.messageBox_popupBox_title_span {
+.login_popupBox_title_span {
     margin-left: 15px;
     font-size: 15px;
-    color: #ffffff;
     display: inline-block;
 }
 
-.messageBox_popupBox_title_close {
-    margin-right: 20px;
-    font-size: 13px;
-    color: #0F6CAD;
+.login_popupBox_title_close {
+    margin-right: 10px;
+    font-size: 21px;
+    color: #9B9B9B;
     display: inline-block;
 }
 
-.messageBox_popupBox_title_close:hover {
-    color: #00CAFF;
+.login_popupBox_title_close:hover {
+    color: #0A76C1;
 }
 
-.messageBox_popupBox_content {
+.login_popupBox_content {
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    right: 20px;
+    bottom: 40px;
+}
+
+.login_popupBox_content_title{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.login_popupBox_content_main{
     position: absolute;
     top: 40px;
     left: 0;
     right: 0;
-    bottom: 35px;
-}
-
-.messageBox_popupBox_content_box {
-    position: absolute;
-    top: 5px;
-    left: 20px;
-    right: 20px;
-    bottom: 5px;
-    text-align: left;
-    color: #ffffff;
-    font-size: 14px;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    bottom: 50px;
     display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    overflow-y: auto;
+    flex-wrap: wrap;
+    align-content: space-around;
 }
 
-.messageBox_popupBox_bottom {
+.login_popupBox_content_main_item{
+    position: relative;
+    height: 40px;
+    width: 100%;
+}
+
+.login_popupBox_content_main_item_left{
+    float: left;
+    width: 20%;
+    height: 100%;
+    text-align: right;
+    line-height: 40px;
+    font-size: 15px;
+}
+
+.login_popupBox_content_main_item_right{
+    float: left;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.login_popupBox_content_main_item_right_input{
+    width: 180px;
+    height: 28px;
+    border: 1px solid #EEEEEE;
+    padding: 0 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.login_popupBox_content_main_item_right_input:focus{
+    border: 1px solid #5C9ED7;
+}
+
+.login_popupBox_content_main_item_right_a{
+    display: inline-block;
+    width: 100px;
+    margin-left: 10px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #5A9AD5;
+    color: #5A9AD5;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.login_popupBox_content_main_item_right_a--wait{
+	border: 1px solid #D5D5D5;
+	color: #D5D5D5;
+}
+
+.login_popupBox_content_bottom{
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 35px;
+    height: 50px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
-.messageBox_popupBox_bottom_button {
+.login_popupBox_bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #f7f7f7;
+}
+
+.login_popupBox_bottom_a{
+    margin-right: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #909090;
+}
+
+.login_popupBox_bottom_a:hover{
+    color: #0A76C1;
+}
+
+.login_popupBox_button {
     width: 70px;
     height: 22px;
     line-height: 22px;
-    font-size: 13px;
-    font-family: "微软雅黑", "Trebuchet MS", sans-serif;
-    margin-left: 20px;
-    border-radius: 4px;
-    background-color: #15649C;
-    border: 1px solid #15649C;
+    font-size: 14px;
+    border-radius: 3px;
+    background-color: #5A9AD5;
+    border: 1px solid #5A9AD5;
     color: #ffffff;
     cursor: pointer;
     display: inline-block;
 }
 
-.messageBox_popupBox_bottom_button:hover {
-    background-color: #0A76C1;
-}
-
-.el-loading-mask {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.el-loading-spinner .path {
-    stroke: #ffffff;
-}
-
-.el-loading-spinner .el-loading-text {
-    color: #ffffff;
-}
-
-.powerEnvAlarmThrehold_selectBox .el-input__inner {
-    background-color: rgba(0, 41, 93, 0.6);
-    border: 1px solid rgba(55, 117, 221, 0.6);
-    border-radius: 2px;
-    height: 29px;
-    color: #ffffff;
-}
-
-.powerEnvAlarmThrehold_selectBox .el-input__inner:hover {
-    border: 1px solid rgba(55, 117, 221, 0.6);
-}
-
-.powerEnvAlarmThrehold_selectBox .el-select .el-input .el-input__icon {
-    color: #265F9E;
-}
-
-.powerEnvAlarmThrehold_selectBox .el-select__tags>span {
-    white-space: nowrap;
-}
-
-.powerEnvAlarmThrehold_selectBox .el-select__tags {
-    overflow: hidden;
-}
-
-.el-scrollbar {
-    background-color: #C1C1C1;
+.login_popupBox_button:hover {
+    background-color: #50A5F5;
 }

@@ -9,7 +9,7 @@
 
       </div>
       <div class="loginBox" v-else>
-        <a class="login_link" @click="showLoginPicture">微信登录</a>
+        <a class="login_link" @click="showLoginPicture">登录</a>
       </div>
     </div>
   </div>
@@ -62,9 +62,12 @@ export default {
     },
     //二维码登录
     showLoginPicture(){
-      this.$router.push({
-        path:'/homePage/userInfo'
-      })
+      // this.$router.push({
+      //   path:'/homePage/userInfo'
+      // })
+      this.$login(()=>{
+        this.$alert('返回');
+      });
     }
   },
   watch:{
