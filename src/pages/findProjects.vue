@@ -3,7 +3,7 @@
         <div class="project_searchBox"> 
       <input class="project_searchBox_input" v-model="searchText"/>
       <a class="project_searchBox_search" @click="search">搜索</a>
-      <a class="project_searchBox_contactWoker" @click="editTalentInfo">注册成为兼职专家</a>
+      <a class="project_searchBox_contactWoker" @click="editTalentInfo" v-show="userType !== 1">注册成为兼职专家</a>
     </div>
     <div class="project_sortBox">
       <div class="project_sortBox_item">
@@ -83,7 +83,10 @@ export default {
       total: 0,
       searchText:'',
       isSearchingText:'',
-      sortType: 0
+      sortType: 0,
+      isLogin:false,
+      userId: null,
+      userType: null
     }
   },
   mounted(){
@@ -91,6 +94,8 @@ export default {
   },
   created(){
     this.getProjectList();
+    this.checkLogin();
+    window.bus.$on('checkLogin',this.checkLogin);
   },
   updated(){
     $(".project_infoListBox .project_infoItem_left_content").each(function(){
@@ -101,6 +106,31 @@ export default {
     })
   },
   methods:{
+    //检验用户登录
+    checkLogin(){   
+      let strCookie = document.cookie;
+      let arrCookie = strCookie.split(";");
+      let userId = '';
+      let userType = '';
+      for(let i = 0; i< arrCookie.length; i++){
+        let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+          userId = cookieItemArr[1];
+        }
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+          userType = cookieItemArr[1];
+        }
+      }
+      if(userId !== '' && userType !== ''){
+        this.isLogin = true;
+        this.userId = userId;
+        this.userType = parseInt(userType);
+      }else{
+        this.isLogin = false;
+        this.userId = null;
+        this.userType = null;
+      }
+    },
     getProjectList(){
       let param = {
         searchText: this.isSearchingText,

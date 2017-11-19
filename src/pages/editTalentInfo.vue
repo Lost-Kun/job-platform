@@ -229,7 +229,7 @@ export default {
 			Edu_degree:'',
 			Skills:'',
 			Projects:'',
-			employeeId: "3"
+			employeeId: ""
 		}
 	},
 	computed:{
@@ -247,9 +247,33 @@ export default {
 		}
 	},
 	created(){
-		this.getTalentInfo();
+    	this.checkLogin();
+    	window.bus.$on('checkLogin',this.checkLogin);
 	},
 	methods:{
+		//检验用户登录
+		checkLogin(){   
+			let strCookie = document.cookie;
+			let arrCookie = strCookie.split(";");
+			let userId = '';
+			let userType = '';
+			for(let i = 0; i< arrCookie.length; i++){
+				let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+				userId = cookieItemArr[1];
+				}
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+				userType = cookieItemArr[1];
+				}
+			}
+			if(userId !== '' && userType !== ''){
+				this.employeeId = userId;
+				this.getTalentInfo();
+			}else{
+				this.employeeId = '';
+				this.initPage({});
+			}
+		},
 		showSuppleInfo(){
 			this.showSuppleInfoFlag = !this.showSuppleInfoFlag;
 		},

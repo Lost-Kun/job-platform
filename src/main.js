@@ -24,6 +24,8 @@ router.afterEach((to,from,next) => {
   window.scrollTo(0,0);
 });
 
+window.bus = new Vue(); //事件总线
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

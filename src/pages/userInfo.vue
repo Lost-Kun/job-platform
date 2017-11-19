@@ -4,7 +4,7 @@
 			<div class="userInfo_basicInfo_left">
 				<div class="userInfo_basicInfo_left_top">
 					<div class="userInfo_basicInfo_left_iconBox">
-						<img class="userInfo_basicInfo_left_iconImg" :src="userInfo.HeadImageUrl"/>
+						<img class="userInfo_basicInfo_left_iconImg" :src="userInfo.HeadImageUrl?userInfo.HeadImageUrl:'../static/images/defaultHeadImg.jpg'"/>
 					</div>
 				</div>
 				<div class="userInfo_basicInfo_left_bottom">
@@ -16,20 +16,20 @@
 					<div class="userInfo_basicInfo_center_title_welcome">尊敬的{{userInfo.Name}}，欢迎您使用本兼职平台！</div>
 				</div>
 				<div class="userInfo_basicInfo_center_rate">
-					<div class="userInfo_basicInfo_center_orderedNumber" v-show="userInfo.userType === 0">
+					<div class="userInfo_basicInfo_center_orderedNumber" v-show="userType === 0">
 						已接单{{userInfo.Ordered_number}}次
 					</div>
-          <div class="userInfo_prompt" v-show="userInfo.userType === 1">若您有新需求，可三分钟免费下单，或联系专员为您发布需求、对接人才！</div>
+          <div class="userInfo_prompt" v-show="userType === 1">若您有新需求，可三分钟免费下单，或联系专员为您发布需求、对接人才！</div>
 				</div>
 				<div class="userInfo_basicInfo_center_partTimePosition">
-					<a class="userInfo_button" v-show="userInfo.userType === 1">发布需求</a>
-					<a class="userInfo_button userInfo_button_full" v-show="userInfo.userType === 1">联系专员</a>
-          <a class="userInfo_button" v-show="userInfo.userType === 1" @click="editEmployerInfo">编辑资料</a>
-          <a class="userInfo_button" v-show="userInfo.userType === 0">编辑简历</a>
-          <div class="userInfo_prompt" v-show="userInfo.userType === 0">小贴士：完善简历可以有效提高您的接单率</div>
+					<a class="userInfo_button" v-show="userType === 1" @click="editProjectInfo">发布需求</a>
+					<a class="userInfo_button userInfo_button_full" v-show="userType === 1">联系专员</a>
+          <a class="userInfo_button" v-show="userType === 1" @click="editEmployerInfo">编辑资料</a>
+          <a class="userInfo_button" v-show="userType === 0" @click="editEmployeeInfo">编辑简历</a>
+          <div class="userInfo_prompt" v-show="userType === 0">小贴士：完善简历可以有效提高您的接单率</div>
 				</div>
 			</div>
-			<div class="userInfo_basicInfo_right" v-show="userInfo.userType === 0">
+			<div class="userInfo_basicInfo_right" v-show="userType === 0">
 				<div class="userInfo_basicInfo_right_item">日薪：{{userInfo.Wage}}元/天</div>
 				<div class="userInfo_basicInfo_right_item">
           已赚：{{totalMoney}}元
@@ -45,9 +45,8 @@
         </ul>
       </div>
       <div class="userInfo_otherInfo_showBox">
-        <div class="userInfo_otherInfo_orderItem">
+        <!-- <div class="userInfo_otherInfo_orderItem">
           <div class="userInfo_otherInfo_orderItem_titleBox">
-
           </div>
           <div class="userInfo_otherInfo_orderItem_contentBox">
             <div class="userInfo_otherInfo_orderItem_contentBox_item">
@@ -59,7 +58,38 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+        <el-collapse v-model="selectOrderIndex" @change="showOrderdetail"  accordion>
+          <el-collapse-item v-for="(item, index) in orderList" :name="index+''">
+            <template slot="title">
+              <div class="userInfo_otherInfo_order_name">项目名称：{{item.Name}}</div>
+              <div class="userInfo_otherInfo_order_state">（需求对接阶段）</div>
+              <div class="userInfo_otherInfo_order_toolBox">
+                <a class="userInfo_button">沟通需求</a>
+              </div>
+            </template>
+            <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 0">
+              <div class="userInfo_otherInfo_order_item">
+                <div class="userInfo_otherInfo_order_item_time">
+                  2017-11-24 11:32:15
+                </div>
+                <div class="userInfo_otherInfo_order_item_main">
+                  XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,
+                </div>
+                <div class="userInfo_otherInfo_order_item_buttonBox">
+                  <a class="userInfo_button userInfo_button_full">立即预约</a>
+                </div>
+              </div>
+            </div>
+            <div class="userInfo_otherInfo_order_logBox" v-else>
+              <div class="userInfo_otherInfo_order_item">
+                <div class="userInfo_otherInfo_order_item_main" style="right:10px;">
+                  XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,
+                </div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
       </div>
     </div>
   </div>
@@ -69,19 +99,10 @@
 export default {
   data(){
     return {
-      userInfo:{
-        userType: 1,
-        Name:'余温散尽ぺ',
-        HeadImageUrl:'../static/images/baima.jpg',
-        Job_company:'上海微创软件股份有限公司',
-        Job_position:'.net开发工程师',
-        Job_experience:12,
-        Ordered_number:6,
-        Rating:3.1,
-        Wage:800,
-        Skills:'1 精通Object-C，node，js，html，css等iOS和前后端开发技术，熟练搭建基于微信公众号的h5页面 <br>2 熟悉使用redis mongo mysql等数据库技术，擅长前后端一体化 <br>3 熟练使用 Plist 文件读取、NSUserDefaults 以及归档方式将数据持久化存储 <br>4 熟悉使用redis mongo mysql等数据库技术，擅长前后端一体化 <br>5 熟练使用 Plist 文件读取、NSUserDefaults 以及归档方式将数据持久化存储<br>6 熟悉使用redis mongo mysql等数据库技术，擅长前后端一体化 <br>7 熟练使用 Plist 文件读取、NSUserDefaults 以及归档方式将数据持久化存储',
-        Projects:'1、三一重工门户网站开发建设，团队接单完成。整体项目算法重构，权限系统重构。官网的改版和重建、网站会员中心、会员支撑系统改造、前台页面改造、业务支撑系统改造。 <br>2、腾讯旗下创业频道CMS系统大改版，内容展示算法重新设计。数据库升级优化，搜索效率提升。 <br>3、曾在某初创公司负责技术研发部分，包括公司内部管理系统的设计和开发，以及其他与营销业务相关的应用开发（关键词处理和分析、网页爬虫等）。具体有：外贸B2C咨询平台的设计和研发，功能包括集中展示国内知名外贸B2C平台上的热门产品、促销信息，发布和管理与B2C相关的主题咨询等；基于Magento系统的外贸B2C平台的二次开发。 <br>4、目前担任公司的技术总监，技术联合创始人。负责公司所有IT系统的研发工作。包括所有内部系统的研发，系统服务器的架设，官网的开发等。'
-      },
+      isLogin:false,
+      userId: null,
+      userType: null,
+      userInfo:{},
       totalMoney:0,
       orderList:[{
 				Project_ID: 1,
@@ -92,14 +113,84 @@ export default {
 				State: 0,
 				Employer_ID: 1
 			}
-      ]
+      ],
+      selectOrderIndex:'0'
     }
   },
   created(){
-
+    this.checkLogin();
+    window.bus.$on('checkLogin',this.checkLogin);
   },
   methods:{
+    //检验用户登录
+    checkLogin(){   
+      let strCookie = document.cookie;
+      let arrCookie = strCookie.split(";");
+      let userId = '';
+      let userType = '';
+      for(let i = 0; i< arrCookie.length; i++){
+        let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+          userId = cookieItemArr[1];
+        }
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+          userType = cookieItemArr[1];
+        }
+      }
+      if(userId !== '' && userType !== ''){
+        this.isLogin = true;
+        this.userId = userId;
+        this.userType = parseInt(userType);
+        this.getUserInfo();
+        this.getOrderList();
+      }else{
+        this.isLogin = false;
+        this.userId = null;
+        this.userType = null;
+        this.userInfo = {};
+        this.totalMoney = '';
+        this.orderList = [];
+      }
+    },
+    getUserInfo(){
+      let url = this.userType === 0?'/talent/getSelfInfo':'/employer/getSelfInfo';
+      let param = this.userType === 0?{employeeId:this.userId}:{employerId:this.userId};
+      this.$http.post(url, param).then((res) => {
+				 let result = res.data;
+				 if(result.success){
+           this.userInfo = result.data;
+				 }
+			})
+    },
+    editEmployeeInfo(){
+      this.$router.push({
+        path:'/homePage/editTalentInfo'
+      })
+    },
     editEmployerInfo(){
+      this.$router.push({
+        path:'/homePage/editEmployerInfo'
+      })
+    },
+    editProjectInfo(){
+      this.$router.push({
+        path:'/homePage/editProjectInfo'
+      })
+    },
+    getOrderList(){
+      let url = this.userType === 0?'/talent/getOrderList':'/employer/getOrderList';
+      let param = this.userType === 0?{employeeId:this.userId}:{employerId:this.userId};
+      this.$http.post(url, param).then((res) => {
+				 let result = res.data;
+				 if(result.success){
+           this.orderList = result.data;
+				 }
+			})
+    },
+    showOrderdetail(selectOrderIndex){
+      if(selectOrderIndex !== undefined && selectOrderIndex !== ''){
+
+      }
     }
   }
 }
@@ -307,9 +398,88 @@ export default {
   color: #5A9AD5;
 }
 
-.userInfo_otherInfo_orderItem_titleBox{
-  height: 40px;
+.userInfo_otherInfo_showBox{
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  text-align: left;
+  /* padding: 10px 20px; */
 }
+
+.userInfo_otherInfo_order_name{
+  float: left;
+  max-width: 53%;
+  height: 100%;
+  margin-left: 20px;
+  font-size: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.userInfo_otherInfo_order_state{
+  float: left;
+  max-width: 12%;
+  height: 100%;
+  padding: 0 5px;
+  font-size: 15px;
+}
+
+.userInfo_otherInfo_order_toolBox{
+  float: right;
+  margin-right: 5px;
+  max-width: 30%;
+  height: 100%;
+}
+
+.userInfo_otherInfo_order_applyBox{
+  padding: 0 30px;
+  min-height: 40px;
+  font-size: 15px;
+}
+
+.userInfo_otherInfo_order_item{
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+}
+
+.userInfo_otherInfo_order_item_time{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 150px;
+  color: #BEBEBE;
+}
+
+.userInfo_otherInfo_order_item_main{
+  position: absolute;
+  top: 0;
+  left: 155px;
+  bottom: 0;
+  right: 105px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.userInfo_otherInfo_order_item_buttonBox{
+  position: absolute;
+  top: 0;
+  width: 100px;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+}
+
+.userInfo_otherInfo_order_logBox{
+  padding: 0 30px;
+  min-height: 40px;
+  font-size: 15px;
+}
+
+
 </style>
 
 

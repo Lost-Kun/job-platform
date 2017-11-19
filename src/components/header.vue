@@ -5,11 +5,13 @@
       <li v-for="(navItem, index) in navList"><a :class="['nav_link',navItem.isSelected?'nav_link--selected':'']" @click="navChange(navItem, index)">{{navItem.name}}</a></li>
     </ul>
 		<div class="userBox">
-      <div class="userInfoBox" v-if="isLogin">
+      <!-- <div class="userInfoBox" v-if="isLogin">
 
-      </div>
-      <div class="loginBox" v-else>
-        <a class="login_link" @click="showLoginPicture">登录</a>
+      </div> -->
+      <div class="loginBox">
+        <a class="login_link" v-show="!isLogin" @click="showLoginPicture">登录</a>
+        <a class="login_link" v-show="isLogin" @click="enterUserInfo">个人主页</a>
+        <a class="login_link" v-show="isLogin" @click="logout">退出</a>
       </div>
     </div>
   </div>
@@ -32,19 +34,43 @@ export default {
           path:'/homePage/project'
         }
       ],
-      isLogin:false
+      isLogin:false,
+      userId: null,
+      userType: null
     }
   },
   created(){
     this.checkLogin();
     this.navList.forEach((item) => {
       item.isSelected = this.$route.path === item.path;
-    })
+    });
+    window.bus.$on('checkLogin',this.checkLogin);
   },
   methods:{
     //检验用户登录
     checkLogin(){   
-
+      let strCookie = document.cookie;
+      let arrCookie = strCookie.split(";");
+      let userId = '';
+      let userType = '';
+      for(let i = 0; i< arrCookie.length; i++){
+        let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+          userId = cookieItemArr[1];
+        }
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+          userType = cookieItemArr[1];
+        }
+      }
+      if(userId !== '' && userType !== ''){
+        this.isLogin = true;
+        this.userId = userId;
+        this.userType = userType;
+      }else{
+        this.isLogin = false;
+        this.userId = null;
+        this.userType = null;
+      }
     },
     //返回首页
     backToIndex(){
@@ -60,13 +86,27 @@ export default {
       })
       this.$router.push(navItem.path);
     },
-    //二维码登录
+    //登录
     showLoginPicture(){
-      // this.$router.push({
-      //   path:'/homePage/userInfo'
-      // })
-      this.$login(()=>{
-        this.$alert('返回');
+      this.$login();
+    },
+    enterUserInfo(){
+      this.$router.push({
+        path:'/homePage/userInfo'
+      })
+    },
+    logout(){
+      this.$confirm('是否确认退出?', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+          let d = new Date();  
+          d.setTime(d.getTime() + (-1*24*60*60*1000));
+          document.cookie = `userId=${this.userId}; expires=${d.toUTCString()}`;
+          document.cookie = `userType=${this.userType}; expires=${d.toUTCString()}`;
+          window.bus.$emit('checkLogin');
+      }).catch(() => {       
       });
     }
   },
@@ -133,12 +173,14 @@ export default {
 
 .loginBox{
   height: 100%;
-  width: 100px;
+  width: 150px;
   line-height: 70px;
+  text-align: right;
 }
 
 .login_link{
   cursor: pointer;
+  margin: auto 10px;
 }
 
 .login_link:hover{

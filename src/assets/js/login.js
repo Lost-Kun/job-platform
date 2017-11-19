@@ -5,7 +5,7 @@ export default {
     install(Vue, options) {
       let indexAll = 1000;
   
-      let alertBoxComponentFactory = function (self, index, callBack) {
+      let loginTemplete = function (self, index, callBack) {
         return Vue.extend({
           template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
           '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
@@ -136,12 +136,20 @@ export default {
               this.$http.post('/sys/login', param).then((res) => {
                 let result = res.data;
                 if(result.success){
-                  /*
-                  触发头部切换
-                   */
-                  this.closeBox();
-                  if(typeof callBack === 'function'){
-                    callBack();
+                  if(result.data.type === 2){ //新用户未入库
+                    this.closeBox();
+                    setTimeout(() => {
+                      self.$chooseType({type:'mobile',Mobile}, callBack)
+                    },350);
+                  }else{
+                    /*
+                    触发头部切换
+                    */
+                    window.bus.$emit('checkLogin');
+                    this.closeBox();
+                    if(typeof callBack === 'function'){
+                      callBack();
+                    }
                   }
                 }else{
                   this.$alert(result.msg);
@@ -154,11 +162,93 @@ export default {
         });
       };
 
+      let chooseTemplete = function (self, index, loginData, callBack) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content">' +
+          '<div class="login_popupBox_content_title">请问您是？</div>' +
+          '<div class="choose_popupBox_content_left">' +
+          '<a class="choose_popupBox_a" @click="addUser(1)">我是雇主</a>'+
+          '</div>' +
+          '<div class="choose_popupBox_content_right">' +
+          '<a class="choose_popupBox_a" @click="addUser(0)">我是设计师</a>'+
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              loginData
+            }
+          },
+          computed:{
+            messageId(){
+              return 'choose_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+                $('body').removeClass('login_overflow');
+              },300);
+            },
+            addUser(userType){
+              this.$http.post('/sys/addUser', Object.assign({},this.loginData,{userType})).then((res) => {
+                let result = res.data;
+                if(result.success){
+                    /*
+                    触发头部切换
+                    */
+                    window.bus.$emit('checkLogin');
+                    this.closeBox();
+                    if(typeof callBack === 'function'){
+                      callBack();
+                    }
+                }else{
+                  this.$alert(result.msg);
+                }
+              }).catch((err) => {
+               this.$alert(err.message);
+             })
+            }
+          }
+        })
+      };
+
       Vue.prototype.$login = function (callBack) {
         let self = this;
         let index = indexAll;
         indexAll = indexAll+2;
-        let boxContainer = alertBoxComponentFactory(self,index,callBack);
+        let boxContainer = loginTemplete(self,index,callBack);
+        let alterBox = new boxContainer().$mount();
+        $('body').addClass('login_overflow');
+        self.$root.$el.appendChild(alterBox.$el);
+      }
+
+      Vue.prototype.$chooseType = function (data, callBack) {
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = chooseTemplete(self,index,data,callBack);
         let alterBox = new boxContainer().$mount();
         $('body').addClass('login_overflow');
         self.$root.$el.appendChild(alterBox.$el);

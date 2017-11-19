@@ -73,13 +73,37 @@ export default {
 			Company:'',
 			Location:'',
 			Company_introduction:'',
-			employerId: "1"
+			employerId: ""
 		}
 	}, 
 	created(){
-		this.getEmployerInfo();
+    	this.checkLogin();
+    	window.bus.$on('checkLogin',this.checkLogin);
 	},
 	methods:{
+		//检验用户登录
+		checkLogin(){   
+			let strCookie = document.cookie;
+			let arrCookie = strCookie.split(";");
+			let userId = '';
+			let userType = '';
+			for(let i = 0; i< arrCookie.length; i++){
+				let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+				userId = cookieItemArr[1];
+				}
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+				userType = cookieItemArr[1];
+				}
+			}
+			if(userId !== '' && userType !== ''){
+				this.employerId = userId;
+		        this.getEmployerInfo();
+			}else{
+				this.employerId = '';
+				this.initPage({});
+			}
+		},
 		getEmployerInfo(){
 			this.$http.post('/employer/getSelfInfo',{employerId: this.employerId}).then((res) => {
 				let result = res.data;

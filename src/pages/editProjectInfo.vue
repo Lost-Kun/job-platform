@@ -83,12 +83,38 @@ export default {
 		}
 	},
 	created(){
-		this.getEmployerInfo();
+    	this.checkLogin();
+    	window.bus.$on('checkLogin',this.checkLogin);
 	},
 	beforeDestroy(){
 		this.countDownFlag = false;
 	},
 	methods:{
+		//检验用户登录
+		checkLogin(){   
+			let strCookie = document.cookie;
+			let arrCookie = strCookie.split(";");
+			let userId = '';
+			let userType = '';
+			for(let i = 0; i< arrCookie.length; i++){
+				let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+				userId = cookieItemArr[1];
+				}
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+				userType = cookieItemArr[1];
+				}
+			}
+			if(userId !== '' && userType !== ''){
+				this.Employer_ID = userId;
+		        this.getEmployerInfo();
+			}else{
+				this.Employer_ID = '';
+				this.clearPage();
+				this.Employer_name = '';
+				this.Employer_mobile = '';
+			}
+		},
 		getEmployerInfo(){
 			this.$http.post('/employer/getSelfInfo',{employerId: this.Employer_ID}).then((res) => {
 				let result = res.data;
