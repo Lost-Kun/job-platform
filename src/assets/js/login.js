@@ -114,10 +114,10 @@ export default {
                 $('body').removeClass('login_overflow');
               },300);
             },
-            loginMobile(){
+            loginWex(){
 
             },
-            loginWex(){
+            loginMobile(){
               let Mobile = this.Mobile.replace(/(^\s*)|(\s*$)/g,'');
               let reg = /^1\d{10}$/;
               if(Mobile === '' || !reg.test(Mobile)){
