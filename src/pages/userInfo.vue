@@ -23,7 +23,7 @@
 				</div>
 				<div class="userInfo_basicInfo_center_partTimePosition">
 					<a class="userInfo_button" v-show="userType === 1" @click="editProjectInfo">发布需求</a>
-					<a class="userInfo_button userInfo_button_full" v-show="userType === 1">联系专员</a>
+					<a class="userInfo_button userInfo_button_full" v-show="userType === 1" @click="contactWoker">联系专员</a>
           <a class="userInfo_button" v-show="userType === 1" @click="editEmployerInfo">编辑资料</a>
           <a class="userInfo_button" v-show="userType === 0" @click="editEmployeeInfo">编辑简历</a>
           <div class="userInfo_prompt" v-show="userType === 0">小贴士：完善简历可以有效提高您的接单率</div>
@@ -51,16 +51,16 @@
               <div class="userInfo_otherInfo_order_name">项目名称：{{item.Name}}</div>
               <div class="userInfo_otherInfo_order_state">（{{getOrderStateText(item.State)}}）</div>
               <div class="userInfo_otherInfo_order_toolBox">
-                <a class="userInfo_button" v-show="item.State === 1 && userType === 1">沟通需求</a>
-                <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 0" @click.stop="showOrderdetail">新增工作记录</a>
-                <a class="userInfo_button" v-show="item.State === 2 && userType === 0">申请完工</a>
-                <a class="userInfo_button" v-show="item.State === 2 && userType === 1">延长预约</a>
-                <a class="userInfo_button" v-show="(item.State === 2 || item.State === 3) && userType === 1">申请退款</a>
-                <a class="userInfo_button userInfo_button_full" v-show="item.State === 3 && userType === 1">确认完工</a>
-                <a class="userInfo_button" v-show="item.State === 3 && userType === 1">驳回完工</a>
-                <a class="userInfo_button userInfo_button_full" v-show="item.State === 4 && userType === 0">确认退款</a>
-                <a class="userInfo_button" v-show="item.State === 4 && userType === 0">驳回退款</a>
-                <a class="userInfo_button userInfo_button_full" v-show="item.State === 6">前去评价</a>
+                <a class="userInfo_button" v-show="item.State === 1 && userType === 1" @click.stop="contactWoker">沟通需求</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 0" @click.stop="addWorkLog(item)">新增工作记录</a>
+                <a class="userInfo_button" v-show="item.State === 2 && userType === 0" @click.stop="applyForComplete(item)">申请完工</a>
+                <a class="userInfo_button" v-show="item.State === 2 && userType === 1" @click.stop="extendOrder(item)">延长预约</a>
+                <a class="userInfo_button" v-show="(item.State === 2 || item.State === 3) && userType === 1" @click.stop="applyForRefund(item)">申请退款</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 3 && userType === 1" @click.stop="agreeComplete(item)">确认完工</a>
+                <a class="userInfo_button" v-show="item.State === 3 && userType === 1" @click.stop="rejectComplete(item)">驳回完工</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 4 && userType === 0" @click.stop="agreeRefund(item)">确认退款</a>
+                <a class="userInfo_button" v-show="item.State === 4 && userType === 0"  @click.stop="rejectRefund(item)">驳回退款</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 6" @click.stop="evaluate(item)">前去评价</a>
               </div>
             </template>
             <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 1">
@@ -72,7 +72,7 @@
                   {{applyItem.Name}}已申请了您的项目
                 </div>
                 <div class="userInfo_otherInfo_order_item_buttonBox">
-                  <a class="userInfo_button userInfo_button_full" @click="orderAtOnce(applyItem)">立即预约</a>
+                  <a class="userInfo_button userInfo_button_full" @click="orderAtOnce(item, applyItem)">立即预约</a>
                 </div>
               </div>
             </div>
@@ -102,16 +102,7 @@ export default {
       userType: null,
       userInfo:{},
       totalMoney:0,
-      orderList:[{
-				Project_ID: 1,
-				Name: '消费信息分享评论网站搭建',
-				Desp: '需要开发一个消费信息分享+用户评论的网站，主要是手机端访问.比如有些商品有便宜打折的信息，展示这个商品，同时用户可以点评。',
-				Wage: 800,
-				Length: 20,
-				State: 0,
-				Employer_ID: 1
-			}
-      ],
+      orderList:[],
       selectOrderIndex:'0'
     }
   },
@@ -175,6 +166,9 @@ export default {
         path:'/homePage/editProjectInfo'
       })
     },
+    contactWoker(){   //联系专员
+      this.$contactWoker();
+    },
     getOrderList(){
       let url = this.userType === 0?'/talent/getOrderList':'/employer/getOrderList';
       let param = this.userType === 0?{employeeId:this.userId}:{employerId:this.userId};
@@ -226,16 +220,64 @@ export default {
 				    }
 			    })
         }else{//获取项目日志
-          this.$http.post('/project/getLogList', {Project_ID:selectedOrder.Project_ID}).then((res) => {
-				    let result = res.data;
-				    if(result.success){
-              selectedOrder.logList = result.data;
-				    }
-			    })
+          this.getLogList(selectedOrder);
         }
       }
     },
-    orderAtOnce(orderItem){
+    getLogList(orderItem){//获取项目日志
+      this.$http.post('/project/getLogList', {Project_ID:orderItem.Project_ID}).then((res) => {
+        let result = res.data;
+        if(result.success){
+          orderItem.logList = result.data;
+        }
+      })
+    },
+    orderAtOnce(orderItem, applyItem){ //立即预约
+      this.$order(applyItem);
+      // let param = {
+      //   Project_ID: applyItem.Project_ID,
+      //   Employee_ID: applyItem.Employee_ID,
+      //   Wage: 0,
+      //   Length: 0
+      // };
+      // this.$http.post('/project/orderEmployee', param).then((res) => {
+      //   let result = res.data;
+      //   if(result.success){
+      //     this.$alert('预约成功',{lockScroll:false});
+      //     orderItem.State = 2;
+      //     this.getLogList(orderItem);
+      //   }else{
+      //     this.$alert(result.msg,{lockScroll:false});
+      //   }
+      // }).catch((e)=>{
+      //     this.$alert(e.message,{lockScroll:false});
+      // })
+    },
+    addWorkLog(orderItem){//新增工作记录
+
+    },
+    applyForComplete(orderItem){//申请完工
+
+    },
+    extendOrder(orderItem){//延长预约
+
+    },
+    applyForRefund(orderItem){//申请退款
+
+    },
+    agreeComplete(orderItem){//确认完工
+
+    },
+    rejectComplete(orderItem){//驳回完工
+
+    },
+    agreeRefund(orderItem){//确认退款
+
+    },
+    rejectRefund(orderItem){//驳回退款
+
+    },
+    evaluate(orderItem){//前去评价
 
     }
   }

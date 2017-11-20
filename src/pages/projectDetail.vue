@@ -12,7 +12,9 @@
 			<div class="projectDetail_basicInfo_right">
 				<div class="projectDetail_basicInfo_right_item">总价：{{projectInfo.Wage*projectInfo.Length}}元</div>
 				<div class="projectDetail_basicInfo_right_item">
-					<a class="projectDetail_basicInfo_right_button projectDetail_button_full">立即投递</a>
+					<a @click="sendApply(projectInfo)" :class="['projectDetail_basicInfo_right_button','projectDetail_button_full',(projectInfo.State === 5 || projectInfo.State === 7 || projectInfo.hasApplyed)?'projectDetail_button--disable':'']">
+						{{(projectInfo.State === 5 || projectInfo.State === 7)?'已完成':(projectInfo.hasApplyed?'已投递':'立即投递')}}
+					</a>
 					<span class="projectDetail_basicInfo_right_span">已有{{projectInfo.Delivery_number}}人投递</span>
 				</div>
 			</div>
@@ -31,23 +33,101 @@ export default {
   data(){
 		return {
 			projectId: null,
-			projectInfo:{}
+			projectInfoOrign:{},
+      isLogin:false,
+      userId: null,
+			userType: null,
+			applyedProjectList:[]
+		}
+	},
+	computed:{
+		projectInfo(){
+			let applyedProjectList = this.applyedProjectList;
+			let projectInfo = this.projectInfoOrign;
+			projectInfo.hasApplyed = false;
+			for(let i = 0; i<applyedProjectList.length; i++){
+				if(applyedProjectList[i].Project_ID === projectInfo.Project_ID){
+					projectInfo.hasApplyed = true;
+					break;
+				}
+			}
+			return projectInfo;
 		}
 	},
 	created(){
 		this.projectId = this.$route.query.id;
 		this.getProjectInfo();
+    this.checkLogin();
+    window.bus.$on('checkLogin',this.checkLogin);
 	},
 	methods:{
+    //检验用户登录
+    checkLogin(){   
+      let strCookie = document.cookie;
+      let arrCookie = strCookie.split(";");
+      let userId = '';
+      let userType = '';
+      for(let i = 0; i< arrCookie.length; i++){
+        let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+          userId = cookieItemArr[1];
+        }
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+          userType = cookieItemArr[1];
+        }
+      }
+      if(userId !== '' && userType !== ''){
+        this.isLogin = true;
+        this.userId = userId;
+        this.userType = parseInt(userType);
+        this.getApplyedProjectList();
+      }else{
+        this.isLogin = false;
+        this.userId = null;
+        this.userType = null;
+      }
+    },
+    getApplyedProjectList(){
+      if(this.userType === 0){
+        this.$http.post('/talent/getApplyList', {employeeId:this.userId}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            this.applyedProjectList = result.data;
+          }
+        })
+      }
+    },
 		getProjectInfo(){
 			this.$http.post('/project/getProjectInfo',{projectId: this.projectId}).then((res) => {
 				let result = res.data;
 				if(result.success){
-					this.projectInfo = result.data;
-					this.projectInfo.Desp = result.data.Desp.replace(/\n/g,'<br>');
+					this.projectInfoOrign = result.data;
+					this.projectInfoOrign.Desp = result.data.Desp.replace(/\n/g,'<br>');
 				}
 			})
-		}
+		},
+    sendApply(projectItem){
+      if(projectItem.State !== 5 && projectItem.State !== 7 && !projectItem.hasApplyed){
+        if(this.isLogin){
+          if(this.userType === 1){
+            this.$alert('该账号为雇主，请登录设计师账号',{lockScroll:false});
+            return;
+          }
+          this.$http.post('/project/applyProject', {Project_ID:projectItem.Project_ID, Employee_ID:this.userId}).then((res) => {
+            let result = res.data;
+            if(result.success){
+              projectItem.Delivery_number ++; 
+							this.$alert('投递成功',{lockScroll:false});
+							projectItem.hasApplyed = true;
+            }else{
+              this.$alert(result.msg,{lockScroll:false});
+            }
+          })
+        }else{
+          this.$login();
+        }
+      }
+    }
 	}
 }
 </script>
@@ -159,6 +239,18 @@ export default {
   color: #ffffff;
   background-color: #50A5F5;
   border: 1px solid #50A5F5;
+}
+
+.projectDetail_button--disable{
+  border: 1px solid #D5D5D5;
+  background-color: #D5D5D5;
+  color: #ffffff;
+}
+
+.projectDetail_button--disable:hover{
+  border: 1px solid #D5D5D5;
+  background-color: #D5D5D5;
+  color: #ffffff;
 }
 
 .projectDetail_basicInfo_right_span{

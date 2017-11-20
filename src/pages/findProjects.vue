@@ -3,7 +3,7 @@
         <div class="project_searchBox"> 
       <input class="project_searchBox_input" v-model="searchText"/>
       <a class="project_searchBox_search" @click="search">搜索</a>
-      <a class="project_searchBox_contactWoker" @click="editTalentInfo" v-show="userType !== 1">注册成为兼职专家</a>
+      <a class="project_searchBox_contactWoker" @click="editTalentInfo">注册成为兼职专家</a>
     </div>
     <div class="project_sortBox">
       <div class="project_sortBox_item">
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="project_infoListBox">
-      <div class="project_infoItem" v-for="(projectItem, key) in projectList" :key="'projectItem'+key">
+      <div class="project_infoItem" v-for="(projectItem, key) in projectListShow" :key="'projectItem'+key">
         <div class="project_infoItem_left">
           <div class="project_infoItem_left_title" @click="intoProjectDetail(projectItem)">
             {{projectItem.Name}}
@@ -52,7 +52,9 @@
           </div>
           <div class="project_infoItem_right_bottom">
             <div class="project_infoItem_right_bottom_left">
-              <a :class="['project_infoItem_right_bottom_left_a',(projectItem.State === 5 || projectItem.State === 7)?'project_infoItem_right_bottom_left_a--disable':'']">立即投递</a>
+              <a @click="sendApply(projectItem)" :class="['project_infoItem_right_bottom_left_a',(projectItem.State === 5 || projectItem.State === 7 || projectItem.hasApplyed)?'project_infoItem_right_bottom_left_a--disable':'']">
+                {{(projectItem.State === 5 || projectItem.State === 7)?'已完成':(projectItem.hasApplyed?'已投递':'立即投递')}}
+              </a>
             </div>
             <div class="project_infoItem_right_bottom_right">
               已有{{projectItem.Delivery_number}}人投递
@@ -86,7 +88,24 @@ export default {
       sortType: 0,
       isLogin:false,
       userId: null,
-      userType: null
+      userType: null,
+      applyedProjectList:[]
+    }
+  },
+  computed:{
+    projectListShow(){
+      let projectList = this.projectList;
+      let applyedProjectList = this.applyedProjectList;
+      return projectList.map((item) => {
+        item.hasApplyed = false;
+        for(let i = 0; i < applyedProjectList.length; i++){
+          if(applyedProjectList[i].Project_ID === item.Project_ID){
+            item.hasApplyed = true;
+            break;
+          }
+        }
+        return item;
+      })
     }
   },
   mounted(){
@@ -125,6 +144,7 @@ export default {
         this.isLogin = true;
         this.userId = userId;
         this.userType = parseInt(userType);
+        this.getApplyedProjectList();
       }else{
         this.isLogin = false;
         this.userId = null;
@@ -178,9 +198,17 @@ export default {
       })
     },
     editTalentInfo(){
-      this.$router.push({
-        path:'/homePage/editTalentInfo'
-      })
+      if(this.isLogin){
+        if(this.userType === 0){
+          this.$router.push({
+            path:'/homePage/editTalentInfo'
+          })
+        }else if(this.userType === 1){
+          this.$alert('该账号为雇主，请登录设计师账号',{lockScroll:false})
+        }
+      }else{
+        this.$login();
+      }
     },
     search(){
       this.isSearchingText = this.searchText.replace(/(^\s*)|(\s*$)/g,'');
@@ -194,6 +222,38 @@ export default {
     },
     currentPageChange(){
       this.getProjectList();
+    },
+    getApplyedProjectList(){
+      if(this.userType === 0){
+        this.$http.post('/talent/getApplyList', {employeeId:this.userId}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            this.applyedProjectList = result.data;
+          }
+        })
+      }
+    },
+    sendApply(projectItem){
+      if(projectItem.State !== 5 && projectItem.State !== 7 && !projectItem.hasApplyed){
+        if(this.isLogin){
+          if(this.userType === 1){
+            this.$alert('该账号为雇主，请登录设计师账号',{lockScroll:false});
+            return;
+          }
+          this.$http.post('/project/applyProject', {Project_ID:projectItem.Project_ID, Employee_ID:this.userId}).then((res) => {
+            let result = res.data;
+            if(result.success){
+              projectItem.Delivery_number ++; 
+              this.$alert('投递成功',{lockScroll:false});
+              this.getApplyedProjectList();
+            }else{
+              this.$alert(result.msg,{lockScroll:false});
+            }
+          })
+        }else{
+          this.$login();
+        }
+      }
     }
   }
 }

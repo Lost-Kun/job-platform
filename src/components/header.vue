@@ -107,6 +107,9 @@ export default {
           document.cookie = `userId=${this.userId}; expires=${d.toUTCString()}`;
           document.cookie = `userType=${this.userType}; expires=${d.toUTCString()}`;
           window.bus.$emit('checkLogin');
+          this.$router.push({
+            path:'/homePage/index'
+          })
       }).catch(() => {       
       });
     }

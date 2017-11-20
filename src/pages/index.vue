@@ -18,7 +18,7 @@
               </div>
               <div class="mainShowContainer_left_operation">
                 <a class="mainShowContainer_left_operation_button button_full" @click="editProjectInfo">发布任务</a>
-                <a class="mainShowContainer_left_operation_button">寻找兼职</a>
+                <a class="mainShowContainer_left_operation_button" @click="findProjects">寻找兼职</a>
               </div>
             </div>
             <div class="mainShowContainer_right">
@@ -191,11 +191,18 @@ export default {
           src:'../static/images/rocket.jpg',
           name:'Mobie App'
         }
-      ]
+      ],
+      isLogin: false,
+      userId: null,
+      userType: null
     }
   },
   components:{
     myFooter
+  },
+  created(){
+    this.checkLogin();
+    window.bus.$on('checkLogin',this.checkLogin);
   },
   mounted(){
     $('#fullpage').fullpage();
@@ -203,7 +210,31 @@ export default {
   beforeDestroy(){
     $.fn.fullpage.destroy('all');
   },
-  methods:{
+  methods:{//检验用户登录
+    checkLogin(){   
+      let strCookie = document.cookie;
+      let arrCookie = strCookie.split(";");
+      let userId = '';
+      let userType = '';
+      for(let i = 0; i< arrCookie.length; i++){
+        let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+          userId = cookieItemArr[1];
+        }
+        if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+          userType = cookieItemArr[1];
+        }
+      }
+      if(userId !== '' && userType !== ''){
+        this.isLogin = true;
+        this.userId = userId;
+        this.userType = parseInt(userType);
+      }else{
+        this.isLogin = false;
+        this.userId = null;
+        this.userType = null;
+      }
+    },
     whyChooseMouseOver(item){
       item.isHover = true;
     },
@@ -211,8 +242,29 @@ export default {
       item.isHover = false;
     },
     editProjectInfo(){
+      let self = this;
+      if(!self.isLogin){
+        self.$login(() => {
+          self.$nextTick(() => {
+            self.publishProject(self);
+          })
+        });
+      }else{
+        self.publishProject(self);
+      }
+    },
+    publishProject(self){
+      if(self.userType === 0){
+        self.$alert('设计师不能发布任务,请注册雇主账号',{lockScroll:false});
+      }else if(self.userType === 1){
+        self.$router.push({
+          path:'/homePage/editProjectInfo'
+        })
+      }
+    },
+    findProjects(){
       this.$router.push({
-        path:'/homePage/editProjectInfo'
+        path:'/homePage/project'
       })
     }
   }

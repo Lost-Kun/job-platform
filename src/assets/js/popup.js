@@ -232,6 +232,69 @@ export default {
         })
       };
 
+      let orderTemplete = function (self, index, applyItem, callBack) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content">' +
+          '<div class="login_popupBox_content_title" style="color:#000;">预约{{applyItem.Name}}设计师</div>' +
+          '<div class="login_popupBox_content_main">'+
+          '<div class="login_popupBox_content_main_item">' +
+          '<div class="login_popupBox_content_main_item_left">手机号</div>' +
+          '<div class="login_popupBox_content_main_item_right">' +
+          '<input class="login_popupBox_content_main_item_right_input" maxlength="11"/>' +
+          '</div>' +
+          '</div>' +
+          '<div class="login_popupBox_content_main_item">' +
+          '<div class="login_popupBox_content_main_item_left">验证码</div>' +
+          '<div class="login_popupBox_content_main_item_right">' +
+          '<input class="login_popupBox_content_main_item_right_input" maxlength="6"/>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<div class="login_popupBox_content_bottom">' +
+          '<a class="login_popupBox_button">登录</a>' +
+          '</div>'+
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              applyItem
+            }
+          },
+          computed:{
+            messageId(){
+              return 'choose_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+              },300);
+            }
+          }
+        })
+      };
+
       Vue.prototype.$login = function (callBack) {
         let self = this;
         let index = indexAll;
@@ -249,6 +312,19 @@ export default {
         let boxContainer = chooseTemplete(self,index,data,callBack);
         let alterBox = new boxContainer().$mount();
         // $('body').addClass('login_overflow');
+        self.$root.$el.appendChild(alterBox.$el);
+      }
+
+      Vue.prototype.$contactWoker = function () {
+
+      }
+
+      Vue.prototype.$order = function (applyItem, callBack) {//预约设计师
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = orderTemplete(self,index,applyItem,callBack);
+        let alterBox = new boxContainer().$mount();
         self.$root.$el.appendChild(alterBox.$el);
       }
     }
