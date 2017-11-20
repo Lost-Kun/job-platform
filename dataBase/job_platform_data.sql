@@ -26,9 +26,11 @@ CREATE TABLE `apply` (
   `Employee_ID` varchar(255) NOT NULL COMMENT '设计师编号',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Apply_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `apply` */
+
+insert  into `apply`(`Apply_ID`,`Project_ID`,`Employee_ID`,`Riqi`) values (1,3,'1','2017.11.24 12:09:27'),(2,3,'2','2017.10.24 12:09:27');
 
 /*Table structure for table `employee` */
 
@@ -86,7 +88,7 @@ CREATE TABLE `employer` (
 
 /*Data for the table `employer` */
 
-insert  into `employer`(`Employer_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Company`,`Location`,`Company_introduction`,`Riqi`,`Rating`) values ('1',NULL,'雪','张天雪','18332551342','腾讯','深圳','微信\nQQ',NULL,5),('2',NULL,'东','徐向东','18368551342','京东','北京','京东商城',NULL,5);
+insert  into `employer`(`Employer_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Company`,`Location`,`Company_introduction`,`Riqi`,`Rating`) values ('1',NULL,'雪','张天雪','18332551343','腾讯','深圳','微信\nQQ',NULL,5),('2',NULL,'东','徐向东','18368551342','京东','北京','京东商城',NULL,5);
 
 /*Table structure for table `ip` */
 
@@ -111,9 +113,11 @@ CREATE TABLE `log` (
   `Progress` varchar(1000) DEFAULT NULL COMMENT '这条log的详细内容',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Log_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `log` */
+
+insert  into `log`(`Log_ID`,`Project_ID`,`Progress`,`Riqi`) values (1,0,'创建项目','2017.10.11 12:31:00'),(2,0,'框架搭建','2017.10.12 12:31:00');
 
 /*Table structure for table `operating` */
 
@@ -160,7 +164,7 @@ CREATE TABLE `project` (
 
 /*Data for the table `project` */
 
-insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`,`Delivery_number`) values (0,'2017-11-16 10:49:00','境外电商开发','国外实力集团布局新马泰的社交  ＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立',800,20,NULL,NULL,'2','1',NULL,NULL,0,NULL,NULL,0),(1,'2017-11-17 00:49:00','前端网页开发','针对宠物的一款平台项目,使用的技术包括 javascript, vue, iview 等前端技术,项目已经进行大半，目前在页面方面有很大问题，需要技术支持。  ',500,10,NULL,NULL,'1','2',NULL,NULL,0,NULL,NULL,0),(3,'2017-11-19 01:17:01','测试发布','测试发布测试发布测试发布测试发布测试发布测试发布测试发布\n测试发布测试发布测试发布测试发布测试发布测试发布测试发布',1100,54,NULL,NULL,'2',NULL,NULL,NULL,0,NULL,NULL,0);
+insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`,`Delivery_number`) values (0,'2017-11-16 10:49:00','境外电商开发','国外实力集团布局新马泰的社交  ＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立',800,20,NULL,NULL,'1','1',NULL,NULL,2,NULL,NULL,0),(1,'2017-11-17 00:49:00','前端网页开发','针对宠物的一款平台项目,使用的技术包括 javascript, vue, iview 等前端技术,项目已经进行大半，目前在页面方面有很大问题，需要技术支持。  ',500,10,NULL,NULL,'1','1',NULL,NULL,3,NULL,NULL,0),(3,'2017-11-19 01:17:01','测试发布','测试发布测试发布测试发布测试发布测试发布测试发布测试发布\n测试发布测试发布测试发布测试发布测试发布测试发布测试发布',1100,54,NULL,NULL,'1','',NULL,NULL,1,NULL,NULL,0);
 
 /*Table structure for table `rating` */
 

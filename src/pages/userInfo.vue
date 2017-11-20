@@ -69,7 +69,7 @@
                   {{applyItem.Riqi}}
                 </div>
                 <div class="userInfo_otherInfo_order_item_main">
-                  {{applyItem.Name}}设计师已申请了您的项目
+                  {{applyItem.Name}}已申请了您的项目
                 </div>
                 <div class="userInfo_otherInfo_order_item_buttonBox">
                   <a class="userInfo_button userInfo_button_full" @click="orderAtOnce(applyItem)">立即预约</a>
@@ -236,7 +236,7 @@ export default {
       }
     },
     orderAtOnce(orderItem){
-      
+
     }
   }
 }
