@@ -26,11 +26,11 @@ CREATE TABLE `apply` (
   `Employee_ID` varchar(255) NOT NULL COMMENT '设计师编号',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Apply_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `apply` */
 
-insert  into `apply`(`Apply_ID`,`Project_ID`,`Employee_ID`,`Riqi`) values (1,3,'1','2017.11.24 12:09:27'),(2,3,'2','2017.10.24 12:09:27');
+insert  into `apply`(`Apply_ID`,`Project_ID`,`Employee_ID`,`Riqi`) values (1,3,'1','2017.11.24 12:09:27'),(2,3,'2','2017.10.24 12:09:27'),(3,0,'1','2017-11-21 00:11:45'),(4,1,'1','2017-11-21 00:13:42'),(5,4,'1','2017-11-21 00:43:32');
 
 /*Table structure for table `employee` */
 
@@ -66,7 +66,7 @@ CREATE TABLE `employee` (
 
 /*Data for the table `employee` */
 
-insert  into `employee`(`Employee_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Zhifubao`,`Position`,`Wage`,`Job_company`,`Job_position`,`Job_experience`,`Job_city`,`Job_district`,`Edu_school`,`Edu_department`,`Edu_degree`,`Skills`,`Skills_list`,`Projects`,`Projects_list`,`Riqi`,`Ordered_number`,`Rating`,`State`) values ('1',NULL,'洛',NULL,'18332551342',NULL,'前端工程师',1000,'百度','前端工程师',4,'北京','海淀区','北京大学','信息学院','本科','1、精通JS、HTML、CSS\n2、精通Vue、React',NULL,'百度地图',NULL,'2017-11-14 19:15:00',2,5,0),('2',NULL,'夏',NULL,'18410171035',NULL,'算法工程师',1100,'阿里巴巴','算法工程师',6,'上海','黄埔区','复旦大学','信息学院','硕士','1、精通Java\n2、精通算法结构\n3、精通Python',NULL,'淘宝',NULL,'2017-11-14 19:16:00',5,5,1);
+insert  into `employee`(`Employee_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Zhifubao`,`Position`,`Wage`,`Job_company`,`Job_position`,`Job_experience`,`Job_city`,`Job_district`,`Edu_school`,`Edu_department`,`Edu_degree`,`Skills`,`Skills_list`,`Projects`,`Projects_list`,`Riqi`,`Ordered_number`,`Rating`,`State`) values ('1',NULL,'洛',NULL,'18332551342',NULL,'前端工程师',1000,'百度','前端工程师',4,'北京','海淀区','北京大学','信息学院','本科','1、精通JS、HTML、CSS\n2、精通Vue、React',NULL,'百度地图',NULL,'2017-11-14 19:15:00',4,5,1),('2',NULL,'夏',NULL,'18410171035',NULL,'算法工程师',1100,'阿里巴巴','算法工程师',6,'上海','黄埔区','复旦大学','信息学院','硕士','1、精通Java\n2、精通算法结构\n3、精通Python',NULL,'淘宝',NULL,'2017-11-14 19:16:00',7,5,1);
 
 /*Table structure for table `employer` */
 
@@ -113,11 +113,11 @@ CREATE TABLE `log` (
   `Progress` varchar(1000) DEFAULT NULL COMMENT '这条log的详细内容',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Log_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `log` */
 
-insert  into `log`(`Log_ID`,`Project_ID`,`Progress`,`Riqi`) values (1,0,'创建项目','2017.10.11 12:31:00'),(2,0,'框架搭建','2017.10.12 12:31:00');
+insert  into `log`(`Log_ID`,`Project_ID`,`Progress`,`Riqi`) values (1,0,'创建项目','2017.10.11 12:31:00'),(2,0,'框架搭建','2017.10.12 12:31:00'),(3,4,'预约洛设计师成功','2017-11-21 01:44:01'),(6,3,'预约夏设计师成功','2017-11-21 01:58:49');
 
 /*Table structure for table `operating` */
 
@@ -160,11 +160,11 @@ CREATE TABLE `project` (
   `Refund_real` int(11) DEFAULT NULL COMMENT '项目退款金额（实际）',
   `Delivery_number` int(11) DEFAULT '0' COMMENT '投递次数',
   PRIMARY KEY (`Project_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `project` */
 
-insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`,`Delivery_number`) values (0,'2017-11-16 10:49:00','境外电商开发','国外实力集团布局新马泰的社交  ＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立',800,20,NULL,NULL,'1','1',NULL,NULL,2,NULL,NULL,0),(1,'2017-11-17 00:49:00','前端网页开发','针对宠物的一款平台项目,使用的技术包括 javascript, vue, iview 等前端技术,项目已经进行大半，目前在页面方面有很大问题，需要技术支持。  ',500,10,NULL,NULL,'1','1',NULL,NULL,3,NULL,NULL,0),(3,'2017-11-19 01:17:01','测试发布','测试发布测试发布测试发布测试发布测试发布测试发布测试发布\n测试发布测试发布测试发布测试发布测试发布测试发布测试发布',1100,54,NULL,NULL,'1','',NULL,NULL,1,NULL,NULL,0);
+insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`,`Delivery_number`) values (0,'2017-11-16 10:49:00','境外电商开发','国外实力集团布局新马泰的社交  ＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立',800,20,NULL,NULL,'1','1',NULL,NULL,2,NULL,NULL,1),(1,'2017-11-17 00:49:00','前端网页开发','针对宠物的一款平台项目,使用的技术包括 javascript, vue, iview 等前端技术,项目已经进行大半，目前在页面方面有很大问题，需要技术支持。  ',500,10,NULL,NULL,'1','1',NULL,NULL,3,NULL,NULL,1),(3,'2017-11-19 01:17:01','测试发布','测试发布测试发布测试发布测试发布测试发布测试发布测试发布\n测试发布测试发布测试发布测试发布测试发布测试发布测试发布',1100,54,NULL,NULL,'1','2',NULL,NULL,1,NULL,NULL,2),(4,'2017-11-21 00:24:29','测试发布需求2','测试发布需求2\n测试发布需求2\n测试发布需求2\n测试发布需求2\n测试发布需求2\n测试发布需求2',1000,6,NULL,NULL,'1','1',NULL,NULL,2,NULL,NULL,1);
 
 /*Table structure for table `rating` */
 
