@@ -1,5 +1,3 @@
-import { type } from "os";
-
 
 export default {
     install(Vue, options) {
@@ -72,7 +70,7 @@ export default {
                 let Mobile = this.Mobile.replace(/(^\s*)|(\s*$)/g,'');
                 let reg = /^1\d{10}$/;
                 if(Mobile === '' || !reg.test(Mobile)){
-                  this.$alert('请填写正确的手机号');
+                  this.$alert('请填写正确的手机号',{lockScroll:false});
                   return;
                 }
                 this.startCountDown();
@@ -82,10 +80,10 @@ export default {
                 this.$http.post('/sys/getVerificationCode', param).then((res) => {
                   let result = res.data;
                   if(!result.success){
-                    this.$alert(result.msg);
+                    this.$alert(result.msg,{lockScroll:false});
                   }
                }).catch((err) => {
-                 this.$alert(err.message);
+                 this.$alert(err.message,{lockScroll:false});
                })
               }
             },
@@ -111,7 +109,7 @@ export default {
               let messageBoxDom = document.getElementById(this.messageId);
               setTimeout(function () {
                 self.$root.$el.removeChild(messageBoxDom);
-                $('body').removeClass('login_overflow');
+                // $('body').removeClass('login_overflow');
               },300);
             },
             loginWex(){
@@ -121,12 +119,12 @@ export default {
               let Mobile = this.Mobile.replace(/(^\s*)|(\s*$)/g,'');
               let reg = /^1\d{10}$/;
               if(Mobile === '' || !reg.test(Mobile)){
-                this.$alert('请填写正确的手机号');
+                this.$alert('请填写正确的手机号',{lockScroll:false});
                 return;
               }
               let Code = this.Code.replace(/(^\s*)|(\s*$)/g,'');
               if(Code === ''){
-                this.$alert('请输入验证码');
+                this.$alert('请输入验证码',{lockScroll:false});
                 return;
               }
               let param = {
@@ -152,10 +150,10 @@ export default {
                     }
                   }
                 }else{
-                  this.$alert(result.msg);
+                  this.$alert(result.msg,{lockScroll:false});
                 }
              }).catch((err) => {
-               this.$alert(err.message);
+               this.$alert(err.message,{lockScroll:false});
              })
             }
           }
@@ -208,7 +206,7 @@ export default {
               let messageBoxDom = document.getElementById(this.messageId);
               setTimeout(function () {
                 self.$root.$el.removeChild(messageBoxDom);
-                $('body').removeClass('login_overflow');
+                // $('body').removeClass('login_overflow');
               },300);
             },
             addUser(userType){
@@ -224,10 +222,10 @@ export default {
                       callBack();
                     }
                 }else{
-                  this.$alert(result.msg);
+                  this.$alert(result.msg,{lockScroll:false});
                 }
               }).catch((err) => {
-               this.$alert(err.message);
+               this.$alert(err.message,{lockScroll:false});
              })
             }
           }
@@ -240,7 +238,7 @@ export default {
         indexAll = indexAll+2;
         let boxContainer = loginTemplete(self,index,callBack);
         let alterBox = new boxContainer().$mount();
-        $('body').addClass('login_overflow');
+        // $('body').addClass('login_overflow');
         self.$root.$el.appendChild(alterBox.$el);
       }
 
@@ -250,7 +248,7 @@ export default {
         indexAll = indexAll+2;
         let boxContainer = chooseTemplete(self,index,data,callBack);
         let alterBox = new boxContainer().$mount();
-        $('body').addClass('login_overflow');
+        // $('body').addClass('login_overflow');
         self.$root.$el.appendChild(alterBox.$el);
       }
     }

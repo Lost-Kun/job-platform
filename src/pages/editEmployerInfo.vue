@@ -123,18 +123,18 @@ export default {
 		saveEmployerInfo(){			
 			let Name = this.Name.replace(/(^\s*)|(\s*$)/g,'');
 			if(Name === ''){
-				this.$alert('请填写昵称');
+				this.$alert('请填写昵称',{lockScroll:false});
 				return;
 			}			
 			let Name_real = this.Name_real.replace(/(^\s*)|(\s*$)/g,'');
 			if(Name_real === ''){
-				this.$alert('请填写姓名');
+				this.$alert('请填写姓名',{lockScroll:false});
 				return;
 			}
 			let Mobile = this.Mobile.replace(/(^\s*)|(\s*$)/g,'');
 			let reg = /^1\d{10}$/;
 			if(Mobile === '' || !reg.test(Mobile)){
-				this.$alert('请填写正确的手机号');
+				this.$alert('请填写正确的手机号',{lockScroll:false});
 				return;
 			}
 			let param = {
@@ -149,12 +149,12 @@ export default {
 			this.$http.post('/employer/editEmployerInfo', param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
-					 this.$alert('保存成功');
+					 this.$alert('保存成功',{lockScroll:false});
 				 }else{
-					 this.$alert(result.msg);
+					 this.$alert(result.msg,{lockScroll:false});
 				 }
 			}).catch((err) => {
-				this.$alert(err.message);
+				this.$alert(err.message,{lockScroll:false});
 			})
 		}
 	}

@@ -129,7 +129,7 @@ export default {
 				let Mobile = this.Employer_mobile.replace(/(^\s*)|(\s*$)/g,'');
                 let reg = /^1\d{10}$/;
                 if(Mobile === '' || !reg.test(Mobile)){
-                  this.$alert('请填写正确的手机号');
+                  this.$alert('请填写正确的手机号',{lockScroll:false});
                   return;
                 }
                 this.startCountDown();
@@ -139,10 +139,10 @@ export default {
                 this.$http.post('/sys/getVerificationCode', param).then((res) => {
                   let result = res.data;
                   if(!result.success){
-                    this.$alert(result.msg);
+                    this.$alert(result.msg,{lockScroll:false});
                   }
                }).catch((err) => {
-                 this.$alert(err.message);
+                 this.$alert(err.message,{lockScroll:false});
                })
 			}
 		},
@@ -174,32 +174,32 @@ export default {
 			let Employer_name = this.Employer_name;
 			let Employer_mobile = this.Employer_mobile;
 			if(Employer_name === '' || Employer_name === ''){
-				this.$alert('个人信息不完善，无法发布需求');
+				this.$alert('个人信息不完善，无法发布需求',{lockScroll:false});
 				return;
 			}
 			let Name = this.Name.replace(/(^\s*)|(\s*$)/g,'');
 			if(Name === ''){
-				this.$alert('请填写项目需求');
+				this.$alert('请填写项目需求',{lockScroll:false});
 				return;
 			}
 			let Desp = this.Desp.replace(/(^\s*)|(\s*$)/g,'');
 			if(Desp === '' || Desp.length < 30){
-				this.$alert('具体描述不能少于30字');
+				this.$alert('具体描述不能少于30字',{lockScroll:false});
 				return;
 			}
 			let Wage = this.Wage;
 			if(Wage === null){
-				this.$alert('请选择项目日薪');
+				this.$alert('请选择项目日薪',{lockScroll:false});
 				return;
 			}
 			let Length = this.Length;
 			if(Length === null){
-				this.$alert('请选择项目工时');
+				this.$alert('请选择项目工时',{lockScroll:false});
 				return;
 			}
 			let verificationCode = this.verificationCode.replace(/(^\s*)|(\s*$)/g,'');
 			if(verificationCode === ''){
-				this.$alert('请输入验证码');
+				this.$alert('请输入验证码',{lockScroll:false});
 				return;
 			}
 			let param = {
@@ -215,12 +215,12 @@ export default {
 				 let result = res.data;
 				 if(result.success){
 					 this.clearPage();
-					 this.$alert('发布成功');
+					 this.$alert('发布成功',{lockScroll:false});
 				 }else{
-					 this.$alert(result.msg);
+					 this.$alert(result.msg,{lockScroll:false});
 				 }
 			}).catch((err) => {
-				this.$alert(err.message);
+				this.$alert(err.message,{lockScroll:false});
 			})
 		}
 	}

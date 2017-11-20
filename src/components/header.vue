@@ -99,7 +99,8 @@ export default {
       this.$confirm('是否确认退出?', '', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        lockScroll:false
       }).then(() => {
           let d = new Date();  
           d.setTime(d.getTime() + (-1*24*60*60*1000));

@@ -304,38 +304,38 @@ export default {
 		saveTalentInfo(){
 			let Name = this.Name.replace(/(^\s*)|(\s*$)/g,'');
 			if(Name === ''){
-				this.$alert('请填写昵称');
+				this.$alert('请填写昵称',{lockScroll:false});
 				return;
 			}
 			let Mobile = this.Mobile.replace(/(^\s*)|(\s*$)/g,'');
 			let reg = /^1\d{10}$/;
 			if(Mobile === '' || !reg.test(Mobile)){
-				this.$alert('请填写正确的手机号');
+				this.$alert('请填写正确的手机号',{lockScroll:false});
 				return;
 			}
 			let Position = this.Position;
 			if(Position === null){
-				this.$alert('请选择兼职岗位');
+				this.$alert('请选择兼职岗位',{lockScroll:false});
 				return;
 			}
 			let Wage = this.Wage;
 			if(Wage === null){
-				this.$alert('请选择兼职日薪');
+				this.$alert('请选择兼职日薪',{lockScroll:false});
 				return;
 			}
 			let Job_company = this.Job_company.replace(/(^\s*)|(\s*$)/g,'');
 			if(Job_company === ''){
-				this.$alert('请填写工作单位');
+				this.$alert('请填写工作单位',{lockScroll:false});
 				return;
 			}
 			let Job_position = this.Job_position.replace(/(^\s*)|(\s*$)/g,'');
 			if(Job_position === ''){
-				this.$alert('请填写工作职位');
+				this.$alert('请填写工作职位',{lockScroll:false});
 				return;
 			}
 			let Job_experience = this.Job_experience;
 			if(Job_experience === null){
-				this.$alert('请选择工作经验');
+				this.$alert('请选择工作经验',{lockScroll:false});
 				return;
 			}
 			let param = {
@@ -359,12 +359,12 @@ export default {
 			this.$http.post('/talent/editTalentInfo', param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
-					 this.$alert('保存成功');
+					 this.$alert('保存成功',{lockScroll:false});
 				 }else{
-					 this.$alert(result.msg);
+					 this.$alert(result.msg,{lockScroll:false});
 				 }
 			}).catch((err) => {
-				this.$alert(err.message);
+				this.$alert(err.message,{lockScroll:false});
 			})
 		}
 	}

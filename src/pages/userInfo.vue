@@ -45,46 +45,44 @@
         </ul>
       </div>
       <div class="userInfo_otherInfo_showBox">
-        <!-- <div class="userInfo_otherInfo_orderItem">
-          <div class="userInfo_otherInfo_orderItem_titleBox">
-          </div>
-          <div class="userInfo_otherInfo_orderItem_contentBox">
-            <div class="userInfo_otherInfo_orderItem_contentBox_item">
-              <div class="userInfo_otherInfo_orderItem_contentBox_item_left">
-              </div>
-              <div class="userInfo_otherInfo_orderItem_contentBox_item_center">
-              </div>
-              <div class="userInfo_otherInfo_orderItem_contentBox_item_right">
-              </div>
-            </div>
-          </div>
-        </div> -->
         <el-collapse v-model="selectOrderIndex" @change="showOrderdetail"  accordion>
-          <el-collapse-item v-for="(item, index) in orderList" :name="index+''">
+          <el-collapse-item v-for="(item, index) in orderList" :name="index+''" :key="'order'+index">
             <template slot="title">
               <div class="userInfo_otherInfo_order_name">项目名称：{{item.Name}}</div>
-              <div class="userInfo_otherInfo_order_state">（需求对接阶段）</div>
+              <div class="userInfo_otherInfo_order_state">（{{getOrderStateText(item.State)}}）</div>
               <div class="userInfo_otherInfo_order_toolBox">
-                <a class="userInfo_button">沟通需求</a>
+                <a class="userInfo_button" v-show="item.State === 1 && userType === 1">沟通需求</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 0" @click.stop="showOrderdetail">新增工作记录</a>
+                <a class="userInfo_button" v-show="item.State === 2 && userType === 0">申请完工</a>
+                <a class="userInfo_button" v-show="item.State === 2 && userType === 1">延长预约</a>
+                <a class="userInfo_button" v-show="(item.State === 2 || item.State === 3) && userType === 1">申请退款</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 3 && userType === 1">确认完工</a>
+                <a class="userInfo_button" v-show="item.State === 3 && userType === 1">驳回完工</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 4 && userType === 0">确认退款</a>
+                <a class="userInfo_button" v-show="item.State === 4 && userType === 0">驳回退款</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 6">前去评价</a>
               </div>
             </template>
-            <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 0">
-              <div class="userInfo_otherInfo_order_item">
+            <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 1">
+              <div class="userInfo_otherInfo_order_item" v-for="applyItem in item.applyList">
                 <div class="userInfo_otherInfo_order_item_time">
-                  2017-11-24 11:32:15
+                  {{applyItem.Riqi}}
                 </div>
                 <div class="userInfo_otherInfo_order_item_main">
-                  XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,
+                  {{applyItem.Name}}设计师已申请了您的项目
                 </div>
                 <div class="userInfo_otherInfo_order_item_buttonBox">
-                  <a class="userInfo_button userInfo_button_full">立即预约</a>
+                  <a class="userInfo_button userInfo_button_full" @click="orderAtOnce(applyItem)">立即预约</a>
                 </div>
               </div>
             </div>
             <div class="userInfo_otherInfo_order_logBox" v-else>
-              <div class="userInfo_otherInfo_order_item">
+              <div class="userInfo_otherInfo_order_item" v-for="logItem in item.logList">
+                <div class="userInfo_otherInfo_order_item_time">
+                  {{logItem.Riqi}}
+                </div>
                 <div class="userInfo_otherInfo_order_item_main" style="right:10px;">
-                  XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,XXXXXXXXX投递了,
+                  {{logItem.Progress}}
                 </div>
               </div>
             </div>
@@ -183,14 +181,62 @@ export default {
       this.$http.post(url, param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
-           this.orderList = result.data;
+           this.orderList = result.data.map((item) => {
+             item.applyList = [];
+             item.logList = [];
+             return item;
+           });
+           this.showOrderdetail(this.selectOrderIndex);
 				 }
 			})
     },
+    getOrderStateText(State){
+      if(State === 1){
+        return '需求对接阶段';
+      }
+      if(State === 2){
+        return '项目实施阶段';
+      }
+      if(State === 3){
+        return '申请完工阶段';
+      }
+      if(State === 4){
+        return '申请退款阶段';
+      }
+      if(State === 5){
+        return '评价反馈阶段';
+      }
+      if(State === 6){
+        return '平台处理争端阶段';
+      }
+      if(State === 7){
+        return '已评价阶段';
+      }
+      return '';
+    },
     showOrderdetail(selectOrderIndex){
       if(selectOrderIndex !== undefined && selectOrderIndex !== ''){
-
+        let index = parseInt(selectOrderIndex);
+        let selectedOrder = this.orderList[index];
+        if(selectedOrder.State === 1){//需求对接阶段，获取申请列表
+          this.$http.post('/project/getApplyList', {Project_ID:selectedOrder.Project_ID}).then((res) => {
+				    let result = res.data;
+				    if(result.success){
+              selectedOrder.applyList = result.data;
+				    }
+			    })
+        }else{//获取项目日志
+          this.$http.post('/project/getLogList', {Project_ID:selectedOrder.Project_ID}).then((res) => {
+				    let result = res.data;
+				    if(result.success){
+              selectedOrder.logList = result.data;
+				    }
+			    })
+        }
       }
+    },
+    orderAtOnce(orderItem){
+      
     }
   }
 }
