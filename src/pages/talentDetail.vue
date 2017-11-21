@@ -4,7 +4,7 @@
 			<div class="talentDetail_basicInfo_left">
 				<div class="talentDetail_basicInfo_left_top">
 					<div class="talentDetail_basicInfo_left_iconBox">
-						<img class="talentDetail_basicInfo_left_iconImg" :src="talentInfo.HeadImageUrl||defultHeadImage"/>
+						<img class="talentDetail_basicInfo_left_iconImg" :src="talentInfo.HeadImgUrl||defultHeadImage"/>
 					</div>
 				</div>
 				<div class="talentDetail_basicInfo_left_bottom">
@@ -32,18 +32,15 @@
 				</div>
 				<div class="talentDetail_basicInfo_center_partTimePosition">
 					<div class="talentDetail_basicInfo_center_partTimePosition_item">
-						运营
-					</div>
-					<div class="talentDetail_basicInfo_center_partTimePosition_item">
-						新媒体运营
+						{{talentInfo.Position}}
 					</div>
 				</div>
 			</div>
 			<div class="talentDetail_basicInfo_right">
 				<div class="talentDetail_basicInfo_right_item">日薪：{{talentInfo.Wage}}元/天&nbsp;&nbsp;</div>
 				<div class="talentDetail_basicInfo_right_item" style="margin-top:10px;">
-					<a class="talentDetail_basicInfo_right_button">联系专家</a>
-					<a class="talentDetail_basicInfo_right_button talentDetail_button_full">下单预约</a>
+					<a class="talentDetail_basicInfo_right_button" @click="contactWorker">联系专家</a>
+					<a @click="orderTalent(talentInfo)" :class="['talentDetail_basicInfo_right_button','talentDetail_button_full',talentInfo.State === 1?'talentDetail_button--disable':'']">{{talentInfo.State === 1?'已被预约':'下单预约'}}</a>
 				</div>
 			</div>
 		</div>
@@ -62,7 +59,7 @@
 					<div class="talentDetail_detailedInfo_rate_item" v-for="rateItem in rateList">
 						<div class="talentDetail_detailedInfo_rate_item_left">
 							<div class="talentDetail_detailedInfo_rate_item_left_icon">
-								<img class="talentDetail_detailedInfo_rate_item_left_iconImg" :src="rateItem.HeadImageUrl"/>
+								<img class="talentDetail_detailedInfo_rate_item_left_iconImg" :src="rateItem.HeadImgUrl||defultHeadImage"/>
 							</div>
 						</div>
 						<div class="talentDetail_detailedInfo_rate_item_center">
@@ -100,42 +97,44 @@ export default {
 			return{
 				talentId: null,
 				defultHeadImage:'../static/images/defaultHeadImg.jpg',
-				talentInfo:{
-					Name:'',
-					HeadImageUrl: null,
-					Job_company:'',
-					Job_position:'',
-					Job_experience:1,
-					Ordered_number:0,
-					Rating:5,
-					Wage:500,
-					Skills:'',
-					Projects:''
-				},
+				talentInfo:{},
 				rateNumber:0,
-				rateList:[
-					{
-						Name:'陈妍希',
-						HeadImageUrl:'../static/images/baima.jpg',
-						Comment:'积极、主动、负责，确保项目顺利完成',
-						Rating: 3.2,
-						Riqi:'2017-08-11 12:32:16'
-					},
-					{
-						Name:'陈妍希',
-						HeadImageUrl:'../static/images/baima.jpg',
-						Comment:'积极、主动、负责，确保项目顺利完成',
-						Rating: 4.8,
-						Riqi:'2017-08-11 12:32:16'
-					}
-				]
+				rateList:[],
+      			isLogin:false,
+				userType: null
 			}
 	},
 	created(){
 		this.talentId = this.$route.query.id;
+    	this.checkLogin();
+   	    window.bus.$on('checkLogin',this.checkLogin);
 		this.getTalentInfo();
+		this.getRatingList();
 	},
 	methods:{
+		//检验用户登录
+		checkLogin(){   
+			let strCookie = document.cookie;
+			let arrCookie = strCookie.split(";");
+			let userId = '';
+			let userType = '';
+			for(let i = 0; i< arrCookie.length; i++){
+				let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+				userId = cookieItemArr[1];
+				}
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+				userType = cookieItemArr[1];
+				}
+			}
+			if(userId !== '' && userType !== ''){
+				this.isLogin = true;
+				this.userType = parseInt(userType);
+			}else{
+				this.isLogin = false;
+				this.userType = null;
+			}
+		},
 		getTalentInfo(){
 			this.$http.post('/talent/getEmployeeInfo',{employeeId: this.talentId}).then((res) => {
 				let result = res.data;
@@ -145,6 +144,35 @@ export default {
 					this.talentInfo.Projects = result.data.Projects.replace(/\n/g,'<br>');
 				}
 			})
+		},
+		getRatingList(){
+			this.$http.post('/talent/getRatingList',{employeeId: this.talentId}).then((res) => {
+				let result = res.data;
+				if(result.success){
+					this.rateList = result.data;
+				}
+			})
+		},
+		contactWorker(){
+			this.$contactWoker();
+		},
+		orderTalent(talentInfo){
+			if(talentInfo.State === 0){
+				if(this.isLogin){
+					if(this.userType === 0){
+						this.$alert('该账号为设计师，请登录雇主账号',{lockScroll:false});
+						return;
+					}
+					this.$router.push({
+						path:'/homePage/editProjectInfo',
+						query:{
+						id:talentInfo.Employee_ID
+						}
+          			});
+				}else{
+					this.$login();
+				}
+			}
 		}
 	}
 }
@@ -329,6 +357,18 @@ export default {
   color: #ffffff;
   background-color: #50A5F5;
   border: 1px solid #50A5F5;
+}
+
+.talentDetail_button--disable{
+  border: 1px solid #D5D5D5;
+  background-color: #D5D5D5;
+  color: #ffffff;
+}
+
+.talentDetail_button--disable:hover{
+  border: 1px solid #D5D5D5;
+  background-color: #D5D5D5;
+  color: #ffffff;
 }
 
 .talentDetail_detailedInfo{

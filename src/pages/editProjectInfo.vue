@@ -1,6 +1,6 @@
 <template>
   <div class="editProjectInfo">
-		<div class="editProjectInfo_item editProjectInfo_spacing">
+		<div class="editProjectInfo_item editProjectInfo_spacing" v-show="!isOrder">
 			{{promptInfo}}
 		</div>
 		<div class="editProjectInfo_item editProjectInfo_spacing">
@@ -13,6 +13,14 @@
 			<div class="editProjectInfo_item_left editProjectInfo_required">具体描述</div>
 			<div class="editProjectInfo_item_right">
 				<el-input v-model="Desp" type="textarea" style="width:90%;margin-top:8px;" :rows="6" placeholder="请输入内容"></el-input>
+			</div>
+		</div>
+		<div class="editProjectInfo_item editProjectInfo_spacing" v-show="isOrder">
+			<div class="editProjectInfo_itemHalf">
+				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">预约人才</div>
+				<div class="editProjectInfo_itemHalf_right">
+					<el-input v-model="talentInfo.Name" style="width:76%" size="small" :readonly="true"></el-input>
+				</div>
 			</div>
 		</div>
 		<div class="editProjectInfo_item editProjectInfo_spacing">
@@ -59,7 +67,7 @@
 			</div>
 		</div>
 		<div class="editProjectInfo_submitBox editProjectInfo_spacing">
-			<a class="editProjectInfo_submitBox_button" @click="addProject">发布需求</a>
+			<a class="editProjectInfo_submitBox_button" @click="addProject">{{this.isOrder?'立即预约':'发布需求'}}</a>
 		</div>
   </div>
 </template>
@@ -72,17 +80,28 @@ export default {
 			WageList: Array.apply(null, { length: 16 }).map((item, index) => {return 500+index*100}),
 			countDownFlag: false,
 			countDown: 60,
-			Employer_ID: '1',
+			Employer_ID: null,
 			Name:'',
 			Desp:'',
 			Wage:null,
 			Length:null,
 			Employer_name:'',
 			Employer_mobile:'',
-			verificationCode:''
+			verificationCode:'',
+			isOrder:false,
+			Employee_ID: null,
+			talentInfo:{}
 		}
 	},
 	created(){
+		if(this.$route.query.hasOwnProperty('id')){
+			this.isOrder = true;
+			this.Employee_ID = this.$route.query.id;
+			this.getTalentInfo();
+		}else{
+			this.isOrder = false;
+			this.Employee_ID = null;
+		}
     	this.checkLogin();
     	window.bus.$on('checkLogin',this.checkLogin);
 	},
@@ -114,6 +133,15 @@ export default {
 				this.Employer_name = '';
 				this.Employer_mobile = '';
 			}
+		},
+		getTalentInfo(){
+			this.$http.post('/talent/getEmployeeInfo',{employeeId: this.Employee_ID}).then((res) => {
+				let result = res.data;
+				if(result.success){
+					this.talentInfo = result.data;
+					this.Wage = result.data.Wage;
+				}
+			})
 		},
 		getEmployerInfo(){
 			this.$http.post('/employer/getSelfInfo',{employerId: this.Employer_ID}).then((res) => {
@@ -209,13 +237,22 @@ export default {
 				Wage,
 				Length,
 				Employer_mobile,
-				verificationCode
+				verificationCode,
+				type:'publish'
+			}
+
+			if(this.isOrder){
+				param.Employee_ID = this.Employee_ID;
+				param.type = 'order';
 			}
 			this.$http.post('/project/addProject', param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
-					 this.clearPage();
-					 this.$alert('发布成功',{lockScroll:false});
+					 let msg = param.type === 'publish'?'发布成功':'预约成功'
+					 this.$alert(msg,{lockScroll:false});
+					 this.$router.push({
+						path:'/homePage/userInfo'
+					 })
 				 }else{
 					 this.$alert(result.msg,{lockScroll:false});
 				 }

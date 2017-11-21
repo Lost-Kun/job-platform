@@ -3,7 +3,7 @@
     <div class="talent_searchBox"> 
       <input class="talent_searchBox_input" v-model="searchText"/>
       <a class="talent_searchBox_search" @click="search">搜索</a>
-      <a class="talent_searchBox_contactWoker">联系专员为您推荐</a>
+      <a class="talent_searchBox_contactWoker" @click="contactWorker">联系专员为您推荐</a>
     </div>
     <div class="talent_sortBox">
       <div class="talent_sortBox_item">
@@ -61,7 +61,7 @@
         <div class="talent_infoItem_right">
           <div class="talent_infoItem_right_item">{{item.Wage}}/天</div>
           <div class="talent_infoItem_right_item">   
-            <a :class="['talent_infoItem_right_order',item.State === 1?'talent_infoItem_right_order--disable':'']">{{item.State === 1?'已被预约':'立即预约'}}</a>
+            <a @click="orderTalent(item)" :class="['talent_infoItem_right_order',item.State === 1?'talent_infoItem_right_order--disable':'']">{{item.State === 1?'已被预约':'立即预约'}}</a>
           </div>
         </div>
       </div> 
@@ -88,13 +88,40 @@ export default {
       total: 0,
       searchText:'',
       isSearchingText:'',
-      sortType: 0
+      sortType: 0,
+      isLogin:false,
+			userType: null
     }
   },
   created(){
     this.getTalentList();
+    this.checkLogin();
+   	window.bus.$on('checkLogin',this.checkLogin);
   },
   methods:{
+		//检验用户登录
+		checkLogin(){   
+			let strCookie = document.cookie;
+			let arrCookie = strCookie.split(";");
+			let userId = '';
+			let userType = '';
+			for(let i = 0; i< arrCookie.length; i++){
+				let cookieItemArr = arrCookie[i].replace(/(^\s*)|(\s*$)/g,'').split('=');
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userId'){
+				userId = cookieItemArr[1];
+				}
+				if(cookieItemArr[0] && cookieItemArr[0] === 'userType'){
+				userType = cookieItemArr[1];
+				}
+			}
+			if(userId !== '' && userType !== ''){
+				this.isLogin = true;
+				this.userType = parseInt(userType);
+			}else{
+				this.isLogin = false;
+				this.userType = null;
+			}
+		},
     enterTalentDetail(talentItem){
       this.$router.push({
         path:'/homePage/talentDetail',
@@ -130,7 +157,28 @@ export default {
     },
     currentPageChange(){
       this.getTalentList();
-    }
+    },
+		contactWorker(){
+			this.$contactWoker();
+		},
+		orderTalent(talentInfo){
+			if(talentInfo.State === 0){
+				if(this.isLogin){
+					if(this.userType === 0){
+						this.$alert('该账号为设计师，请登录雇主账号',{lockScroll:false});
+						return;
+					}
+					this.$router.push({
+            path:'/homePage/editProjectInfo',
+            query:{
+              id:talentInfo.Employee_ID
+            }
+          });
+				}else{
+					this.$login();
+				}
+			}
+		}
   }
 }
 </script>

@@ -23,7 +23,7 @@ export default {
 			this.$router.push('/homePage/project');
 		},
 		contactWorker(){
-
+			this.$contactWoker();
 		}
 	}
 }

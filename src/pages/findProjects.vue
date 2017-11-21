@@ -89,7 +89,8 @@ export default {
       isLogin:false,
       userId: null,
       userType: null,
-      applyedProjectList:[]
+      applyedProjectList:[],
+			talentInfo:{}
     }
   },
   computed:{
@@ -145,12 +146,23 @@ export default {
         this.userId = userId;
         this.userType = parseInt(userType);
         this.getApplyedProjectList();
+				if(this.userType === 0){
+					this.getTalentInfo();
+				}
       }else{
         this.isLogin = false;
         this.userId = null;
         this.userType = null;
       }
     },
+		getTalentInfo(){
+			this.$http.post('/talent/getEmployeeInfo',{employeeId: this.userId}).then((res) => {
+				let result = res.data;
+				if(result.success){
+					this.talentInfo = result.data;
+				}
+			})
+		},
     getProjectList(){
       let param = {
         searchText: this.isSearchingText,
@@ -240,6 +252,10 @@ export default {
             this.$alert('该账号为雇主，请登录设计师账号',{lockScroll:false});
             return;
           }
+					if(this.talentInfo.Name === null || this.talentInfo.Mobile === null){
+            this.$alert('请编辑简历，完成个人信息注册',{lockScroll:false});
+            return;
+					}
           this.$http.post('/project/applyProject', {Project_ID:projectItem.Project_ID, Employee_ID:this.userId}).then((res) => {
             let result = res.data;
             if(result.success){

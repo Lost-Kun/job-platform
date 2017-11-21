@@ -232,6 +232,55 @@ export default {
         })
       };
 
+      let contactWokerTemplete = function (self, index) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox_woker" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content" style="bottom:0;">' +
+          '<div class="login_popupBox_content_title" style="color:#000;height:20px;line-height:20px;">联系专员</div>' +
+          '<div class="login_popupBox_content_picture">' +
+          '<img class="login_popupBox_img" :src="workerPicture" />'+
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              workerPicture:'./static/images/workerWex.jpg'
+            }
+          },
+          computed:{
+            messageId(){
+              return 'contactWoker_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+              },300);
+            }
+          }
+        })
+      };
+
       let orderTemplete = function (self, index, applyItem, callBack) {
         return Vue.extend({
           template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
@@ -247,7 +296,7 @@ export default {
           '<div class="login_popupBox_content_main">'+
           '<div class="login_popupBox_content_main_item">' +
           '<div class="login_popupBox_content_main_item_left">项目日薪</div>' +
-          '<div class="login_popupBox_content_main_item_right" style="width:75%;margin-left:3%;">' +
+          '<div class="login_popupBox_content_main_item_right_select" style="width:75%;margin-left:3%;">' +
 					'<el-select v-model="Wage" placeholder="请选择" style="width:90%;" size="small">'+
           '<el-option v-for="item in WageList" :label="item+\'元/天\'" :value="item"></el-option>'+
           '</el-select>'+
@@ -255,7 +304,7 @@ export default {
           '</div>' +
           '<div class="login_popupBox_content_main_item">' +
           '<div class="login_popupBox_content_main_item_left">项目工时</div>' +
-          '<div class="login_popupBox_content_main_item_right" style="width:75%;margin-left:3%;">' +
+          '<div class="login_popupBox_content_main_item_right_select" style="width:75%;margin-left:3%;">' +
 					'<el-select v-model="Length" placeholder="请选择" style="width:90%;" size="small">'+
           '<el-option v-for="item in 90" :label="item+\'天\'" :value="item"></el-option>'+
           '</el-select>'+
@@ -318,7 +367,9 @@ export default {
                 if(result.success){
                   this.$alert('预约成功',{lockScroll:false});
                   this.closeBox();
-                  callBack();
+                  if(typeof callBack === 'function'){
+                    callBack();
+                  }
                 }else{
                   this.$alert(result.msg,{lockScroll:false});
                 }
@@ -397,7 +448,9 @@ export default {
                 if(result.success){
                   this.$alert('添加成功',{lockScroll:false});
                   this.closeBox();
-                  callBack();
+                  if(typeof callBack === 'function'){
+                    callBack();
+                  }
                 }else{
                   this.$alert(result.msg,{lockScroll:false});
                 }
@@ -409,7 +462,189 @@ export default {
         })
       };
 
-      Vue.prototype.$login = function (callBack) {
+      let extendOrderTemplete = function (self, index, orderItem, callBack) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content">' +
+          '<div class="login_popupBox_content_title" style="color:#000;">延长预约</div>' +
+          '<div class="login_popupBox_content_main">'+
+          '<div class="login_popupBox_content_main_item" style="margin-top:25px;">' +
+          '<div class="login_popupBox_content_main_item_left">延长工时</div>' +
+          '<div class="login_popupBox_content_main_item_right_select" style="width:75%;margin-left:3%;">' +
+					'<el-select v-model="Length" placeholder="请选择" style="width:90%;" size="small">'+
+          '<el-option v-for="item in 90" :label="item+\'天\'" :value="item"></el-option>'+
+          '</el-select>'+
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<div class="login_popupBox_content_bottom">' +
+          '<a class="login_popupBox_button" @click="extendOrder">延长预约</a>' +
+          '</div>'+
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              orderItem,
+              Length:null
+            }
+          },
+          computed:{
+            messageId(){
+              return 'extendOrder_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+              },300);
+            },
+            extendOrder(){
+              if(this.Length === null){
+                this.$alert('请选择延长工时',{lockScroll:false});
+                return;
+              }
+              let param = {
+                Length:this.Length,
+                Project_ID:this.orderItem.Project_ID
+              }
+              this.$http.post('/project/extendOrder', param).then((res) => {
+                let result = res.data;
+                if(result.success){
+                  this.$alert('延长预约成功',{lockScroll:false});
+                  this.closeBox();
+                  if(typeof callBack === 'function'){
+                    callBack();
+                  }
+                }else{
+                  this.$alert(result.msg,{lockScroll:false});
+                }
+              }).catch((e)=>{
+                  this.$alert(e.message,{lockScroll:false});
+              })
+            }
+          }
+        })
+      };
+
+      let evaluateTemplete = function (self, index, orderItem, userType, callBack) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content">' +
+          '<div class="login_popupBox_content_title" style="color:#000;">评价{{userType === 0 ?"设计师":"雇主"}}</div>' +
+          '<div class="login_popupBox_content_main">'+
+          '<div class="login_popupBox_content_main_item" style="margin-top:5px;">' +
+          '<div class="login_popupBox_content_main_item_left">请您打分</div>' +
+          '<div class="login_popupBox_content_main_item_right" style="width:75%;margin-left:3%;">' +
+          '<el-rate v-model="Rating"></el-rate>' +
+          '</div>' +
+          '</div>' +
+          '<div class="login_popupBox_content_main_item" style="margin-top:5px;height:60px;">' +
+          '<div class="login_popupBox_content_main_item_left">评价内容</div>' +
+          '<div class="login_popupBox_content_main_item_right" style="width:75%;margin-left:3%;">' +
+          '<el-input v-model="Comment" style="width:90%;margin-top:8px;" type="textarea" :rows="2" placeholder="请输入内容"></el-input>'+
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<div class="login_popupBox_content_bottom">' +
+          '<a class="login_popupBox_button" @click="evaluate">提交</a>' +
+          '</div>'+
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              orderItem,
+              userType,
+              Rating:null,
+              Comment:''
+            }
+          },
+          computed:{
+            messageId(){
+              return 'evaluate_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+              },300);
+            },
+            evaluate(){
+              if(this.Rating === null || this.Rating === 0){
+                this.$alert('请您打分',{lockScroll:false});
+                return;
+              }
+              let Comment = this.Comment.replace(/(^\s*)|(\s*$)/g,'');
+              if(Comment === ''){
+                this.$alert('请填写评价内容',{lockScroll:false});
+                return;
+              }
+              let param = {
+                  Project_ID: this.orderItem.Project_ID,
+                  Type: this.userType === 0?2:1,
+                  UserId: this.userType === 0?this.orderItem.Employer_ID:this.orderItem.Employee_ID,
+                  Rating: this.Rating,
+                  Comment
+              };
+              this.$http.post('/project/evaluate', param).then((res) => {
+                let result = res.data;
+                if(result.success){
+                  this.$alert('评价成功',{lockScroll:false});
+                  this.closeBox();
+                  if(typeof callBack === 'function'){
+                    callBack();
+                  }
+                }else{
+                  this.$alert(result.msg,{lockScroll:false});
+                }
+              }).catch((e)=>{
+                  this.$alert(e.message,{lockScroll:false});
+              })
+            }
+          }
+        })
+      };
+
+      Vue.prototype.$login = function (callBack) { //登录
         let self = this;
         let index = indexAll;
         indexAll = indexAll+2;
@@ -419,7 +654,7 @@ export default {
         self.$root.$el.appendChild(alterBox.$el);
       }
 
-      Vue.prototype.$chooseType = function (data, callBack) {
+      Vue.prototype.$chooseType = function (data, callBack) { //用户类型选择
         let self = this;
         let index = indexAll;
         indexAll = indexAll+2;
@@ -429,8 +664,13 @@ export default {
         self.$root.$el.appendChild(alterBox.$el);
       }
 
-      Vue.prototype.$contactWoker = function () {
-
+      Vue.prototype.$contactWoker = function () { //专员二维码
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = contactWokerTemplete(self,index);
+        let alterBox = new boxContainer().$mount();
+        self.$root.$el.appendChild(alterBox.$el);
       }
 
       Vue.prototype.$order = function (applyItem, callBack) {//预约设计师
@@ -447,6 +687,24 @@ export default {
         let index = indexAll;
         indexAll = indexAll+2;
         let boxContainer = addLogTemplete(self,index,orderItem,callBack);
+        let alterBox = new boxContainer().$mount();
+        self.$root.$el.appendChild(alterBox.$el);
+      }
+
+      Vue.prototype.$extendOrder = function (orderItem, callBack) { //延长预约
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = extendOrderTemplete(self,index,orderItem,callBack);
+        let alterBox = new boxContainer().$mount();
+        self.$root.$el.appendChild(alterBox.$el);
+      }
+
+      Vue.prototype.$evaluate = function (orderItem, userType, callBack) { //评价
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = evaluateTemplete(self,index,orderItem, userType,callBack);
         let alterBox = new boxContainer().$mount();
         self.$root.$el.appendChild(alterBox.$el);
       }

@@ -60,7 +60,7 @@
                 <a class="userInfo_button" v-show="item.State === 3 && userType === 1" @click.stop="rejectComplete(item)">驳回完工</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 4 && userType === 0" @click.stop="agreeRefund(item)">确认退款</a>
                 <a class="userInfo_button" v-show="item.State === 4 && userType === 0"  @click.stop="rejectRefund(item)">驳回退款</a>
-                <a class="userInfo_button userInfo_button_full" v-show="item.State === 6" @click.stop="evaluate(item)">前去评价</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 5" @click.stop="evaluate(item)">前去评价</a>
               </div>
             </template>
             <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 1">
@@ -137,7 +137,7 @@ export default {
         this.userId = null;
         this.userType = null;
         this.userInfo = {};
-        this.totalMoney = '';
+        this.totalMoney = 0;
         this.orderList = [];
       }
     },
@@ -175,11 +175,18 @@ export default {
       this.$http.post(url, param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
+           let totalMoney = 0;
            this.orderList = result.data.map((item) => {
              item.applyList = [];
              item.logList = [];
+             if(item.State == 5 || item.State == 7){
+               if(item.Length_real && item.Wage_real){
+                 totalMoney += item.Length_real*item.Wage_real;
+               }
+             }
              return item;
            });
+           this.totalMoney = totalMoney;
            this.showOrderdetail(this.selectOrderIndex);
 				 }
 			})
@@ -253,11 +260,12 @@ export default {
         type: 'warning',
         lockScroll:false
       }).then(() => {
-        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:3}).then((res) => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:3,StateOrigin:orderItem.State}).then((res) => {
           let result = res.data;
           if(result.success){
             self.$alert('已申请完工',{lockScroll:false});
             orderItem.State = 3;
+            self.getLogList(orderItem);
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -266,7 +274,10 @@ export default {
       });
     },
     extendOrder(orderItem){//延长预约
-
+      let self = this;
+      self.$extendOrder(orderItem,() => {
+        self.getLogList(orderItem);
+      })
     },
     applyForRefund(orderItem){//申请退款
       let self = this;
@@ -276,11 +287,12 @@ export default {
         type: 'warning',
         lockScroll:false
       }).then(() => {
-        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:4}).then((res) => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:4,StateOrigin:orderItem.State}).then((res) => {
           let result = res.data;
           if(result.success){
             self.$alert('已申请退款',{lockScroll:false});
             orderItem.State = 4;
+            self.getLogList(orderItem);
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -296,11 +308,12 @@ export default {
         type: 'warning',
         lockScroll:false
       }).then(() => {
-        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:5}).then((res) => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:5,StateOrigin:orderItem.State}).then((res) => {
           let result = res.data;
           if(result.success){
             self.$alert('已确认完工',{lockScroll:false});
             orderItem.State = 5;
+            self.getLogList(orderItem);
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -316,11 +329,12 @@ export default {
         type: 'warning',
         lockScroll:false
       }).then(() => {
-        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:2}).then((res) => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:2,StateOrigin:orderItem.State}).then((res) => {
           let result = res.data;
           if(result.success){
             self.$alert('已驳回完工',{lockScroll:false});
             orderItem.State = 2;
+            self.getLogList(orderItem);
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -336,11 +350,12 @@ export default {
         type: 'warning',
         lockScroll:false
       }).then(() => {
-        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:5}).then((res) => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:5,StateOrigin:orderItem.State}).then((res) => {
           let result = res.data;
           if(result.success){
             self.$alert('已确认退款',{lockScroll:false});
             orderItem.State = 5;
+            self.getLogList(orderItem);
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -356,12 +371,25 @@ export default {
         type: 'warning',
         lockScroll:false
       }).then(() => {
-        
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:6,StateOrigin:orderItem.State}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            self.$alert('已驳回退款',{lockScroll:false});
+            orderItem.State = 6;
+            self.getLogList(orderItem);
+          }else{
+            self.$alert(result.msg,{lockScroll:false});
+          }
+        })
       }).catch(() => {       
       });
     },
     evaluate(orderItem){//前去评价
-
+      let self = this;
+      self.$evaluate(orderItem, this.userType,()=>{
+        orderItem.State = 7;
+        self.getLogList(orderItem);
+      });
     }
   }
 }

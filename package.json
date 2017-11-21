@@ -20,6 +20,7 @@
     "koa-log4": "^2.2.1",
     "koa-router": "^7.2.1",
     "koa-xml-body": "^2.0.0",
+    "memory-cache": "^0.2.0",
     "mime": "^2.0.3",
     "moment": "^2.19.2",
     "mysql": "^2.15.0",

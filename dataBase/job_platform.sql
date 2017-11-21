@@ -166,6 +166,7 @@ CREATE TABLE `rating` (
   `Comment` varchar(1000) DEFAULT NULL COMMENT '评论（文本）',
   `Rating` float DEFAULT NULL COMMENT '评分（0-5）',
   `Type` int(1) DEFAULT NULL COMMENT '1表示这条评分是雇主对设计师的评分，2表示这条评分是设计师对雇主的评分',
+  `UserId` varchar(255) DEFAULT NULL COMMENT '被评价者ID',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '该评论提交的日期',
   PRIMARY KEY (`Rating_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
