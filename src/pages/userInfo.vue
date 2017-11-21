@@ -233,49 +233,132 @@ export default {
       })
     },
     orderAtOnce(orderItem, applyItem){ //立即预约
-      this.$order(applyItem);
-      // let param = {
-      //   Project_ID: applyItem.Project_ID,
-      //   Employee_ID: applyItem.Employee_ID,
-      //   Wage: 0,
-      //   Length: 0
-      // };
-      // this.$http.post('/project/orderEmployee', param).then((res) => {
-      //   let result = res.data;
-      //   if(result.success){
-      //     this.$alert('预约成功',{lockScroll:false});
-      //     orderItem.State = 2;
-      //     this.getLogList(orderItem);
-      //   }else{
-      //     this.$alert(result.msg,{lockScroll:false});
-      //   }
-      // }).catch((e)=>{
-      //     this.$alert(e.message,{lockScroll:false});
-      // })
+      let self = this;
+      self.$order(applyItem,() => {
+        orderItem.State = 2;
+        self.getLogList(orderItem);
+      });
     },
     addWorkLog(orderItem){//新增工作记录
-
+      let self = this;
+      self.$addLog(orderItem,() => {
+        self.getLogList(orderItem);
+      });
     },
     applyForComplete(orderItem){//申请完工
-
+      let self = this;
+      self.$confirm('是否确认申请完工', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        lockScroll:false
+      }).then(() => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:3}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            self.$alert('已申请完工',{lockScroll:false});
+            orderItem.State = 3;
+          }else{
+            self.$alert(result.msg,{lockScroll:false});
+          }
+        })
+      }).catch(() => {       
+      });
     },
     extendOrder(orderItem){//延长预约
 
     },
     applyForRefund(orderItem){//申请退款
-
+      let self = this;
+      self.$confirm('是否确认申请退款', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        lockScroll:false
+      }).then(() => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:4}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            self.$alert('已申请退款',{lockScroll:false});
+            orderItem.State = 4;
+          }else{
+            self.$alert(result.msg,{lockScroll:false});
+          }
+        })
+      }).catch(() => {       
+      });
     },
     agreeComplete(orderItem){//确认完工
-
+      let self = this;
+      self.$confirm('是否确认完工', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        lockScroll:false
+      }).then(() => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:5}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            self.$alert('已确认完工',{lockScroll:false});
+            orderItem.State = 5;
+          }else{
+            self.$alert(result.msg,{lockScroll:false});
+          }
+        })
+      }).catch(() => {       
+      });
     },
     rejectComplete(orderItem){//驳回完工
-
+      let self = this;
+      self.$confirm('是否确认驳回完工', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        lockScroll:false
+      }).then(() => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:2}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            self.$alert('已驳回完工',{lockScroll:false});
+            orderItem.State = 2;
+          }else{
+            self.$alert(result.msg,{lockScroll:false});
+          }
+        })
+      }).catch(() => {       
+      });
     },
     agreeRefund(orderItem){//确认退款
-
+      let self = this;
+      self.$confirm('是否确认退款', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        lockScroll:false
+      }).then(() => {
+        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:5}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            self.$alert('已确认退款',{lockScroll:false});
+            orderItem.State = 5;
+          }else{
+            self.$alert(result.msg,{lockScroll:false});
+          }
+        })
+      }).catch(() => {       
+      });
     },
     rejectRefund(orderItem){//驳回退款
-
+      let self = this;
+      self.$confirm('是否驳回退款', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        lockScroll:false
+      }).then(() => {
+        
+      }).catch(() => {       
+      });
     },
     evaluate(orderItem){//前去评价
 

@@ -246,20 +246,24 @@ export default {
           '<div class="login_popupBox_content_title" style="color:#000;">预约{{applyItem.Name}}设计师</div>' +
           '<div class="login_popupBox_content_main">'+
           '<div class="login_popupBox_content_main_item">' +
-          '<div class="login_popupBox_content_main_item_left">手机号</div>' +
-          '<div class="login_popupBox_content_main_item_right">' +
-          '<input class="login_popupBox_content_main_item_right_input" maxlength="11"/>' +
+          '<div class="login_popupBox_content_main_item_left">项目日薪</div>' +
+          '<div class="login_popupBox_content_main_item_right" style="width:75%;margin-left:3%;">' +
+					'<el-select v-model="Wage" placeholder="请选择" style="width:90%;" size="small">'+
+          '<el-option v-for="item in WageList" :label="item+\'元/天\'" :value="item"></el-option>'+
+          '</el-select>'+
           '</div>' +
           '</div>' +
           '<div class="login_popupBox_content_main_item">' +
-          '<div class="login_popupBox_content_main_item_left">验证码</div>' +
-          '<div class="login_popupBox_content_main_item_right">' +
-          '<input class="login_popupBox_content_main_item_right_input" maxlength="6"/>' +
+          '<div class="login_popupBox_content_main_item_left">项目工时</div>' +
+          '<div class="login_popupBox_content_main_item_right" style="width:75%;margin-left:3%;">' +
+					'<el-select v-model="Length" placeholder="请选择" style="width:90%;" size="small">'+
+          '<el-option v-for="item in 90" :label="item+\'天\'" :value="item"></el-option>'+
+          '</el-select>'+
           '</div>' +
           '</div>' +
           '</div>' +
           '<div class="login_popupBox_content_bottom">' +
-          '<a class="login_popupBox_button">登录</a>' +
+          '<a class="login_popupBox_button" @click="orderTalent">下单预约</a>' +
           '</div>'+
           '</div>' +
           '</div>' +
@@ -269,12 +273,15 @@ export default {
             return {
               index,
               boxShow:false,
-              applyItem
+              applyItem,
+              WageList: Array.apply(null, { length: 16 }).map((item, index) => {return 500+index*100}),
+              Wage: null,
+              Length:null
             }
           },
           computed:{
             messageId(){
-              return 'choose_'+this.index;
+              return 'order_'+this.index;
             }
           },
           mounted(){
@@ -290,6 +297,113 @@ export default {
               setTimeout(function () {
                 self.$root.$el.removeChild(messageBoxDom);
               },300);
+            },
+            orderTalent(){
+              if(this.Wage === null){
+                this.$alert('请选择项目日薪',{lockScroll:false});
+                return;
+              }
+              if(this.Length === null){
+                this.$alert('请选择项目工时',{lockScroll:false});
+                return;
+              }
+              let param = {
+                  Project_ID: this.applyItem.Project_ID,
+                  Employee_ID: this.applyItem.Employee_ID,
+                  Wage: this.Wage,
+                  Length: this.Length
+              };
+              this.$http.post('/project/orderEmployee', param).then((res) => {
+                let result = res.data;
+                if(result.success){
+                  this.$alert('预约成功',{lockScroll:false});
+                  this.closeBox();
+                  callBack();
+                }else{
+                  this.$alert(result.msg,{lockScroll:false});
+                }
+              }).catch((e)=>{
+                  this.$alert(e.message,{lockScroll:false});
+              })
+            }
+          }
+        })
+      };
+
+      let addLogTemplete = function (self, index, orderItem, callBack) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content">' +
+          '<div class="login_popupBox_content_title" style="color:#000;">新增工作记录</div>' +
+          '<div class="login_popupBox_content_main_addLog">'+
+          '<div class="login_popupBox_content_main_item_left">记录内容</div>' +
+          '<div class="login_popupBox_content_main_item_right_addLog" style="width:75%;margin-left:3%;">' +
+          '<el-input v-model="Progress" style="width:90%;margin-top:8px;" type="textarea" :rows="3" placeholder="请输入内容"></el-input>'+
+          '</div>' +
+          '</div>' +
+          '<div class="login_popupBox_content_bottom_addLog">' +
+          '<a class="login_popupBox_button" @click="addLog">提交</a>' +
+          '</div>'+
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              orderItem,
+              Progress:''
+            }
+          },
+          computed:{
+            messageId(){
+              return 'addLog_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+              },300);
+            },
+            addLog(){
+              let Progress = this.Progress.replace(/(^\s*)|(\s*$)/g,'');
+              if(Progress === ''){
+                this.$alert('请输入记录内容',{lockScroll:false});
+                return;
+              }
+              let param = {
+                Progress:'工作记录：'+Progress,
+                Project_ID:this.orderItem.Project_ID
+              }
+              this.$http.post('/project/addProjectLog', param).then((res) => {
+                let result = res.data;
+                if(result.success){
+                  this.$alert('添加成功',{lockScroll:false});
+                  this.closeBox();
+                  callBack();
+                }else{
+                  this.$alert(result.msg,{lockScroll:false});
+                }
+              }).catch((e)=>{
+                  this.$alert(e.message,{lockScroll:false});
+              })
             }
           }
         })
@@ -324,6 +438,15 @@ export default {
         let index = indexAll;
         indexAll = indexAll+2;
         let boxContainer = orderTemplete(self,index,applyItem,callBack);
+        let alterBox = new boxContainer().$mount();
+        self.$root.$el.appendChild(alterBox.$el);
+      }
+
+      Vue.prototype.$addLog = function (orderItem, callBack) {//新增工作记录
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = addLogTemplete(self,index,orderItem,callBack);
         let alterBox = new boxContainer().$mount();
         self.$root.$el.appendChild(alterBox.$el);
       }

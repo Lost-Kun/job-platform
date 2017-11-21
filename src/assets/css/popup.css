@@ -90,6 +90,16 @@
     align-content: space-around;
 }
 
+.login_popupBox_content_main_addLog{
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    display: flex;
+    align-items: flex-end;
+}
+
 .login_popupBox_content_main_item{
     position: relative;
     height: 40px;
@@ -111,6 +121,15 @@
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+}
+
+.login_popupBox_content_main_item_right_addLog{
+    float: left;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
     justify-content: flex-start;
 }
 
@@ -152,6 +171,17 @@
     left: 0;
     right: 0;
     height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_popupBox_content_bottom_addLog{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;

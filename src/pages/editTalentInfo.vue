@@ -16,7 +16,7 @@
 		<div class="editTalentInfo_item_contentItem_item">
 			<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">您的手机</div>
 			<div class="editTalentInfo_item_contentItem_item_right">
-				<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+				<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容" maxlength="11"></el-input>
 			</div>
 		</div>
       </div>
