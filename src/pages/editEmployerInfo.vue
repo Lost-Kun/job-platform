@@ -10,13 +10,13 @@
 				<div class="editEmployerInfo_item_contentItem_item">
 					<div class="editEmployerInfo_item_contentItem_item_left editEmployerInfo_required">您的昵称	</div>
 					<div class="editEmployerInfo_item_contentItem_item_right">
-						<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容" :maxlength="50"></el-input>
 					</div>
 				</div>
 				<div class="editEmployerInfo_item_contentItem_item">
 					<div class="editEmployerInfo_item_contentItem_item_left editEmployerInfo_required">您的姓名</div>
 					<div class="editEmployerInfo_item_contentItem_item_right">
-						<el-input v-model="Name_real" style="width:90%" size="small" placeholder="请输入真实姓名"></el-input>
+						<el-input v-model="Name_real" style="width:90%" size="small" placeholder="请输入真实姓名" :maxlength="100"></el-input>
 					</div>
 				</div>
 			</div>
@@ -24,7 +24,7 @@
 				<div class="editEmployerInfo_item_contentItem_item">
 					<div class="editEmployerInfo_item_contentItem_item_left editEmployerInfo_required">您的手机	</div>
 					<div class="editEmployerInfo_item_contentItem_item_right">
-						<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容" :maxlength="11"></el-input>
 					</div>
 				</div>
 			</div>
@@ -38,13 +38,13 @@
 				<div class="editEmployerInfo_item_contentItem_item">
 					<div class="editEmployerInfo_item_contentItem_item_left">公司名称	</div>
 					<div class="editEmployerInfo_item_contentItem_item_right">
-						<el-input v-model="Company" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						<el-input v-model="Company" style="width:90%" size="small" placeholder="请输入内容" :maxlength="100"></el-input>
 					</div>
 				</div>
 				<div class="editEmployerInfo_item_contentItem_item">
 					<div class="editEmployerInfo_item_contentItem_item_left">公司地址</div>
 					<div class="editEmployerInfo_item_contentItem_item_right">
-						<el-input v-model="Location" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						<el-input v-model="Location" style="width:90%" size="small" placeholder="请输入内容" :maxlength="100"></el-input>
 					</div>
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 					产品介绍
 				</div>
 				<div class="editEmployerInfo_otherInfo_contentItem_right">
-					<el-input v-model="Company_introduction" type="textarea" style="width:96%;" :rows="5" placeholder="请输入内容"></el-input>
+					<el-input v-model="Company_introduction" type="textarea" style="width:96%;" :rows="5" placeholder="请输入内容" :maxlength="800"></el-input>
 				</div>
 			</div>
 		</div>

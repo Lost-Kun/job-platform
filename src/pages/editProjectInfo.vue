@@ -6,20 +6,20 @@
 		<div class="editProjectInfo_item editProjectInfo_spacing">
 			<div class="editProjectInfo_item_left editProjectInfo_required">项目需求</div>
 			<div class="editProjectInfo_item_right">
-				<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+				<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容" :maxlength="200"></el-input>
 			</div>
 		</div>
 		<div class="editProjectInfo_item editProjectInfo_spacing" style="height:150px;">
 			<div class="editProjectInfo_item_left editProjectInfo_required">具体描述</div>
 			<div class="editProjectInfo_item_right">
-				<el-input v-model="Desp" type="textarea" style="width:90%;margin-top:8px;" :rows="6" placeholder="请输入内容"></el-input>
+				<el-input v-model="Desp" type="textarea" style="width:90%;margin-top:8px;" :rows="6" placeholder="请输入内容" :maxlength="800"></el-input>
 			</div>
 		</div>
 		<div class="editProjectInfo_item editProjectInfo_spacing" v-show="isOrder">
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">预约人才</div>
 				<div class="editProjectInfo_itemHalf_right">
-					<el-input v-model="talentInfo.Name" style="width:76%" size="small" :readonly="true"></el-input>
+					<el-input v-model="talentInfo.Name" style="width:76%" size="small" :readonly="true" :maxlength="50"></el-input>
 				</div>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">您的姓名</div>
 				<div class="editProjectInfo_itemHalf_right">
-					<el-input v-model="Employer_name" style="width:76%" size="small" :readonly="true"></el-input>
+					<el-input v-model="Employer_name" style="width:76%" size="small" :readonly="true" :maxlength="50"></el-input>
 				</div>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">联系方式</div>
 				<div class="editProjectInfo_itemHalf_right">
-					<el-input v-model="Employer_mobile" style="width:76%" size="small" :readonly="true"></el-input>
+					<el-input v-model="Employer_mobile" style="width:76%" size="small" :readonly="true" :maxlength="11"></el-input>
 					<div :class="['editProjectInfo_getCode',countDownFlag?'editProjectInfo_getCode--wait':'']" @click="getVerificationCode">{{countDownFlag?countDown+'秒后重新获取':'获取验证码'}}</div>
 				</div>
 			</div>
@@ -205,7 +205,8 @@ export default {
 			let Employer_name = this.Employer_name;
 			let Employer_mobile = this.Employer_mobile;
 			if(Employer_name === '' || Employer_name === ''){
-				this.$alert('个人信息不完善，无法发布需求',{lockScroll:false});
+				let msg = this.isOrder?'预约人才':'发布需求'
+				this.$alert('个人信息不完善，无法'+msg,{lockScroll:false});
 				return;
 			}
 			let Name = this.Name.replace(/(^\s*)|(\s*$)/g,'');

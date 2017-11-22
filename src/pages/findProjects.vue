@@ -1,7 +1,7 @@
 <template>
   <div class="project">
-        <div class="project_searchBox"> 
-      <input class="project_searchBox_input" v-model="searchText"/>
+    <div class="project_searchBox"> 
+      <input class="project_searchBox_input" v-model="searchText" :maxlength="100"/>
       <a class="project_searchBox_search" @click="search">搜索</a>
       <a class="project_searchBox_contactWoker" @click="editTalentInfo">注册成为兼职专家</a>
     </div>

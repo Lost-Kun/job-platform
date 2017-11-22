@@ -222,15 +222,17 @@ export default {
       if(selectOrderIndex !== undefined && selectOrderIndex !== ''){
         let index = parseInt(selectOrderIndex);
         let selectedOrder = this.orderList[index];
-        if(selectedOrder.State === 1){//需求对接阶段，获取申请列表
-          this.$http.post('/project/getApplyList', {Project_ID:selectedOrder.Project_ID}).then((res) => {
-				    let result = res.data;
-				    if(result.success){
-              selectedOrder.applyList = result.data;
-				    }
-			    })
-        }else{//获取项目日志
-          this.getLogList(selectedOrder);
+        if(selectedOrder){
+          if(selectedOrder.State === 1){//需求对接阶段，获取申请列表
+            this.$http.post('/project/getApplyList', {Project_ID:selectedOrder.Project_ID}).then((res) => {
+              let result = res.data;
+              if(result.success){
+                selectedOrder.applyList = result.data;
+              }
+            })
+          }else{//获取项目日志
+            this.getLogList(selectedOrder);
+          }
         }
       }
     },

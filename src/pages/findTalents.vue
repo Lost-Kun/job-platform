@@ -1,7 +1,7 @@
 <template>
   <div class="talent">
     <div class="talent_searchBox"> 
-      <input class="talent_searchBox_input" v-model="searchText"/>
+      <input class="talent_searchBox_input" v-model="searchText" :maxlength="100"/>
       <a class="talent_searchBox_search" @click="search">搜索</a>
       <a class="talent_searchBox_contactWoker" @click="contactWorker">联系专员为您推荐</a>
     </div>

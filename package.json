@@ -17,7 +17,7 @@
     "jquery": "^3.2.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
-    "koa-log4": "^2.2.1",
+    "koa-log4": "2.2.1",
     "koa-router": "^7.2.1",
     "koa-xml-body": "^2.0.0",
     "memory-cache": "^0.2.0",

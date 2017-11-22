@@ -396,7 +396,7 @@ export default {
           '<div class="login_popupBox_content_main_addLog">'+
           '<div class="login_popupBox_content_main_item_left">记录内容</div>' +
           '<div class="login_popupBox_content_main_item_right_addLog" style="width:75%;margin-left:3%;">' +
-          '<el-input v-model="Progress" style="width:90%;margin-top:8px;" type="textarea" :rows="3" placeholder="请输入内容"></el-input>'+
+          '<el-input v-model="Progress" style="width:90%;margin-top:8px;" type="textarea" :rows="3" placeholder="请输入内容" :maxlength="800"></el-input>'+
           '</div>' +
           '</div>' +
           '<div class="login_popupBox_content_bottom_addLog">' +
@@ -568,7 +568,7 @@ export default {
           '<div class="login_popupBox_content_main_item" style="margin-top:5px;height:60px;">' +
           '<div class="login_popupBox_content_main_item_left">评价内容</div>' +
           '<div class="login_popupBox_content_main_item_right" style="width:75%;margin-left:3%;">' +
-          '<el-input v-model="Comment" style="width:90%;margin-top:8px;" type="textarea" :rows="2" placeholder="请输入内容"></el-input>'+
+          '<el-input v-model="Comment" style="width:90%;margin-top:8px;" type="textarea" :rows="2" placeholder="请输入内容" :maxlength="800"></el-input>'+
           '</div>' +
           '</div>' +
           '</div>' +

@@ -10,13 +10,13 @@
 		<div class="editTalentInfo_item_contentItem_item">
 			<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">您的昵称</div>
 			<div class="editTalentInfo_item_contentItem_item_right">
-				<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+				<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容" :maxlength="50"></el-input>
 			</div>
 		</div>
 		<div class="editTalentInfo_item_contentItem_item">
 			<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">您的手机</div>
 			<div class="editTalentInfo_item_contentItem_item_right">
-				<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容" maxlength="11"></el-input>
+				<el-input v-model="Mobile" style="width:90%" size="small" placeholder="请输入内容" :maxlength="11"></el-input>
 			</div>
 		</div>
       </div>
@@ -54,13 +54,13 @@
 				<div class="editTalentInfo_item_contentItem_item">
 					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">工作单位</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-input v-model="Job_company" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						<el-input v-model="Job_company" style="width:90%" size="small" placeholder="请输入内容" :maxlength="100"></el-input>
 					</div>
 				</div>
 				<div class="editTalentInfo_item_contentItem_item">
 					<div class="editTalentInfo_item_contentItem_item_left editTalentInfo_required">工作职位</div>
 					<div class="editTalentInfo_item_contentItem_item_right">
-						<el-input v-model="Job_position" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+						<el-input v-model="Job_position" style="width:90%" size="small" placeholder="请输入内容" :maxlength="50"></el-input>
 					</div>
 				</div>
       </div>
@@ -96,13 +96,13 @@
 					<div class="editTalentInfo_item_contentItem_item">
 						<div class="editTalentInfo_item_contentItem_item_left">就读学校	</div>
 						<div class="editTalentInfo_item_contentItem_item_right">
-							<el-input v-model="Edu_school" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+							<el-input v-model="Edu_school" style="width:90%" size="small" placeholder="请输入内容" :maxlength="100"></el-input>
 						</div>
 					</div>
 					<div class="editTalentInfo_item_contentItem_item">
 						<div class="editTalentInfo_item_contentItem_item_left">所在系别</div>
 						<div class="editTalentInfo_item_contentItem_item_right">
-							<el-input v-model="Edu_department" style="width:90%" size="small" placeholder="请输入内容"></el-input>
+							<el-input v-model="Edu_department" style="width:90%" size="small" placeholder="请输入内容" :maxlength="100"></el-input>
 						</div>
 					</div>
 				</div>
@@ -128,7 +128,7 @@
 						掌握技能
 					</div>
 					<div class="editTalentInfo_otherInfo_contentItem_right">
-						<el-input v-model="Skills" type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
+						<el-input v-model="Skills" type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容" :maxlength="400"></el-input>
 					</div>
 				</div>
 				<div class="editTalentInfo_otherInfo_contentItem">
@@ -136,7 +136,7 @@
 						项目经验
 					</div>
 					<div class="editTalentInfo_otherInfo_contentItem_right">
-						<el-input v-model="Projects" type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容"></el-input>
+						<el-input v-model="Projects" type="textarea" style="width:95%;" :rows="5" placeholder="请输入内容" :maxlength="800"></el-input>
 					</div>
 				</div>
 			</div>
