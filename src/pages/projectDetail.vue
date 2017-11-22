@@ -122,7 +122,7 @@ export default {
       if(projectItem.State !== 5 && projectItem.State !== 7 && !projectItem.hasApplyed){
         if(this.isLogin){
           if(this.userType === 1){
-            this.$alert('该账号为雇主，请登录设计师账号',{lockScroll:false});
+            this.$alert('雇主不能投递项目，请登录设计师账号',{lockScroll:false});
             return;
 					}
 					if(this.talentInfo.Name === null || this.talentInfo.Mobile === null){

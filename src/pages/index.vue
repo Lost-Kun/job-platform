@@ -255,7 +255,7 @@ export default {
     },
     publishProject(self){
       if(self.userType === 0){
-        self.$alert('设计师不能发布任务,请注册雇主账号',{lockScroll:false});
+        self.$alert('设计师不能发布任务,请登录雇主账号',{lockScroll:false});
       }else if(self.userType === 1){
         self.$router.push({
           path:'/homePage/editProjectInfo'
