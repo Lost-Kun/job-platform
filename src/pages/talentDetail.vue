@@ -160,7 +160,7 @@ export default {
 			if(talentInfo.State === 0){
 				if(this.isLogin){
 					if(this.userType === 0){
-						this.$alert('该账号为设计师，请登录雇主账号',{lockScroll:false});
+						this.$alert('雇主不能投递项目，请注册设计师账号',{lockScroll:false});
 						return;
 					}
 					this.$router.push({
