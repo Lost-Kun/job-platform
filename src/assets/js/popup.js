@@ -557,7 +557,7 @@ export default {
           '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
           '</div>' +
           '<div class="login_popupBox_content">' +
-          '<div class="login_popupBox_content_title" style="color:#000;">评价{{userType === 0 ?"设计师":"雇主"}}</div>' +
+          '<div class="login_popupBox_content_title" style="color:#000;">评价{{userType === 0 ?"雇主":"设计师"}}</div>' +
           '<div class="login_popupBox_content_main">'+
           '<div class="login_popupBox_content_main_item" style="margin-top:5px;">' +
           '<div class="login_popupBox_content_main_item_left">请您打分</div>' +
