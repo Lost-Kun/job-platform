@@ -150,6 +150,7 @@ export default {
 				let result = res.data;
 				if(result.success){
 					this.rateList = result.data;
+					this.rateNumber = result.data.length;
 				}
 			})
 		},
