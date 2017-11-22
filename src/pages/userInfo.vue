@@ -214,7 +214,7 @@ export default {
         return '平台处理争端阶段';
       }
       if(State === 7){
-        return '已评价阶段';
+        return '已评价';
       }
       return '';
     },
