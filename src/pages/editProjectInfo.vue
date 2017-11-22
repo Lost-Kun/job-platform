@@ -132,6 +132,9 @@ export default {
 				this.clearPage();
 				this.Employer_name = '';
 				this.Employer_mobile = '';
+				this.$router.push({
+					path:'/homePage/index'
+				})
 			}
 		},
 		getTalentInfo(){

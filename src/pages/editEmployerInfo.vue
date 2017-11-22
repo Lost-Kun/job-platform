@@ -102,6 +102,9 @@ export default {
 			}else{
 				this.employerId = '';
 				this.initPage({});
+				this.$router.push({
+					path:'/homePage/index'
+				})
 			}
 		},
 		getEmployerInfo(){

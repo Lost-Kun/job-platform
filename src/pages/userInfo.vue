@@ -139,6 +139,9 @@ export default {
         this.userInfo = {};
         this.totalMoney = 0;
         this.orderList = [];
+				this.$router.push({
+					path:'/homePage/index'
+				})
       }
     },
     getUserInfo(){

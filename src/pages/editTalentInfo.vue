@@ -272,6 +272,9 @@ export default {
 			}else{
 				this.employeeId = '';
 				this.initPage({});
+				this.$router.push({
+					path:'/homePage/index'
+				})
 			}
 		},
 		showSuppleInfo(){
