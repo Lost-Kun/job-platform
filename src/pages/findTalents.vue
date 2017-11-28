@@ -198,7 +198,8 @@ export default {
 }  
 
 .talent_searchBox_input{
-  width: 60%;
+  /* width: 60%; */
+  width: calc(100% - 280px);
   height: 33px;
   border: 1px solid #EEEEEE;
   padding: 0 10px;

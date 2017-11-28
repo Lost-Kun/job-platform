@@ -45,7 +45,7 @@
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">您的姓名</div>
 				<div class="editProjectInfo_itemHalf_right">
-					<el-input v-model="Employer_name" style="width:76%" size="small" :readonly="true" :maxlength="50"></el-input>
+					<el-input v-model="Employer_name" style="width:76%" size="small" placeholder="请输入内容" :readonly="readonly" :maxlength="50"></el-input>
 				</div>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">联系方式</div>
 				<div class="editProjectInfo_itemHalf_right">
-					<el-input v-model="Employer_mobile" style="width:76%" size="small" :readonly="true" :maxlength="11"></el-input>
+					<el-input v-model="Employer_mobile" style="width:76%" size="small" placeholder="请输入内容" :readonly="readonly" :maxlength="11"></el-input>
 					<div :class="['editProjectInfo_getCode',countDownFlag?'editProjectInfo_getCode--wait':'']" @click="getVerificationCode">{{countDownFlag?countDown+'秒后重新获取':'获取验证码'}}</div>
 				</div>
 			</div>
@@ -85,9 +85,11 @@ export default {
 			Desp:'',
 			Wage:null,
 			Length:null,
+			Employer_nameShow:'',
 			Employer_name:'',
 			Employer_mobile:'',
 			verificationCode:'',
+			readonly:true,
 			isOrder:false,
 			Employee_ID: null,
 			talentInfo:{}
@@ -131,6 +133,7 @@ export default {
 				this.Employer_ID = '';
 				this.clearPage();
 				this.Employer_name = '';
+				this.Employer_nameShow = '';
 				this.Employer_mobile = '';
 				this.$router.push({
 					path:'/homePage/index'
@@ -151,7 +154,13 @@ export default {
 				let result = res.data;
 				if(result.success){
 					this.Employer_name = result.data.Name_real?result.data.Name_real:'';
+					this.Employer_nameShow = result.data.Name?result.data.Name:'';
 					this.Employer_mobile = result.data.Mobile?result.data.Mobile:'';
+					if(result.data.Name_real){
+						this.readonly = true;
+					}else{
+						this.readonly = false;
+					}
 				}
 			})
 		},
@@ -202,11 +211,20 @@ export default {
 			this.verificationCode = '';
 		},
 		addProject(){
-			let Employer_name = this.Employer_name;
-			let Employer_mobile = this.Employer_mobile;
-			if(Employer_name === '' || Employer_name === ''){
-				let msg = this.isOrder?'预约人才':'发布需求'
-				this.$alert('个人信息不完善，无法'+msg,{lockScroll:false});
+			let Employer_name = this.Employer_name.replace(/(^\s*)|(\s*$)/g,'');
+			let Employer_mobile = this.Employer_mobile.replace(/(^\s*)|(\s*$)/g,'');
+			// if(Employer_name === '' || Employer_mobile === ''){
+			// 	let msg = this.isOrder?'预约人才':'发布需求'
+			// 	this.$alert('个人信息不完善，无法'+msg,{lockScroll:false});
+			// 	return;
+			// }
+			if(Employer_name === ''){
+				this.$alert('请填写您的名称',{lockScroll:false});
+				return;
+			}
+			let reg = /^1\d{10}$/;
+			if(Employer_mobile === '' || !reg.test(Employer_mobile)){
+				this.$alert('请填写正确的手机号',{lockScroll:false});
 				return;
 			}
 			let Name = this.Name.replace(/(^\s*)|(\s*$)/g,'');
@@ -243,6 +261,12 @@ export default {
 				Employer_mobile,
 				verificationCode,
 				type:'publish'
+			}
+
+			let Employer_nameShow = this.Employer_nameShow !== ''?this.Employer_nameShow:Employer_name;
+			if(!this.readonly){
+				param.Employee_name = Employer_name;
+				param.Employer_nameShow = Employer_nameShow;
 			}
 
 			if(this.isOrder){

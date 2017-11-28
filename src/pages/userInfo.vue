@@ -19,14 +19,14 @@
 					<div class="userInfo_basicInfo_center_orderedNumber" v-show="userType === 0">
 						已接单{{userInfo.Ordered_number}}次
 					</div>
-          <div class="userInfo_prompt" v-show="userType === 1">若您有新需求，可三分钟免费下单，或联系专员为您发布需求、对接人才！</div>
+          <div class="userInfo_prompt" style="margin-left:0;" v-show="userType === 1">若您有新需求，可三分钟免费下单，或联系专员为您发布需求、对接人才！</div>
 				</div>
 				<div class="userInfo_basicInfo_center_partTimePosition">
 					<a class="userInfo_button" v-show="userType === 1" @click="editProjectInfo">发布需求</a>
 					<a class="userInfo_button userInfo_button_full" v-show="userType === 1" @click="contactWoker">联系专员</a>
           <a class="userInfo_button" v-show="userType === 1" @click="editEmployerInfo">编辑资料</a>
           <a class="userInfo_button" v-show="userType === 0" @click="editEmployeeInfo">编辑简历</a>
-          <div class="userInfo_prompt" v-show="userType === 0">小贴士：完善简历可以有效提高您的接单率</div>
+          <div class="userInfo_prompt" style="margin-top:2px;" v-show="userType === 0">小贴士：完善简历可以有效提高您的接单率</div>
 				</div>
 			</div>
 			<div class="userInfo_basicInfo_right" v-show="userType === 0">
@@ -62,6 +62,7 @@
                 <a class="userInfo_button" v-show="item.State === 4 && userType === 0"  @click.stop="rejectRefund(item)">驳回退款</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 5" @click.stop="evaluate(item)">前去评价</a>
               </div>
+              <div class="userInfo_otherInfo_order_money">已支付：300000元</div>
             </template>
             <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 1">
               <div class="userInfo_otherInfo_order_item" v-for="applyItem in item.applyList">
@@ -487,7 +488,8 @@ export default {
 
 .userInfo_basicInfo_center_orderedNumber{
 	font-size: 14px;
-	margin: -2px 30px 0 10px;
+	/* margin: -2px 30px 0 10px; */
+	margin: -2px 30px 0 0;
 	color: #989DA2;
 }
 
@@ -612,7 +614,8 @@ export default {
 
 .userInfo_otherInfo_order_name{
   float: left;
-  max-width: 53%;
+  /* max-width: 53%; */
+  max-width: calc(100% - 620px);
   height: 100%;
   margin-left: 20px;
   font-size: 15px;
@@ -623,21 +626,34 @@ export default {
 
 .userInfo_otherInfo_order_state{
   float: left;
-  max-width: 12%;
+  /* max-width: 12%; */
+  max-width: 160px;
   height: 100%;
-  padding: 0 5px;
+  padding: 0 3px;
+  font-size: 15px;
+}
+
+.userInfo_otherInfo_order_money{
+  float: right;
+  /* margin-right: 5px; */
+  color: #EF782B;
+  max-width: 130px;
+  height: 100%;
+  padding: 0 3px;
   font-size: 15px;
 }
 
 .userInfo_otherInfo_order_toolBox{
   float: right;
   margin-right: 5px;
-  max-width: 30%;
+  margin-left: 15px;
+  /* max-width: 30%; */
+  max-width: 280px;
   height: 100%;
 }
 
 .userInfo_otherInfo_order_applyBox{
-  padding: 0 30px;
+  padding: 0 26px 0 30px;
   min-height: 40px;
   font-size: 15px;
 }

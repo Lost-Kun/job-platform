@@ -284,7 +284,8 @@ export default {
 
 .talentDetail_basicInfo_center_orderedNumber{
 	font-size: 14px;
-	margin: -2px 30px 0 10px;
+	/* margin: -2px 30px 0 10px; */
+	margin: -2px 30px 0 0;
 	color: #989DA2;
 }
 

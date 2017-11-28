@@ -253,7 +253,14 @@ export default {
             return;
           }
 					if(this.talentInfo.Name === null || this.talentInfo.Mobile === null){
-            this.$alert('请编辑简历，完成个人信息注册',{lockScroll:false});
+            this.$alert('请编辑简历，完成个人信息注册',{
+              lockScroll:false,
+              callback:()=>{
+                this.$router.push({
+                  path:'/homePage/editTalentInfo'
+                })
+              }
+            });
             return;
 					}
           this.$http.post('/project/applyProject', {Project_ID:projectItem.Project_ID, Employee_ID:this.userId}).then((res) => {
@@ -290,7 +297,8 @@ export default {
 }  
 
 .project_searchBox_input{
-  width: 60%;
+  /* width: 60%; */
+  width: calc(100% - 280px);
   height: 33px;
   border: 1px solid #EEEEEE;
   padding: 0 10px;
