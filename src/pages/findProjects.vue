@@ -52,8 +52,8 @@
           </div>
           <div class="project_infoItem_right_bottom">
             <div class="project_infoItem_right_bottom_left">
-              <a @click="sendApply(projectItem)" :class="['project_infoItem_right_bottom_left_a',(projectItem.State === 5 || projectItem.State === 7 || projectItem.hasApplyed)?'project_infoItem_right_bottom_left_a--disable':'']">
-                {{(projectItem.State === 5 || projectItem.State === 7)?'已完成':(projectItem.hasApplyed?'已投递':'立即投递')}}
+              <a @click="sendApply(projectItem)" :class="['project_infoItem_right_bottom_left_a',projectItem.State === 1 && !projectItem.hasApplyed  ?'':'project_infoItem_right_bottom_left_a--disable']">
+                {{showProjectState(projectItem)}}
               </a>
             </div>
             <div class="project_infoItem_right_bottom_right">
@@ -201,6 +201,20 @@ export default {
         }
       })
     },
+    showProjectState(projectItem){
+      if(projectItem.State === 5 || projectItem.State === 7){
+        return '已完成';
+      }
+      if(projectItem.State === 1){
+        if(projectItem.hasApplyed){
+          return '已投递';
+        }else{
+          return '立即投递';
+        }
+      }
+      return '进行中';
+      // (projectItem.State === 5 || projectItem.State === 7)?'已完成':(projectItem.hasApplyed?'已投递':'立即投递')
+    },
     intoProjectDetail(projectItem){
       this.$router.push({
         path:'/homePage/projectDetail',
@@ -246,7 +260,7 @@ export default {
       }
     },
     sendApply(projectItem){
-      if(projectItem.State !== 5 && projectItem.State !== 7 && !projectItem.hasApplyed){
+      if(projectItem.State === 1 && !projectItem.hasApplyed){
         if(this.isLogin){
           if(this.userType === 1){
             this.$alert('该账号为雇主，请登录设计师账号',{lockScroll:false});
@@ -395,6 +409,9 @@ export default {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .project_infoItem_left_content{

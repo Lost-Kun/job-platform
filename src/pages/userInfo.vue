@@ -48,12 +48,14 @@
         <el-collapse v-model="selectOrderIndex" @change="showOrderdetail"  accordion>
           <el-collapse-item v-for="(item, index) in orderList" :name="index+''" :key="'order'+index">
             <template slot="title">
-              <div class="userInfo_otherInfo_order_name">项目名称：{{item.Name}}</div>
+              <div class="userInfo_otherInfo_order_name" :title="item.Name">项目名称：{{item.Name}}</div>
               <div class="userInfo_otherInfo_order_state">（{{getOrderStateText(item.State)}}）</div>
+              <div class="userInfo_otherInfo_order_money" v-show="!(item.State === 1)">已支付：{{item.Amount_paid - item.Refund_real}}元</div>
               <div class="userInfo_otherInfo_order_toolBox">
                 <a class="userInfo_button" v-show="item.State === 1 && userType === 1" @click.stop="contactWoker">沟通需求</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 0" @click.stop="addWorkLog(item)">新增工作记录</a>
                 <a class="userInfo_button" v-show="item.State === 2 && userType === 0" @click.stop="applyForComplete(item)">申请完工</a>
+                <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 1" @click.stop="payForEmploy(item)">支付佣金</a>
                 <a class="userInfo_button" v-show="item.State === 2 && userType === 1" @click.stop="extendOrder(item)">延长预约</a>
                 <a class="userInfo_button" v-show="(item.State === 2 || item.State === 3) && userType === 1" @click.stop="applyForRefund(item)">申请退款</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 3 && userType === 1" @click.stop="agreeComplete(item)">确认完工</a>
@@ -62,15 +64,14 @@
                 <a class="userInfo_button" v-show="item.State === 4 && userType === 0"  @click.stop="rejectRefund(item)">驳回退款</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 5" @click.stop="evaluate(item)">前去评价</a>
               </div>
-              <div class="userInfo_otherInfo_order_money">已支付：300000元</div>
             </template>
-            <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 1">
+            <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 1 && userType === 1">
               <div class="userInfo_otherInfo_order_item" v-for="applyItem in item.applyList">
                 <div class="userInfo_otherInfo_order_item_time">
                   {{applyItem.Riqi}}
                 </div>
                 <div class="userInfo_otherInfo_order_item_main">
-                  {{applyItem.Name}}已申请了您的项目
+                  设计师<a class="userInfo_otherInfo_order_a" @click="enterTalentInfo(applyItem)">{{applyItem.Name}}</a>已申请了您的项目
                 </div>
                 <div class="userInfo_otherInfo_order_item_buttonBox">
                   <a class="userInfo_button userInfo_button_full" @click="orderAtOnce(item, applyItem)">立即预约</a>
@@ -184,9 +185,10 @@ export default {
              item.applyList = [];
              item.logList = [];
              if(item.State == 5 || item.State == 7){
-               if(item.Length_real && item.Wage_real){
-                 totalMoney += item.Length_real*item.Wage_real;
-               }
+              //  if(item.Length_real && item.Wage_real){
+                //  totalMoney += item.Length_real*item.Wage_real;
+                 totalMoney += (item.Amount_paid-item.Refund);
+              //  }
              }
              return item;
            });
@@ -279,6 +281,9 @@ export default {
       }).catch(() => {       
       });
     },
+    payForEmploy(orderItem){//支付佣金
+      this.$payPicture();
+    },
     extendOrder(orderItem){//延长预约
       let self = this;
       self.$extendOrder(orderItem,() => {
@@ -287,24 +292,28 @@ export default {
     },
     applyForRefund(orderItem){//申请退款
       let self = this;
-      self.$confirm('是否确认申请退款', '', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        lockScroll:false
-      }).then(() => {
-        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:4,StateOrigin:orderItem.State}).then((res) => {
-          let result = res.data;
-          if(result.success){
-            self.$alert('已申请退款',{lockScroll:false});
-            orderItem.State = 4;
-            self.getLogList(orderItem);
-          }else{
-            self.$alert(result.msg,{lockScroll:false});
-          }
-        })
-      }).catch(() => {       
-      });
+      // self.$confirm('是否确认申请退款', '', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning',
+      //   lockScroll:false
+      // }).then(() => {
+      //   self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:4,StateOrigin:orderItem.State}).then((res) => {
+      //     let result = res.data;
+      //     if(result.success){
+      //       self.$alert('已申请退款',{lockScroll:false});
+      //       orderItem.State = 4;
+      //       self.getLogList(orderItem);
+      //     }else{
+      //       self.$alert(result.msg,{lockScroll:false});
+      //     }
+      //   })
+      // }).catch(() => {       
+      // });
+      self.$applyForRefund(orderItem,() => {
+        orderItem.State = 4;
+        self.getLogList(orderItem);
+      })
     },
     agreeComplete(orderItem){//确认完工
       let self = this;
@@ -350,13 +359,13 @@ export default {
     },
     agreeRefund(orderItem){//确认退款
       let self = this;
-      self.$confirm('是否确认退款', '', {
+      self.$confirm('是否确认退款'+orderItem.Refund+'元', '', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
         lockScroll:false
       }).then(() => {
-        self.$http.post('/project/setProjectState', {Project_ID:orderItem.Project_ID,State:5,StateOrigin:orderItem.State}).then((res) => {
+        self.$http.post('/project/agreeRefund', {Project_ID:orderItem.Project_ID,Refund:orderItem.Refund}).then((res) => {
           let result = res.data;
           if(result.success){
             self.$alert('已确认退款',{lockScroll:false});
@@ -396,6 +405,14 @@ export default {
         orderItem.State = 7;
         self.getLogList(orderItem);
       });
+    },
+    enterTalentInfo(applyItem){
+      this.$router.push({
+        path:'/homePage/talentDetail',
+        query:{
+          id:applyItem.Employee_ID
+        }
+      })
     }
   }
 }
@@ -634,7 +651,7 @@ export default {
 }
 
 .userInfo_otherInfo_order_money{
-  float: right;
+  float: left;
   /* margin-right: 5px; */
   color: #EF782B;
   max-width: 130px;
@@ -699,7 +716,10 @@ export default {
   font-size: 15px;
 }
 
-
+.userInfo_otherInfo_order_a{
+  color: #50A5F5;
+  cursor: pointer;
+}
 </style>
 
 

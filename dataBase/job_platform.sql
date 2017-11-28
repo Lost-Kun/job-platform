@@ -148,8 +148,9 @@ CREATE TABLE `project` (
   `Skills_list` varchar(500) DEFAULT NULL COMMENT '隐性，项目需要的技能列表，json',
   `Position` varchar(255) DEFAULT NULL COMMENT '隐性，项目需要的岗位',
   `State` int(1) DEFAULT '1' COMMENT '项目状态（非常重要）',
-  `Refund` int(11) DEFAULT NULL COMMENT '项目退款金额（申请）',
-  `Refund_real` int(11) DEFAULT NULL COMMENT '项目退款金额（实际）',
+  `Refund` int(11) DEFAULT '0' COMMENT '项目退款金额（申请）',
+  `Refund_real` int(11) DEFAULT '0' COMMENT '项目退款金额（实际）',
+  `Amount_paid` int(11) DEFAULT '0' COMMENT '项目已支付金额',
   `Delivery_number` int(1) DEFAULT '0' COMMENT '投递次数',
   PRIMARY KEY (`Project_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

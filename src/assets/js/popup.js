@@ -281,6 +281,55 @@ export default {
         })
       };
 
+      let payPictureTemplete = function (self, index) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox_woker" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content" style="bottom:0;">' +
+          '<div class="login_popupBox_content_title" style="color:#000;height:20px;line-height:20px;">扫码支付（请备注手机号）</div>' +
+          '<div class="login_popupBox_content_picture">' +
+          '<img class="login_popupBox_img" :src="payPicture" />'+
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              payPicture:'./static/images/payPicture.jpg'
+            }
+          },
+          computed:{
+            messageId(){
+              return 'payPicture_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+              },300);
+            }
+          }
+        })
+      };
+
       let orderTemplete = function (self, index, applyItem, callBack) {
         return Vue.extend({
           template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
@@ -546,6 +595,96 @@ export default {
         })
       };
 
+      let applyForRefundTemplete = function (self, index, orderItem, callBack) {
+        return Vue.extend({
+          template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
+          '<iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0"></iframe>' +
+          '<transition name="el-zoom-in-center">' +
+          '<div class="login_popupBox" :style="{\'z-index\':index+1}" v-show="boxShow">' +
+          '<div class="login_popupBox_title">'+
+          '<span class="login_popupBox_title_span"></span>'+
+          '<span class="login_popupBox_title_close"><i class="el-icon-circle-close-outline" @click="cancel" style="cursor: pointer"></i></span>'+
+          '</div>' +
+          '<div class="login_popupBox_content">' +
+          '<div class="login_popupBox_content_title" style="color:#000;">申请退款</div>' +
+          '<div class="login_popupBox_content_main">'+
+          '<div class="login_popupBox_content_main_item" style="margin-top:25px;">' +
+          '<div class="login_popupBox_content_main_item_left">退款金额</div>' +
+          '<div class="login_popupBox_content_main_item_right_select" style="width:75%;margin-left:3%;">' +
+					'<el-input v-model="Refund" placeholder="请输入整数，单位：元" style="width:90%;" size="small" :maxlength="10">'+
+          '</el-input>'+
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<div class="login_popupBox_content_bottom">' +
+          '<a class="login_popupBox_button" @click="applyForRefund">确认申请</a>' +
+          '</div>'+
+          '</div>' +
+          '</div>' +
+          '</transition>' +
+          '</div>',
+          data: function () {
+            return {
+              index,
+              boxShow:false,
+              orderItem,
+              Refund:null
+            }
+          },
+          computed:{
+            messageId(){
+              return 'applyForRefund_'+this.index;
+            }
+          },
+          mounted(){
+            this.boxShow = true;
+          },
+          methods:{
+            cancel(){
+              this.closeBox();
+            },
+            closeBox(){
+              this.boxShow = false;
+              let messageBoxDom = document.getElementById(this.messageId);
+              setTimeout(function () {
+                self.$root.$el.removeChild(messageBoxDom);
+              },300);
+            },
+            applyForRefund(){
+              let Refund = this.Refund.replace(/(^\s*)|(\s*$)/g,'');
+              let reg = /^[1-9]+[0-9]*$/;
+              if(!reg.test(Refund)){
+                this.$alert('请输入正确的金额',{lockScroll:false});
+                return;
+              }
+              Refund = parseInt(Refund);
+              if(Refund > parseInt(this.orderItem.Amount_paid)){
+                this.$alert('申请金额需小于已支付金额',{lockScroll:false});
+                return;
+              }
+              let param = {
+                Refund,
+                Project_ID:this.orderItem.Project_ID
+              }
+              this.$http.post('/project/applyForRefund', param).then((res) => {
+                let result = res.data;
+                if(result.success){
+                  this.$alert('申请退款成功',{lockScroll:false});
+                  this.closeBox();
+                  if(typeof callBack === 'function'){
+                    callBack();
+                  }
+                }else{
+                  this.$alert(result.msg,{lockScroll:false});
+                }
+              }).catch((e)=>{
+                  this.$alert(e.message,{lockScroll:false});
+              })
+            }
+          }
+        })
+      };
+
       let evaluateTemplete = function (self, index, orderItem, userType, callBack) {
         return Vue.extend({
           template: '<div class="login_hover" :style="{\'z-index\':index}" :id="messageId">' +
@@ -673,6 +812,15 @@ export default {
         self.$root.$el.appendChild(alterBox.$el);
       }
 
+      Vue.prototype.$payPicture = function () { //支付二维码
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = payPictureTemplete(self,index);
+        let alterBox = new boxContainer().$mount();
+        self.$root.$el.appendChild(alterBox.$el);
+      }
+
       Vue.prototype.$order = function (applyItem, callBack) {//预约设计师
         let self = this;
         let index = indexAll;
@@ -696,6 +844,15 @@ export default {
         let index = indexAll;
         indexAll = indexAll+2;
         let boxContainer = extendOrderTemplete(self,index,orderItem,callBack);
+        let alterBox = new boxContainer().$mount();
+        self.$root.$el.appendChild(alterBox.$el);
+      }
+
+      Vue.prototype.$applyForRefund = function (orderItem, callBack) { //申请退款
+        let self = this;
+        let index = indexAll;
+        indexAll = indexAll+2;
+        let boxContainer = applyForRefundTemplete(self,index,orderItem,callBack);
         let alterBox = new boxContainer().$mount();
         self.$root.$el.appendChild(alterBox.$el);
       }

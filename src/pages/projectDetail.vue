@@ -2,7 +2,7 @@
 	<div class="projectDetail">
     <div class="projectDetail_basicInfo">
 			<div class="projectDetail_basicInfo_left">
-				<div class="projectDetail_basicInfo_left_top">{{projectInfo.Name}}</div>
+				<div class="projectDetail_basicInfo_left_top" :title="projectInfo.Name">{{projectInfo.Name}}</div>
 				<div class="projectDetail_basicInfo_left_center">
 					<div class="projectDetail_basicInfo_left_center_wage">日薪：{{projectInfo.Wage}}元/天</div>
 					<div class="projectDetail_basicInfo_left_center_length">预计工期：{{projectInfo.Length}}天</div>
@@ -185,6 +185,9 @@ export default {
 	line-height: 30px;
   font-size: 16px;
   font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .projectDetail_basicInfo_left_center{
