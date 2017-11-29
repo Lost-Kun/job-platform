@@ -66,7 +66,7 @@
 							<div class="talentDetail_detailedInfo_rate_item_center_name">
 								{{rateItem.Name}}
 							</div>
-							<div class="talentDetail_detailedInfo_rate_item_center_comment">
+							<div class="talentDetail_detailedInfo_rate_item_center_comment" :title="rateItem.Comment">
 								{{rateItem.Comment}}
 							</div>
 						</div>
