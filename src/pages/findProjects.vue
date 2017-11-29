@@ -420,6 +420,7 @@ export default {
   font-size: 15px;
   padding: 0 50px 0 20px;
   line-height: 1.6;
+  word-wrap: break-word;
 }
 
 .project_infoItem_left_content--overflowHide{

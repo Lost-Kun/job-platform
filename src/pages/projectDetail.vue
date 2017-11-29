@@ -309,6 +309,7 @@ export default {
 	font-size: 15px;
 	line-height: 1.8;
 	text-align: left;
+  word-wrap: break-word;
 }
 </style>
 
