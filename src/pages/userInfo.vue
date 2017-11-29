@@ -410,7 +410,8 @@ export default {
       this.$router.push({
         path:'/homePage/talentDetail',
         query:{
-          id:applyItem.Employee_ID
+          id:applyItem.Employee_ID,
+          projectId:applyItem.Project_ID
         }
       })
     }
