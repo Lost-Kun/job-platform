@@ -96,6 +96,7 @@ export default {
 	data(){
 			return{
 				talentId: null,
+				Project_ID:null,
 				defultHeadImage:'../static/images/defaultHeadImg.jpg',
 				talentInfo:{},
 				rateNumber:0,
@@ -106,6 +107,7 @@ export default {
 	},
 	created(){
 		this.talentId = this.$route.query.id;
+		this.Project_ID = this.$route.query.projectId || null;
     	this.checkLogin();
    	    window.bus.$on('checkLogin',this.checkLogin);
 		this.getTalentInfo();
@@ -164,12 +166,26 @@ export default {
 						this.$alert('设计师不能预约人才，请登录雇主账号',{lockScroll:false});
 						return;
 					}
-					this.$router.push({
-						path:'/homePage/editProjectInfo',
-						query:{
-						id:talentInfo.Employee_ID
-						}
-          			});
+					if(this.Project_ID === null){
+						this.$router.push({
+							path:'/homePage/editProjectInfo',
+							query:{
+								id:talentInfo.Employee_ID
+							}
+						});
+					}else{//雇主从个人主页跳转
+						let self = this;
+						let applyItem = {
+							Name: talentInfo.Name,
+							Employee_ID: talentInfo.Employee_ID,
+							Project_ID: self.Project_ID
+						};
+						self.$order(applyItem,() => {
+							self.$router.push({
+								path:'/homePage/userInfo'
+							})
+						});
+					}
 				}else{
 					this.$login();
 				}
@@ -413,7 +429,7 @@ export default {
 
 .talentDetail_detailedInfo_rate_item{
 	position: relative;
-	height: 60px;
+	min-height: 60px;
 	margin: 18px auto;
 }
 
@@ -421,7 +437,7 @@ export default {
 	position: absolute;
 	top: 0;
 	left: 0;
-	bottom: 0;
+	height: 60px;
 	width: 80px;
 	display: flex;
 	align-items: center;
@@ -444,36 +460,37 @@ export default {
 }
 
 .talentDetail_detailedInfo_rate_item_center{
-	position: absolute;
+	/* position: absolute; */
 	top: 0;
-	left: 80px;
-	bottom: 0;
-	right: 200px;
+	margin-left: 80px;
+	min-height: 60px;
+	width: calc(100% - 280px);
+	/* right: 200px; */
 	font-size: 14px;
 }
 
 .talentDetail_detailedInfo_rate_item_center_name{
-	height: 50%;
+	height: 30px;
 	text-align: left;
-	padding: auto 10px;
+	padding: 0 10px;
 	font-weight: bold;
 }
 
 .talentDetail_detailedInfo_rate_item_center_comment{
-	height: 50%;
+	min-height: 30px;
 	text-align: left;
-	padding: auto 10px;
-	overflow: hidden;
+	padding: 0 10px;
+	/* overflow: hidden;
 	white-space: nowrap;
-	text-overflow: ellipsis;
+	text-overflow: ellipsis; */
 }
 
 .talentDetail_detailedInfo_rate_item_right{	
 	position: absolute;
 	top: 0;
 	right: 0;
-	bottom: 0;
-	width: 250px;
+	height: 60px;
+	width: 200px;
 	text-align: left;
 	font-size: 14px;
 }

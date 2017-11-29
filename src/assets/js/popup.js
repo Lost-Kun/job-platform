@@ -244,8 +244,11 @@ export default {
           '</div>' +
           '<div class="login_popupBox_content" style="bottom:0;">' +
           '<div class="login_popupBox_content_title" style="color:#000;height:20px;line-height:20px;">联系专员</div>' +
-          '<div class="login_popupBox_content_picture">' +
+          '<div class="login_popupBox_content_picture" style="top: 25px;">' +
           '<img class="login_popupBox_img" :src="workerPicture" />'+
+          '</div>' +
+          '<div class="login_popupBox_bottom--concat">' +
+          '<span>加客服微信，两小时内为您联系和推荐专业人才</span>' +
           '</div>' +
           '</div>' +
           '</div>' +
@@ -414,7 +417,11 @@ export default {
               this.$http.post('/project/orderEmployee', param).then((res) => {
                 let result = res.data;
                 if(result.success){
-                  this.$alert('预约成功',{lockScroll:false});
+                  this.$alert('预约成功',{
+                    lockScroll:false,
+                    callback:()=>{
+                      self.$payPicture();
+                    }});
                   this.closeBox();
                   if(typeof callBack === 'function'){
                     callBack();

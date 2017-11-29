@@ -130,7 +130,7 @@ export default {
               lockScroll:false,
               callback:()=>{
                 this.$router.push({
-                  path:'/homePage/editTalentInfo'
+                  path:'/homePage/editTalentInfo?type=1'
                 })
               }
             });

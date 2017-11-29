@@ -1,21 +1,21 @@
 <template>
   <div class="editProjectInfo">
-		<div class="editProjectInfo_item editProjectInfo_spacing" v-show="!isOrder">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']" v-show="!isOrder">
 			{{promptInfo}}
 		</div>
-		<div class="editProjectInfo_item editProjectInfo_spacing">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']">
 			<div class="editProjectInfo_item_left editProjectInfo_required">项目需求</div>
 			<div class="editProjectInfo_item_right">
 				<el-input v-model="Name" style="width:90%" size="small" placeholder="请输入内容" :maxlength="200"></el-input>
 			</div>
 		</div>
-		<div class="editProjectInfo_item editProjectInfo_spacing" style="height:150px;">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']" style="height:150px;" v-show="!isOrder">
 			<div class="editProjectInfo_item_left editProjectInfo_required">具体描述</div>
 			<div class="editProjectInfo_item_right">
 				<el-input v-model="Desp" type="textarea" style="width:90%;margin-top:8px;" :rows="6" placeholder="请输入内容" :maxlength="800"></el-input>
 			</div>
 		</div>
-		<div class="editProjectInfo_item editProjectInfo_spacing" v-show="isOrder">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']" v-show="isOrder">
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">预约人才</div>
 				<div class="editProjectInfo_itemHalf_right">
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="editProjectInfo_item editProjectInfo_spacing">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']">
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">项目日薪</div>
 				<div class="editProjectInfo_itemHalf_right">
@@ -41,7 +41,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="editProjectInfo_item editProjectInfo_spacing">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']">
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">您的姓名</div>
 				<div class="editProjectInfo_itemHalf_right">
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="editProjectInfo_item editProjectInfo_spacing">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']">
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">联系方式</div>
 				<div class="editProjectInfo_itemHalf_right">
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="editProjectInfo_item editProjectInfo_spacing">
+		<div :class="['editProjectInfo_item', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']">
 			<div class="editProjectInfo_itemHalf">
 				<div class="editProjectInfo_itemHalf_left editProjectInfo_required">验证码</div>
 				<div class="editProjectInfo_itemHalf_right">
@@ -66,7 +66,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="editProjectInfo_submitBox editProjectInfo_spacing">
+		<div :class="['editProjectInfo_submitBox', isOrder?'editProjectInfo_spacing--order':'editProjectInfo_spacing']">
 			<a class="editProjectInfo_submitBox_button" @click="addProject">{{this.isOrder?'立即预约':'发布需求'}}</a>
 		</div>
   </div>
@@ -146,6 +146,7 @@ export default {
 				if(result.success){
 					this.talentInfo = result.data;
 					this.Wage = result.data.Wage;
+					this.Name = result.data.Job_position;
 				}
 			})
 		},
@@ -233,7 +234,7 @@ export default {
 				return;
 			}
 			let Desp = this.Desp.replace(/(^\s*)|(\s*$)/g,'');
-			if(Desp === '' || Desp.length < 30){
+			if(!this.isOrder && (Desp === '' || Desp.length < 30)){
 				this.$alert('具体描述不能少于30字',{lockScroll:false});
 				return;
 			}
@@ -276,11 +277,18 @@ export default {
 			this.$http.post('/project/addProject', param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
-					 let msg = param.type === 'publish'?'发布成功':'预约成功'
-					 this.$alert(msg,{lockScroll:false});
+					 let msg = param.type === 'publish'?'发布成功':'预约成功';
 					 this.$router.push({
 						path:'/homePage/userInfo'
 					 })
+					 this.$alert(msg,{
+						lockScroll:false,
+						callback:()=>{
+							if(param.type === 'order'){
+								this.$payPicture();
+							}
+						}
+					 });
 				 }else{
 					 this.$alert(result.msg,{lockScroll:false});
 				 }
@@ -396,8 +404,12 @@ export default {
 }
 
 @media screen and (max-width: 1366px){
-  .eeditProjectInfo_spacing{
+  .editProjectInfo_spacing{
     margin: 18px auto;
+  }
+
+  .editProjectInfo_spacing--order{
+    margin: 38px auto;
   }
 }
 
@@ -405,11 +417,19 @@ export default {
   .editProjectInfo_spacing{
     margin: 32px auto;
   }
+
+  .editProjectInfo_spacing--order{
+    margin: 52px auto;
+  }
 }
 
 @media screen and (min-width: 1601px){
   .editProjectInfo_spacing{
     margin: 50px auto;
+  }
+
+  .editProjectInfo_spacing--order{
+    margin: 70px auto;
   }
 }
 </style>

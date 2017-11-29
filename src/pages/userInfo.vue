@@ -48,9 +48,10 @@
         <el-collapse v-model="selectOrderIndex" @change="showOrderdetail"  accordion>
           <el-collapse-item v-for="(item, index) in orderList" :name="index+''" :key="'order'+index">
             <template slot="title">
-              <div class="userInfo_otherInfo_order_name" :title="item.Name">项目名称：{{item.Name}}</div>
+              <div class="userInfo_otherInfo_order_name" :title="item.Name" :style="!(item.State === 1) && item.Amount_paid == 0 && userType === 1?{maxWidth: 'calc(100% - 850px)'}:''">项目名称：{{item.Name}}</div>
               <div class="userInfo_otherInfo_order_state">（{{getOrderStateText(item.State)}}）</div>
-              <div class="userInfo_otherInfo_order_money" v-show="!(item.State === 1)">已支付：{{item.Amount_paid - item.Refund_real}}元</div>
+              <div class="userInfo_otherInfo_order_money" style="max-width: 360px;" v-if="!(item.State === 1) && item.Amount_paid == 0 && userType === 1">暂未支付，订单将为您保留1小时，逾期将会自动取消</div>
+              <div class="userInfo_otherInfo_order_money" v-else v-show="!(item.State === 1)">已支付：{{item.Amount_paid - item.Refund_real}}元</div>
               <div class="userInfo_otherInfo_order_toolBox">
                 <a class="userInfo_button" v-show="item.State === 1 && userType === 1" @click.stop="contactWoker">沟通需求</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 0" @click.stop="addWorkLog(item)">新增工作记录</a>
@@ -83,7 +84,7 @@
                 <div class="userInfo_otherInfo_order_item_time">
                   {{logItem.Riqi}}
                 </div>
-                <div class="userInfo_otherInfo_order_item_main" style="right:10px;">
+                <div class="userInfo_otherInfo_order_item_main" style="width: calc(100% - 165px);">
                   {{logItem.Progress}}
                 </div>
               </div>
@@ -678,7 +679,7 @@ export default {
 
 .userInfo_otherInfo_order_item{
   position: relative;
-  height: 40px;
+  min-height: 40px;
   line-height: 40px;
 }
 
@@ -686,27 +687,29 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
+  height: 40px;
   width: 150px;
   color: #BEBEBE;
 }
 
 .userInfo_otherInfo_order_item_main{
-  position: absolute;
-  top: 0;
-  left: 155px;
-  bottom: 0;
-  right: 105px;
-  overflow: hidden;
+  /* position: absolute; */
+  /* top: 0; */
+  margin-left: 155px;
+  min-height: 40px;
+  line-height: 40px;
+  width: calc(100% - 260px);
+  /* right: 105px; */
+  /* overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 
 .userInfo_otherInfo_order_item_buttonBox{
   position: absolute;
   top: 0;
   width: 100px;
-  bottom: 0;
+  height: 40px;
   right: 0;
   text-align: right;
 }

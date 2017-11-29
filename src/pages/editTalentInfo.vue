@@ -229,7 +229,8 @@ export default {
 			Edu_degree:'',
 			Skills:'',
 			Projects:'',
-			employeeId: ""
+			employeeId: "",
+			type: null
 		}
 	},
 	computed:{
@@ -247,6 +248,7 @@ export default {
 		}
 	},
 	created(){
+		this.type = this.$route.query.type || null;
     	this.checkLogin();
     	window.bus.$on('checkLogin',this.checkLogin);
 	},
@@ -362,7 +364,14 @@ export default {
 			this.$http.post('/talent/editTalentInfo', param).then((res) => {
 				 let result = res.data;
 				 if(result.success){
-					 this.$alert('保存成功',{lockScroll:false});
+					 this.$alert('保存成功',{
+						lockScroll:false,
+						callback:()=>{
+							if(this.type == 1){
+								this.$router.back();
+							}
+						}
+					 });
 				 }else{
 					 this.$alert(result.msg,{lockScroll:false});
 				 }
