@@ -429,7 +429,7 @@ export default {
   }
 
   .editProjectInfo_spacing--order{
-    margin: 70px auto;
+    margin: 75px auto;
   }
 }
 </style>

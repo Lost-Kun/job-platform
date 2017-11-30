@@ -105,6 +105,8 @@ CREATE TABLE `log` (
   `Log_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '每条log记录的唯一编号',
   `Project_ID` bigint(20) NOT NULL COMMENT '项目编号',
   `Progress` varchar(1000) DEFAULT NULL COMMENT '这条log的详细内容',
+  `IsRead_Employee` int(1) DEFAULT '0' COMMENT '该记录设计师是否已读,0:未读,1:已读',
+  `IsRead_Employer` int(1) DEFAULT '0' COMMENT '该记录雇主是否已读,0:未读,1:已读',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Log_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -152,7 +154,7 @@ CREATE TABLE `project` (
   `Refund_real` int(11) DEFAULT '0' COMMENT '项目退款金额（实际）',
   `Amount_paid` int(11) DEFAULT '0' COMMENT '项目已支付金额',
   `Delivery_number` int(1) DEFAULT '0' COMMENT '投递次数',
-  `System_paidFlag` int(1) DEFAULT '1' COMMENT '系统结算状态,1:未结算,2:已结算',
+  `System_paidFlag` int(1) DEFAULT '0' COMMENT '系统结算状态,0:未结算,1:已结算',
   PRIMARY KEY (`Project_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -10,8 +10,12 @@
       </div> -->
       <div class="loginBox">
         <a class="login_link" v-show="!isLogin" @click="showLoginPicture">登录</a>
-        <a class="login_link" v-show="isLogin" @click="enterUserInfo">个人主页</a>
-        <a class="login_link" v-show="isLogin" @click="logout">退出</a>
+        <el-badge :max="99" :value="newsNumber" :hidden="!isLogin || newsNumber<1 || isUserInfoPage">
+          <div class="login_link_box" v-show="isLogin">
+            <a class="login_link"  @click="enterUserInfo">个人主页</a>
+          </div>
+        </el-badge>
+        <a class="login_link" style="margin-left:25px;"  v-show="isLogin" @click="logout">退出</a>
       </div>
     </div>
   </div>
@@ -36,7 +40,11 @@ export default {
       ],
       isLogin:false,
       userId: null,
-      userType: null
+      userType: null,
+      newsNumber: 0,
+      isUserInfoPage: false,
+      stopLoop: false,
+      setTimeoutIndex: 0
     }
   },
   created(){
@@ -44,6 +52,7 @@ export default {
     this.navList.forEach((item) => {
       item.isSelected = this.$route.path === item.path;
     });
+    this.isUserInfoPage = this.$route.path === '/homePage/userInfo';
     window.bus.$on('checkLogin',this.checkLogin);
   },
   methods:{
@@ -66,10 +75,12 @@ export default {
         this.isLogin = true;
         this.userId = userId;
         this.userType = userType;
+        this.startLoopNews();
       }else{
         this.isLogin = false;
         this.userId = null;
         this.userType = null;
+        this.stopLoopNews();
       }
     },
     //返回首页
@@ -109,6 +120,34 @@ export default {
           window.bus.$emit('checkLogin');
       }).catch(() => {       
       });
+    },
+    startLoopNews(){
+      this.stopLoop = false;
+      this.getNewsNumberLoop(this.setTimeoutIndex);
+    },
+    stopLoopNews(){
+      this.stopLoop = true;
+      this.setTimeoutIndex ++;
+    },
+    getNewsNumberLoop(setTimeoutIndex){
+      if(!this.stopLoop && this.isLogin && setTimeoutIndex === this.setTimeoutIndex){
+        this.$http.post('/project/getNewsNumber', {userId:this.userId,userType:this.userType}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            this.newsNumber = result.data;
+          }else{
+            this.newsNumber = 0;
+          }
+          setTimeout(()=>{
+            this.getNewsNumberLoop(setTimeoutIndex);
+          },2000);
+        }).catch(() => {
+          this.newsNumber = 0;
+          setTimeout(()=>{
+            this.getNewsNumberLoop(setTimeoutIndex);
+          },2000);
+        })
+      }
     }
   },
   watch:{
@@ -116,6 +155,7 @@ export default {
       this.navList.forEach((item) => {
         item.isSelected = this.$route.path === item.path;
       })
+      this.isUserInfoPage = this.$route.path === '/homePage/userInfo';
     }
   }
 }
@@ -175,16 +215,30 @@ export default {
 .loginBox{
   height: 100%;
   width: 150px;
-  line-height: 70px;
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .login_link{
   cursor: pointer;
-  margin: auto 10px;
+  height: 19px;
+  line-height: 19px;
+  margin-top: 6px;
+  /* margin: auto 10px; */
 }
 
 .login_link:hover{
   color: #5A9AD5;
+}
+
+.login_link_box{
+  position: relative;
+  margin-top: 6px;
+  height: 19px;
+  line-height: 19px;
+  text-align: center;
+  width: 90px;
 }
 </style>

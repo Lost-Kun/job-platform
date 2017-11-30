@@ -106,12 +106,18 @@ export default {
       userInfo:{},
       totalMoney:0,
       orderList:[],
-      selectOrderIndex:'0'
+      selectOrderIndex:'-1',
+      stopLoopOrderList: false,
+      setTimeoutIndex: 0
     }
   },
   created(){
     this.checkLogin();
     window.bus.$on('checkLogin',this.checkLogin);
+  },
+  beforeDestroy(){
+    this.stopLoopOrderList = true;
+    this.setTimeoutIndex = null;
   },
   methods:{
     //检验用户登录
@@ -134,7 +140,7 @@ export default {
         this.userId = userId;
         this.userType = parseInt(userType);
         this.getUserInfo();
-        this.getOrderList();
+        this.startLoopOrderList();
       }else{
         this.isLogin = false;
         this.userId = null;
@@ -175,28 +181,44 @@ export default {
     contactWoker(){   //联系专员
       this.$contactWoker();
     },
-    getOrderList(){
-      let url = this.userType === 0?'/talent/getOrderList':'/employer/getOrderList';
-      let param = this.userType === 0?{employeeId:this.userId}:{employerId:this.userId};
-      this.$http.post(url, param).then((res) => {
-				 let result = res.data;
-				 if(result.success){
-           let totalMoney = 0;
-           this.orderList = result.data.map((item) => {
-             item.applyList = [];
-             item.logList = [];
-             if(item.State == 5 || item.State == 7){
-              //  if(item.Length_real && item.Wage_real){
-                //  totalMoney += item.Length_real*item.Wage_real;
-                 totalMoney += (item.Amount_paid-item.Refund);
-              //  }
-             }
-             return item;
-           });
-           this.totalMoney = totalMoney;
-           this.showOrderdetail(this.selectOrderIndex);
-				 }
-			})
+    startLoopOrderList(){
+      this.stopLoopOrderList = false;
+      this.getOrderList(this.setTimeoutIndex);
+    },
+    stopLoopOrderList(){
+      this.stopLoopOrderList = true;
+      this.setTimeoutIndex ++;
+    },
+    getOrderList(setTimeoutIndex){
+      if(!this.stopLoopOrderList && this.isLogin && setTimeoutIndex === this.setTimeoutIndex){
+        let url = this.userType === 0?'/talent/getOrderList':'/employer/getOrderList';
+        let param = this.userType === 0?{employeeId:this.userId}:{employerId:this.userId};
+        this.$http.post(url, param).then((res) => {
+          let result = res.data;
+          if(result.success){
+            let totalMoney = 0;
+            this.orderList = result.data.map((item) => {
+              item.applyList = [];
+              item.logList = [];
+              if(item.State == 5 || item.State == 7){
+                totalMoney += (item.Amount_paid-item.Refund);
+              }
+              return item;
+            });
+            this.totalMoney = totalMoney;
+            if(this.selectOrderIndex !== '-1'){
+              this.showOrderdetail(this.selectOrderIndex);
+            }
+          }
+          setTimeout(()=>{
+            this.getOrderList(setTimeoutIndex);
+          },2000)
+        }).catch(() => {
+          setTimeout(()=>{
+            this.getOrderList(setTimeoutIndex);
+          },2000)
+        })
+      }
     },
     getOrderStateText(State){
       if(State === 1){
@@ -241,10 +263,17 @@ export default {
       }
     },
     getLogList(orderItem){//获取项目日志
-      this.$http.post('/project/getLogList', {Project_ID:orderItem.Project_ID}).then((res) => {
+      this.$http.post('/project/getLogList', {Project_ID:orderItem.Project_ID,userType:this.userType}).then((res) => {
         let result = res.data;
         if(result.success){
-          orderItem.logList = result.data;
+          if(this.userType === 0){
+            orderItem.logList = result.data.map((item) => {
+              item.Progress = item.Progress.replace('，设计师将在3天内答复，','，请您在3天内答复，');
+              return item;
+            });
+          }else{
+            orderItem.logList = result.data;
+          }
         }
       })
     },
