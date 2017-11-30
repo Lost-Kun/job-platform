@@ -26,11 +26,11 @@ CREATE TABLE `apply` (
   `Employee_ID` varchar(255) NOT NULL COMMENT '设计师编号',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Apply_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `apply` */
 
-insert  into `apply`(`Apply_ID`,`Project_ID`,`Employee_ID`,`Riqi`) values (1,3,'1','2017.11.24 12:09:27'),(2,3,'2','2017.10.24 12:09:27'),(3,0,'1','2017-11-21 00:11:45'),(4,1,'1','2017-11-21 00:13:42'),(5,4,'1','2017-11-21 00:43:32');
+insert  into `apply`(`Apply_ID`,`Project_ID`,`Employee_ID`,`Riqi`) values (1,1,'33a150b0-d458-11e7-920f-0d47fb440c3a','2017-11-29 00:22:40'),(2,2,'33a150b0-d458-11e7-920f-0d47fb440c3a','2017-11-29 00:38:44'),(3,4,'41733ff0-d4e9-11e7-a567-29bd96aea731','2017-11-29 17:42:38'),(4,5,'41733ff0-d4e9-11e7-a567-29bd96aea731','2017-11-29 18:06:27'),(5,6,'c2211630-d4ef-11e7-a567-29bd96aea731','2017-11-29 18:27:26'),(6,7,'33a150b0-d458-11e7-920f-0d47fb440c3a','2017-11-29 18:30:54'),(7,6,'33a150b0-d458-11e7-920f-0d47fb440c3a','2017-11-29 18:30:57'),(8,10,'41733ff0-d4e9-11e7-a567-29bd96aea731','2017-11-29 19:41:14');
 
 /*Table structure for table `employee` */
 
@@ -58,15 +58,15 @@ CREATE TABLE `employee` (
   `Projects` varchar(1000) DEFAULT NULL COMMENT '展示项目（文字）',
   `Projects_list` varchar(1000) DEFAULT NULL COMMENT '隐性，展示项目列表（json：项目名称+链接）',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '注册日期，格式为年-月-日 时:分:秒',
-  `Ordered_number` int(11) DEFAULT '0' COMMENT '被预约的次数',
+  `Ordered_number` int(11) DEFAULT '0' COMMENT '被预约次数',
   `Rating` float DEFAULT '5' COMMENT '隐性，雇主对这位设计师的综合评分',
-  `State` int(1) DEFAULT '0' COMMENT '预约状态，0:未预约，1:已预约',
+  `State` int(1) DEFAULT '0' COMMENT '预约状态,0:未预约,1:已预约',
   PRIMARY KEY (`Employee_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `employee` */
 
-insert  into `employee`(`Employee_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Zhifubao`,`Position`,`Wage`,`Job_company`,`Job_position`,`Job_experience`,`Job_city`,`Job_district`,`Edu_school`,`Edu_department`,`Edu_degree`,`Skills`,`Skills_list`,`Projects`,`Projects_list`,`Riqi`,`Ordered_number`,`Rating`,`State`) values ('1',NULL,'洛',NULL,'18332551342',NULL,'前端工程师',1000,'百度','前端工程师',4,'北京','海淀区','北京大学','信息学院','本科','1、精通JS、HTML、CSS\n2、精通Vue、React',NULL,'百度地图',NULL,'2017-11-14 19:15:00',4,5,1),('2',NULL,'夏',NULL,'18410171035',NULL,'算法工程师',1100,'阿里巴巴','算法工程师',6,'上海','黄埔区','复旦大学','信息学院','硕士','1、精通Java\n2、精通算法结构\n3、精通Python',NULL,'淘宝',NULL,'2017-11-14 19:16:00',7,5,1);
+insert  into `employee`(`Employee_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Zhifubao`,`Position`,`Wage`,`Job_company`,`Job_position`,`Job_experience`,`Job_city`,`Job_district`,`Edu_school`,`Edu_department`,`Edu_degree`,`Skills`,`Skills_list`,`Projects`,`Projects_list`,`Riqi`,`Ordered_number`,`Rating`,`State`) values ('33a150b0-d458-11e7-920f-0d47fb440c3a',NULL,'夏',NULL,'18332551343',NULL,'前端工程师',500,'京东','前端',3,'北京','海淀区','清华','软件学院','本科','精通桌面电脑软、硬件相关知识和技能，能独立判断软、硬件故障，对于常用的Office办公软件较精通； 精通桌面电脑软、硬件相关知识和技能，能独立判断软、硬件故障，对于常用的Office办公软件较精通； \n熟悉Windows AD、Exchange、Symantec 防病毒、NBU等系统的配置经验并具备一定的基础理论知识； 精通桌面电脑软、硬件相关知识和技能，能独立判断软、硬件故障，对于常用的Office办公软件较精通； \n具备国内主流OA系统的日常维护操作经验，熟悉系统层面和应用层面的相关操作 精通桌面电脑软、硬件相关知识和技能，能独立判断软、硬件故障，对于常用的Office办公软件较精通； \n具有较强的沟通能力，有上进心、责任心、学习能力及服务意识强。能承受工作压力，接受必要时的加班工作。精通桌面电脑软、硬件相关知识和技能，能独立判断软、硬件故障，对于常用的Office办公软件较精通；',NULL,'北京法院运维 北京法院运维 北京法院运维 北京法院运维 北京安监局运维 北京安监局运维 北京安监局运维 北京安监局运维 北京安监局运维 北京安监局运维 北京安监局运维 \n北京安监局运维 \n北京金融资产交易所运维 \n民生金融中心-建银投资运维北京法院运维 \n北京安监局运维 \n北京金融资产交易所运维 \n民生金融中心-建银投资运维\n北京安监局运维 \n北京金融资产交易所运维 \n民生金融中心-建银投资运维\n北京安监局运维 \n北京金融资产交易所运维 \n民生金融中心-建银投资运维\n北京安监局运维 \n北京金融资产交易所运维 \n民生金融中心-建银投资运维',NULL,'2017-11-29 00:21:34',4,4,1),('41733ff0-d4e9-11e7-a567-29bd96aea731',NULL,'设2',NULL,'18811439382',NULL,'前端工程师',600,'腾讯','前端',2,'北京','海淀区',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-11-29 17:39:54',2,5,1),('c2211630-d4ef-11e7-a567-29bd96aea731',NULL,'设4',NULL,'18811439384',NULL,'JAVA工程师',500,'百度','java工程师',3,'北京','海淀区',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2017-11-29 18:26:27',1,5,0);
 
 /*Table structure for table `employer` */
 
@@ -88,7 +88,7 @@ CREATE TABLE `employer` (
 
 /*Data for the table `employer` */
 
-insert  into `employer`(`Employer_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Company`,`Location`,`Company_introduction`,`Riqi`,`Rating`) values ('1',NULL,'雪','张天雪','18332551343','腾讯','深圳','微信\nQQ',NULL,5),('2',NULL,'东','徐向东','18368551342','京东','北京','京东商城',NULL,5);
+insert  into `employer`(`Employer_ID`,`HeadImgUrl`,`Name`,`Name_real`,`Mobile`,`Company`,`Location`,`Company_introduction`,`Riqi`,`Rating`) values ('35850160-d4f3-11e7-a567-29bd96aea731',NULL,'吴3','吴3','18811439383',NULL,NULL,NULL,'2017-11-29 18:51:09',5),('e6c01a60-d4e8-11e7-a567-29bd96aea731',NULL,'吴1','吴1','18811439381',NULL,NULL,NULL,'2017-11-29 17:37:22',5),('f5b56ac0-d457-11e7-920f-0d47fb440c3a',NULL,'七','七酱','18332551342','','','','2017-11-29 00:19:50',3);
 
 /*Table structure for table `ip` */
 
@@ -111,13 +111,15 @@ CREATE TABLE `log` (
   `Log_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '每条log记录的唯一编号',
   `Project_ID` bigint(20) NOT NULL COMMENT '项目编号',
   `Progress` varchar(1000) DEFAULT NULL COMMENT '这条log的详细内容',
+  `IsRead_Employee` int(1) DEFAULT '0' COMMENT '该记录设计师是否已读,0:未读,1:已读',
+  `IsRead_Employer` int(1) DEFAULT '0' COMMENT '该记录雇主是否已读,0:未读,1:已读',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Log_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 /*Data for the table `log` */
 
-insert  into `log`(`Log_ID`,`Project_ID`,`Progress`,`Riqi`) values (1,0,'创建项目','2017.10.11 12:31:00'),(2,0,'框架搭建','2017.10.12 12:31:00'),(3,4,'预约洛设计师成功','2017-11-21 01:44:01'),(6,3,'预约夏设计师成功','2017-11-21 01:58:49'),(7,4,'雇主延长预约7天','2017-11-21 21:53:15'),(8,1,'雇主驳回完工申请','2017-11-21 21:55:33'),(9,1,'雇主申请退款','2017-11-21 21:55:45'),(10,1,'设计师确认退款申请','2017-11-21 21:56:24'),(11,0,'设计师申请完工','2017-11-21 21:58:09'),(12,0,'雇主确认完工申请','2017-11-21 21:59:50');
+insert  into `log`(`Log_ID`,`Project_ID`,`Progress`,`IsRead_Employee`,`IsRead_Employer`,`Riqi`) values (1,1,'预约夏设计师成功',0,0,'2017-11-29 00:23:52'),(2,1,'雇主已申请退款500元',0,0,'2017-11-29 00:25:01'),(4,1,'雇主已同意退款500元',0,0,'2017-11-29 00:27:45'),(5,1,'设计师已评价雇主',0,0,'2017-11-29 00:28:08'),(6,1,'雇主已评价设计师',0,0,'2017-11-29 00:28:58'),(8,2,'预约夏设计师成功',0,0,'2017-11-29 00:39:47'),(9,2,'雇主延长预约5天',0,0,'2017-11-29 00:39:58'),(10,2,'设计师已申请完工，请雇主尽快验收项目，系统会在申请完工后七天内自动确认完工',0,0,'2017-11-29 00:41:41'),(11,2,'雇主确认完工申请',0,0,'2017-11-29 00:42:35'),(12,2,'雇主已评价设计师',0,0,'2017-11-29 00:42:53'),(13,3,'预约夏设计师成功，预约项目日薪：800元/天，项目工时：5天',0,1,'2017-11-29 09:16:07'),(14,3,'雇主延长预约20天',0,1,'2017-11-29 09:31:09'),(15,2,'设计师已评价雇主',0,0,'2017-11-29 09:47:15'),(16,3,'设计师已申请完工，请雇主尽快验收项目，否则系统会在申请完工后七天内自动确认完工',0,1,'2017-11-29 09:47:32'),(17,3,'雇主确认完工申请',0,1,'2017-11-29 10:02:16'),(18,3,'雇主已评价设计师',0,1,'2017-11-29 10:02:37'),(19,4,'预约设2设计师成功，预约项目日薪：800元/天，项目工时：2天',0,0,'2017-11-29 17:43:12'),(20,4,'雇主延长预约3天',0,0,'2017-11-29 17:45:35'),(21,4,'工作记录：testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',0,0,'2017-11-29 17:48:18'),(22,4,'设计师已申请完工，请雇主尽快验收项目，否则系统会在申请完工后七天内自动确认完工',0,0,'2017-11-29 17:49:30'),(23,4,'雇主驳回完工申请',0,0,'2017-11-29 17:50:16'),(24,4,'设计师已申请完工，请雇主尽快验收项目，否则系统会在申请完工后七天内自动确认完工',0,0,'2017-11-29 17:50:44'),(25,4,'雇主确认完工申请',0,0,'2017-11-29 17:51:53'),(26,4,'雇主已评价设计师',0,0,'2017-11-29 17:52:03'),(27,5,'预约设2设计师成功，预约项目日薪：800元/天，项目工时：3天',0,0,'2017-11-29 18:07:23'),(28,5,'雇主延长预约1天',0,0,'2017-11-29 18:15:02'),(29,5,'雇主已申请退款2400元',0,0,'2017-11-29 18:15:28'),(30,5,'设计师驳回退款申请，等待平台介入处理',0,0,'2017-11-29 18:23:20'),(31,8,'预约设4设计师成功，预约项目日薪：500元/天，项目工时：3天',0,1,'2017-11-29 18:29:25'),(32,9,'预约夏设计师成功，预约项目日薪：500元/天，项目工时：4天',0,0,'2017-11-29 18:53:19'),(34,8,'雇主已申请退款1000元，设计师将在3天内答复，逾期默认确认退款',0,1,'2017-11-30 13:39:42'),(35,8,'平台已自动确认退款1000元',0,1,'2017-11-30 13:40:42');
 
 /*Table structure for table `operating` */
 
@@ -156,15 +158,17 @@ CREATE TABLE `project` (
   `Skills_list` varchar(500) DEFAULT NULL COMMENT '隐性，项目需要的技能列表，json',
   `Position` varchar(255) DEFAULT NULL COMMENT '隐性，项目需要的岗位',
   `State` int(1) DEFAULT '1' COMMENT '项目状态（非常重要）',
-  `Refund` int(11) DEFAULT NULL COMMENT '项目退款金额（申请）',
-  `Refund_real` int(11) DEFAULT NULL COMMENT '项目退款金额（实际）',
-  `Delivery_number` int(11) DEFAULT '0' COMMENT '投递次数',
+  `Refund` int(11) DEFAULT '0' COMMENT '项目退款金额（申请）',
+  `Refund_real` int(11) DEFAULT '0' COMMENT '项目退款金额（实际）',
+  `Amount_paid` int(11) DEFAULT '0' COMMENT '项目已支付金额',
+  `Delivery_number` int(1) DEFAULT '0' COMMENT '投递次数',
+  `System_paidFlag` int(1) DEFAULT '0' COMMENT '系统支付状态，0:未结款，1:已结款',
   PRIMARY KEY (`Project_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `project` */
 
-insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`,`Delivery_number`) values (0,'2017-11-16 10:49:00','境外电商开发','国外实力集团布局新马泰的社交  ＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立研发中心   国外实力集团布局新马泰的社交＋电商项目，在北京设立',800,20,NULL,NULL,'1','1',NULL,NULL,5,NULL,NULL,1),(1,'2017-11-17 00:49:00','前端网页开发','针对宠物的一款平台项目,使用的技术包括 javascript, vue, iview 等前端技术,项目已经进行大半，目前在页面方面有很大问题，需要技术支持。  ',500,10,NULL,NULL,'1','1',NULL,NULL,5,NULL,NULL,1),(3,'2017-11-19 01:17:01','测试发布','测试发布测试发布测试发布测试发布测试发布测试发布测试发布\n测试发布测试发布测试发布测试发布测试发布测试发布测试发布',1100,54,NULL,NULL,'1','2',NULL,NULL,1,NULL,NULL,2),(4,'2017-11-21 00:24:29','测试发布需求2','测试发布需求2\n测试发布需求2\n测试发布需求2\n测试发布需求2\n测试发布需求2\n测试发布需求2',1000,6,NULL,NULL,'1','1',NULL,NULL,2,NULL,NULL,1);
+insert  into `project`(`Project_ID`,`Riqi`,`Name`,`Desp`,`Wage`,`Length`,`Wage_real`,`Length_real`,`Employer_ID`,`Employee_ID`,`Skills_list`,`Position`,`State`,`Refund`,`Refund_real`,`Amount_paid`,`Delivery_number`,`System_paidFlag`) values (1,'2017-11-29 00:20:41','测试修改','测试修改测试修改测试修改测试修改测试修改测试修改测试修改测试修改测试修改测试修改测试修改测试修改测试修改',800,5,600,5,'f5b56ac0-d457-11e7-920f-0d47fb440c3a','33a150b0-d458-11e7-920f-0d47fb440c3a',NULL,NULL,7,500,500,1000,1,0),(2,'2017-11-29 00:37:36','测试测试','测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试',700,3,800,10,'f5b56ac0-d457-11e7-920f-0d47fb440c3a','33a150b0-d458-11e7-920f-0d47fb440c3a',NULL,NULL,7,0,0,8000,1,0),(3,'2017-11-29 09:16:07','测试测试哦','测试测试哦测试测试哦测试测试哦测试测试哦测试测试哦测试测试哦测试测试哦',800,5,800,25,'f5b56ac0-d457-11e7-920f-0d47fb440c3a','33a150b0-d458-11e7-920f-0d47fb440c3a',NULL,NULL,5,0,0,10000,0,0),(4,'2017-11-29 17:39:16','test','testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',800,3,800,5,'e6c01a60-d4e8-11e7-a567-29bd96aea731','41733ff0-d4e9-11e7-a567-29bd96aea731',NULL,NULL,5,0,0,4000,1,0),(5,'2017-11-29 17:52:58','test2','test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2test2',800,5,800,4,'e6c01a60-d4e8-11e7-a567-29bd96aea731','41733ff0-d4e9-11e7-a567-29bd96aea731',NULL,NULL,6,2400,0,2400,1,0),(6,'2017-11-29 18:22:49','类似网易云极客学院 招募兼职讲师. 我们会有专门的技术讲师将技术大牛的分享变成成品教学视频.','1.项目实战: 以高仿商业项目讲解为主.引入一.架构设计(MVC,MVVM,MVP等) 二.设计模式 三.编程思想(响应式,函数式,链式编程等) 四.内容.通过项目讲解,将编程思想上的技术运用到实际开发中.(注:上面列举仅做参考,案例和技术自拟) \n2.实用技术: 实用API技术讲解.通过高仿商业项目,讲解某些实用技术API.如,直播技术.即时通讯技术,人工智能,AR技术等(注:实用技术讲解,不能局限于一套API.特殊功能除外.讲解过程要对比讲解.可侧重讲解某套API,除API讲解外.分析底层技术以及原理讲解更为重要.) \n3.iOS & MacOS 逆向工程: 逆向工程为冷门技术领域.无经验者慎重接单.方向 打造iOS正向工程师 转型 逆向工程之路. ARM汇编详解,逆向原理分析,反汇编案例分析(重点),项目演示(非越狱机)\n4.iOS安全开发：熟悉全盘加密 ，固态NAND ，磁盘加密 ，复制实时文件系统，DataTheft载荷 等技术，有实际对于項目攻防实作经验为主，课程內容以著名項目做解析，解释为何如此处理可以达到什么安全效果，或是有和安全漏洞。 \n5.音视频：掌握OpenGL 与 OpenGL ES；有OpenGL ES 或 OpenGL相关项目经验优先；对音视频编解码、AV Foundation、有多媒体处理工作经验的优先，如Shader、滤镜、GPUImage；了解GPU 与 CPU 的原理和差异性；具备扎实的C/C++基础，对于算法和数据结构基础牢固；具备扎实的图像处理的功底，3D数学、线性代数基础数学牢固；具体OpenGLOpenGL ES 项目者优先',600,4,NULL,NULL,'f5b56ac0-d457-11e7-920f-0d47fb440c3a',NULL,NULL,NULL,1,0,0,0,2,0),(7,'2017-11-29 18:28:26','test3','test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3test3',600,3,NULL,NULL,'e6c01a60-d4e8-11e7-a567-29bd96aea731',NULL,NULL,NULL,1,0,0,0,1,0),(8,'2017-11-29 18:29:25','test4','asdfghjonbvhfgyuhoijwdrytfuygihjokLuygduwge9qwhf89wehfierhvgidjxvnfijihfw',500,3,500,3,'e6c01a60-d4e8-11e7-a567-29bd96aea731','c2211630-d4ef-11e7-a567-29bd96aea731',NULL,NULL,5,1000,0,1500,0,0),(9,'2017-11-29 18:53:19','test5','test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5test5phpjs',500,4,500,4,'35850160-d4f3-11e7-a567-29bd96aea731','33a150b0-d458-11e7-920f-0d47fb440c3a',NULL,NULL,2,0,0,2000,0,0),(10,'2017-11-29 19:40:40','test','11112111111111111111111111111211111111111111111111111121111111111111111111111112111111111111111111111111211111111111111111111',500,3,NULL,NULL,'35850160-d4f3-11e7-a567-29bd96aea731',NULL,NULL,NULL,1,0,0,0,1,0);
 
 /*Table structure for table `rating` */
 
@@ -179,9 +183,11 @@ CREATE TABLE `rating` (
   `UserId` varchar(255) DEFAULT NULL COMMENT '被评价者ID',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '该评论提交的日期',
   PRIMARY KEY (`Rating_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `rating` */
+
+insert  into `rating`(`Rating_ID`,`Project_ID`,`Comment`,`Rating`,`Type`,`UserId`,`Riqi`) values (1,1,'差评',2,2,'f5b56ac0-d457-11e7-920f-0d47fb440c3a','2017-11-29 00:28:08'),(2,1,'差评',2,1,'33a150b0-d458-11e7-920f-0d47fb440c3a','2017-11-29 00:28:58'),(3,2,'很不错',5,1,'33a150b0-d458-11e7-920f-0d47fb440c3a','2017-11-29 00:42:53'),(4,2,'不错',4,2,'f5b56ac0-d457-11e7-920f-0d47fb440c3a','2017-11-29 09:47:14'),(5,3,'非常棒',5,1,'33a150b0-d458-11e7-920f-0d47fb440c3a','2017-11-29 10:02:37'),(6,4,'好',5,1,'41733ff0-d4e9-11e7-a567-29bd96aea731','2017-11-29 17:52:03');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
