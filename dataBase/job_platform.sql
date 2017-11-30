@@ -24,6 +24,7 @@ CREATE TABLE `apply` (
   `Apply_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '每个申请的独特编号',
   `Project_ID` bigint(20) NOT NULL COMMENT '项目编号',
   `Employee_ID` varchar(255) NOT NULL COMMENT '设计师编号',
+  `IsRead` int(1) DEFAULT '0' COMMENT '该申请是否已读,0:未读,1:已读',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '提交这条log的具体时间，格式为年-月-日 时:分:秒',
   PRIMARY KEY (`Apply_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

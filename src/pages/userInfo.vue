@@ -46,7 +46,7 @@
       </div>
       <div class="userInfo_otherInfo_showBox">
         <el-collapse v-model="selectOrderIndex" @change="showOrderdetail"  accordion>
-          <el-collapse-item v-for="(item, index) in orderList" :name="index+''" :key="'order'+index">
+          <el-collapse-item v-for="(item, index) in orderList" :name="item.Project_ID+''" :key="'order'+index">
             <template slot="title">
               <div class="userInfo_otherInfo_order_name" :title="item.Name" :style="!(item.State === 1) && item.Amount_paid == 0 && userType === 1?{maxWidth: 'calc(100% - 850px)'}:''">项目名称：{{item.Name}}</div>
               <div class="userInfo_otherInfo_order_state">（{{getOrderStateText(item.State)}}）</div>
@@ -64,6 +64,10 @@
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 4 && userType === 0" @click.stop="agreeRefund(item)">确认退款</a>
                 <a class="userInfo_button" v-show="item.State === 4 && userType === 0"  @click.stop="rejectRefund(item)">驳回退款</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 5" @click.stop="evaluate(item)">前去评价</a>
+                <div style="position:absolute;right:-20px;top:0">
+                <el-badge :max="99" :value="item.State === 1 && userType === 1?item.newDeliverNumber:item.newsNumber">
+                </el-badge>
+                </div>
               </div>
             </template>
             <div class="userInfo_otherInfo_order_applyBox" v-if="item.State === 1 && userType === 1">
@@ -106,6 +110,7 @@ export default {
       userInfo:{},
       totalMoney:0,
       orderList:[],
+      orderListObj:{},
       selectOrderIndex:'-1',
       stopLoopOrderList: false,
       setTimeoutIndex: 0
@@ -140,7 +145,7 @@ export default {
         this.userId = userId;
         this.userType = parseInt(userType);
         this.getUserInfo();
-        this.startLoopOrderList();
+        this.startLoopOrder();
       }else{
         this.isLogin = false;
         this.userId = null;
@@ -181,11 +186,12 @@ export default {
     contactWoker(){   //联系专员
       this.$contactWoker();
     },
-    startLoopOrderList(){
+    startLoopOrder(){
       this.stopLoopOrderList = false;
+      this.setTimeoutIndex ++;
       this.getOrderList(this.setTimeoutIndex);
     },
-    stopLoopOrderList(){
+    stopLoopOrder(){
       this.stopLoopOrderList = true;
       this.setTimeoutIndex ++;
     },
@@ -197,17 +203,33 @@ export default {
           let result = res.data;
           if(result.success){
             let totalMoney = 0;
+            let orderListObj = this.orderListObj;
             this.orderList = result.data.map((item) => {
-              item.applyList = [];
-              item.logList = [];
+              if(orderListObj.hasOwnProperty(item.Project_ID+'')){
+                let oldItem = orderListObj[item.Project_ID+''];
+                Object.assign(oldItem, item);
+                item = oldItem;
+              }else{
+                item.applyList = [];
+                item.logList = [];
+                orderListObj[item.Project_ID+''] = item;
+              }
               if(item.State == 5 || item.State == 7){
                 totalMoney += (item.Amount_paid-item.Refund);
               }
               return item;
             });
             this.totalMoney = totalMoney;
-            if(this.selectOrderIndex !== '-1'){
-              this.showOrderdetail(this.selectOrderIndex);
+            if(this.selectOrderIndex !== undefined && this.selectOrderIndex !== '-1'){
+              if(this.orderListObj[this.selectOrderIndex]){
+                if(this.orderListObj[this.selectOrderIndex].State === 1){
+                  if(this.orderListObj[this.selectOrderIndex].newDeliverNumber > 0){
+                    this.showOrderdetail(this.selectOrderIndex);
+                  }
+                }else if(this.orderListObj[this.selectOrderIndex].newsNumber > 0){
+                  this.showOrderdetail(this.selectOrderIndex);
+                }
+              }
             }
           }
           setTimeout(()=>{
@@ -245,9 +267,9 @@ export default {
       return '';
     },
     showOrderdetail(selectOrderIndex){
-      if(selectOrderIndex !== undefined && selectOrderIndex !== ''){
-        let index = parseInt(selectOrderIndex);
-        let selectedOrder = this.orderList[index];
+      if(selectOrderIndex !== undefined && selectOrderIndex !== '-1'){
+        // let index = parseInt(selectOrderIndex);
+        let selectedOrder = this.orderListObj[selectOrderIndex];
         if(selectedOrder){
           if(selectedOrder.State === 1){//需求对接阶段，获取申请列表
             this.$http.post('/project/getApplyList', {Project_ID:selectedOrder.Project_ID}).then((res) => {
@@ -274,6 +296,7 @@ export default {
           }else{
             orderItem.logList = result.data;
           }
+          console.log(orderItem.logList);
         }
       })
     },
@@ -281,13 +304,17 @@ export default {
       let self = this;
       self.$order(applyItem,() => {
         orderItem.State = 2;
-        self.getLogList(orderItem);
+        if(self.selectOrderIndex === orderItem.Project_ID+''){
+          self.getLogList(orderItem);
+        }
       });
     },
     addWorkLog(orderItem){//新增工作记录
       let self = this;
       self.$addLog(orderItem,() => {
-        self.getLogList(orderItem);
+        if(self.selectOrderIndex === orderItem.Project_ID+''){
+          self.getLogList(orderItem);
+        }
       });
     },
     applyForComplete(orderItem){//申请完工
@@ -303,7 +330,9 @@ export default {
           if(result.success){
             self.$alert('已申请完工',{lockScroll:false});
             orderItem.State = 3;
-            self.getLogList(orderItem);
+            if(self.selectOrderIndex === orderItem.Project_ID+''){
+              self.getLogList(orderItem);
+            }
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -317,7 +346,9 @@ export default {
     extendOrder(orderItem){//延长预约
       let self = this;
       self.$extendOrder(orderItem,() => {
-        self.getLogList(orderItem);
+        if(self.selectOrderIndex === orderItem.Project_ID+''){
+          self.getLogList(orderItem);
+        }
       })
     },
     applyForRefund(orderItem){//申请退款
@@ -342,7 +373,9 @@ export default {
       // });
       self.$applyForRefund(orderItem,() => {
         orderItem.State = 4;
-        self.getLogList(orderItem);
+        if(self.selectOrderIndex === orderItem.Project_ID+''){
+          self.getLogList(orderItem);
+        }
       })
     },
     agreeComplete(orderItem){//确认完工
@@ -358,7 +391,9 @@ export default {
           if(result.success){
             self.$alert('已确认完工',{lockScroll:false});
             orderItem.State = 5;
-            self.getLogList(orderItem);
+            if(self.selectOrderIndex === orderItem.Project_ID+''){
+              self.getLogList(orderItem);
+            }
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -379,7 +414,9 @@ export default {
           if(result.success){
             self.$alert('已驳回完工',{lockScroll:false});
             orderItem.State = 2;
-            self.getLogList(orderItem);
+            if(self.selectOrderIndex === orderItem.Project_ID+''){
+              self.getLogList(orderItem);
+            }
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -400,7 +437,9 @@ export default {
           if(result.success){
             self.$alert('已确认退款',{lockScroll:false});
             orderItem.State = 5;
-            self.getLogList(orderItem);
+            if(self.selectOrderIndex === orderItem.Project_ID+''){
+              self.getLogList(orderItem);
+            }
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -421,7 +460,9 @@ export default {
           if(result.success){
             self.$alert('已驳回退款',{lockScroll:false});
             orderItem.State = 6;
-            self.getLogList(orderItem);
+            if(self.selectOrderIndex === orderItem.Project_ID+''){
+              self.getLogList(orderItem);
+            }
           }else{
             self.$alert(result.msg,{lockScroll:false});
           }
@@ -432,8 +473,10 @@ export default {
     evaluate(orderItem){//前去评价
       let self = this;
       self.$evaluate(orderItem, this.userType,()=>{
-        orderItem.State = 7;
-        self.getLogList(orderItem);
+        // orderItem.State = 7;
+        if(self.selectOrderIndex === orderItem.Project_ID+''){
+          self.getLogList(orderItem);
+        }
       });
     },
     enterTalentInfo(applyItem){
@@ -692,6 +735,7 @@ export default {
 }
 
 .userInfo_otherInfo_order_toolBox{
+  position: relative;
   float: right;
   margin-right: 5px;
   margin-left: 15px;

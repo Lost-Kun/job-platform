@@ -10,7 +10,7 @@
       </div> -->
       <div class="loginBox">
         <a class="login_link" v-show="!isLogin" @click="showLoginPicture">登录</a>
-        <el-badge :max="99" :value="newsNumber" :hidden="!isLogin || newsNumber<1 || isUserInfoPage">
+        <el-badge :max="99" :value="newsNumber" :hidden="!isLogin || isUserInfoPage">
           <div class="login_link_box" v-show="isLogin">
             <a class="login_link"  @click="enterUserInfo">个人主页</a>
           </div>
@@ -123,6 +123,7 @@ export default {
     },
     startLoopNews(){
       this.stopLoop = false;
+      this.setTimeoutIndex ++;
       this.getNewsNumberLoop(this.setTimeoutIndex);
     },
     stopLoopNews(){
@@ -130,7 +131,7 @@ export default {
       this.setTimeoutIndex ++;
     },
     getNewsNumberLoop(setTimeoutIndex){
-      if(!this.stopLoop && this.isLogin && setTimeoutIndex === this.setTimeoutIndex){
+      if(!this.stopLoop && this.isLogin && setTimeoutIndex === this.setTimeoutIndex && !this.isUserInfoPage){
         this.$http.post('/project/getNewsNumber', {userId:this.userId,userType:this.userType}).then((res) => {
           let result = res.data;
           if(result.success){
@@ -151,11 +152,17 @@ export default {
     }
   },
   watch:{
-    $route(){
+    $route(newVal, oldVal){
       this.navList.forEach((item) => {
         item.isSelected = this.$route.path === item.path;
       })
       this.isUserInfoPage = this.$route.path === '/homePage/userInfo';
+      if(newVal.path === '/homePage/userInfo'){
+        this.stopLoopNews();
+      }
+      if(oldVal.path === '/homePage/userInfo' && newVal.path !== '/homePage/userInfo'){
+        this.startLoopNews()
+      }
     }
   }
 }

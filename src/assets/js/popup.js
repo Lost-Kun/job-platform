@@ -350,7 +350,7 @@ export default {
           '<div class="login_popupBox_content_main_item_left">项目日薪</div>' +
           '<div class="login_popupBox_content_main_item_right_select" style="width:75%;margin-left:3%;">' +
 					'<el-select v-model="Wage" placeholder="请选择" style="width:90%;" size="small">'+
-          '<el-option v-for="item in WageList" :label="item+\'元/天\'" :value="item"></el-option>'+
+          '<el-option v-for="item in WageList" style="width: 275px;" :label="item+\'元/天\'" :value="item"></el-option>'+
           '</el-select>'+
           '</div>' +
           '</div>' +
@@ -358,7 +358,7 @@ export default {
           '<div class="login_popupBox_content_main_item_left">项目工时</div>' +
           '<div class="login_popupBox_content_main_item_right_select" style="width:75%;margin-left:3%;">' +
 					'<el-select v-model="Length" placeholder="请选择" style="width:90%;" size="small">'+
-          '<el-option v-for="item in 90" :label="item+\'天\'" :value="item"></el-option>'+
+          '<el-option v-for="item in 90" style="width: 275px;" :label="item+\'天\'" :value="item"></el-option>'+
           '</el-select>'+
           '</div>' +
           '</div>' +
@@ -535,7 +535,7 @@ export default {
           '<div class="login_popupBox_content_main_item_left">延长工时</div>' +
           '<div class="login_popupBox_content_main_item_right_select" style="width:75%;margin-left:3%;">' +
 					'<el-select v-model="Length" placeholder="请选择" style="width:90%;" size="small">'+
-          '<el-option v-for="item in 90" :label="item+\'天\'" :value="item"></el-option>'+
+          '<el-option v-for="item in 90" style="width: 275px;" :label="item+\'天\'" :value="item"></el-option>'+
           '</el-select>'+
           '</div>' +
           '</div>' +
