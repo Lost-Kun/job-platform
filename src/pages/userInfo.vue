@@ -64,7 +64,7 @@
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 4 && userType === 0" @click.stop="agreeRefund(item)">确认退款</a>
                 <a class="userInfo_button" v-show="item.State === 4 && userType === 0"  @click.stop="rejectRefund(item)">驳回退款</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 5" @click.stop="evaluate(item)">前去评价</a>
-                <div style="position:absolute;right:-20px;top:0">
+                <div style="position:absolute;right:-20px;top:3px;">
                 <el-badge :max="99" :value="item.State === 1 && userType === 1?item.newDeliverNumber:item.newsNumber">
                 </el-badge>
                 </div>
@@ -112,17 +112,20 @@ export default {
       orderList:[],
       orderListObj:{},
       selectOrderIndex:'-1',
+      isUserInfoPage: false,
       stopLoopOrderList: false,
       setTimeoutIndex: 0
     }
   },
   created(){
+    this.isUserInfoPage = this.$route.path === '/homePage/userInfo';
     this.checkLogin();
     window.bus.$on('checkLogin',this.checkLogin);
   },
   beforeDestroy(){
     this.stopLoopOrderList = true;
     this.setTimeoutIndex = null;
+    this.isUserInfoPage = false;
   },
   methods:{
     //检验用户登录
@@ -153,6 +156,7 @@ export default {
         this.userInfo = {};
         this.totalMoney = 0;
         this.orderList = [];
+        this.stopLoopOrder();
 				this.$router.push({
 					path:'/homePage/index'
 				})
@@ -196,7 +200,7 @@ export default {
       this.setTimeoutIndex ++;
     },
     getOrderList(setTimeoutIndex){
-      if(!this.stopLoopOrderList && this.isLogin && setTimeoutIndex === this.setTimeoutIndex){
+      if(!this.stopLoopOrderList && this.isLogin && this.isUserInfoPage && setTimeoutIndex === this.setTimeoutIndex){
         let url = this.userType === 0?'/talent/getOrderList':'/employer/getOrderList';
         let param = this.userType === 0?{employeeId:this.userId}:{employerId:this.userId};
         this.$http.post(url, param).then((res) => {
