@@ -88,7 +88,7 @@
                 <div class="userInfo_otherInfo_order_item_time">
                   {{logItem.Riqi}}
                 </div>
-                <div class="userInfo_otherInfo_order_item_main" style="width: calc(100% - 165px);">
+                <div class="userInfo_otherInfo_order_item_main" style="width: calc(100% - 165px);word-wrap: break-word;">
                   {{logItem.Progress}}
                 </div>
               </div>
@@ -221,6 +221,9 @@ export default {
               if(item.State == 5 || item.State == 7){
                 totalMoney += (item.Amount_paid-item.Refund);
               }
+              if(item.State === 5 && item.ratingNumber === 1){
+                item.State = 7;
+              }
               return item;
             });
             this.totalMoney = totalMoney;
@@ -300,7 +303,6 @@ export default {
           }else{
             orderItem.logList = result.data;
           }
-          console.log(orderItem.logList);
         }
       })
     },

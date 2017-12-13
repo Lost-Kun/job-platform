@@ -58,7 +58,7 @@ CREATE TABLE `employee` (
   `Projects_list` varchar(1000) DEFAULT NULL COMMENT '隐性，展示项目列表（json：项目名称+链接）',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '注册日期，格式为年-月-日 时:分:秒',
   `Ordered_number` int(11) DEFAULT '0' COMMENT '被预约次数',
-  `Rating` float DEFAULT '5' COMMENT '隐性，雇主对这位设计师的综合评分',
+  `Rating` float DEFAULT '0' COMMENT '隐性，雇主对这位设计师的综合评分',
   `State` int(1) DEFAULT '0' COMMENT '预约状态,0:未预约,1:已预约',
   PRIMARY KEY (`Employee_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -79,7 +79,7 @@ CREATE TABLE `employer` (
   `Location` varchar(255) DEFAULT NULL COMMENT '发票寄送地址',
   `Company_introduction` varchar(1000) DEFAULT NULL COMMENT '公司产品介绍',
   `Riqi` varchar(50) DEFAULT NULL COMMENT '注册日期，格式为年-月-日 时:分:秒',
-  `Rating` float DEFAULT '5' COMMENT '设计师对雇主的平均打分',
+  `Rating` float DEFAULT '0' COMMENT '设计师对雇主的平均打分',
   PRIMARY KEY (`Employer_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

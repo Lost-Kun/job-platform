@@ -41,3 +41,7 @@
     background-color: #20a0ff;
     color: #fff;
 }
+
+.el-textarea .el-textarea__inner{
+    font: 400 13.3333px Arial;
+}

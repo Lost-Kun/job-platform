@@ -187,28 +187,79 @@
 export default {
 	data(){
 		return {
-			PositionList: ['JAVA工程师','前端工程师','算法工程师'],
+			PositionList: ['JAVA工程师','前端工程师','算法工程师','其他'],
 			WageList: Array.apply(null, { length: 16 }).map((item, index) => {return 500+index*100}),
 			PositionAreaList:[
 				{
-					name:'北京',
-					children:[
+					"name":"北京",
+					"children":[
 						{
-							name:'海淀区'
+							"name":"全区"
 						},
 						{
-							name:'朝阳区'
+							"name":"海淀"
+						},
+						{
+							"name":"朝阳"
+						},
+						{
+							"name":"昌平"
+						},
+						{
+							"name":"东城"
+						},
+						{
+							"name":"西城"
+						},
+						{
+							"name":"石景山"
+						},
+						{
+							"name":"通州"
+						},
+						{
+							"name":"丰台"
 						}
 					]
 				},
 				{
-					name:'上海',
-					children:[
+					"name":"上海",
+					"children":[
 						{
-							name:'黄埔区'
+							"name":"全区"
 						},
 						{
-							name:'徐汇区'
+							"name":"浦东"
+						},
+						{
+							"name":"闵行"
+						},
+						{
+							"name":"徐汇"
+						},
+						{
+							"name":"长宁"
+						},
+						{
+							"name":"普陀"
+						},
+						{
+							"name":"静安"
+						},
+						{
+							"name":"卢湾"
+						},
+						{
+							"name":"黄浦"
+						},
+						{
+							"name":"闸北"
+						},
+						{
+							"name":"虹口"
+						},
+						{
+							"name":"杨浦"
 						}
 					]
 				}
@@ -223,7 +274,7 @@ export default {
 			Job_position:'',
 			Job_experience: null,
 			Job_city: '北京',
-			Job_district: '海淀区',
+			Job_district: '海淀',
 			Edu_school:'',
 			Edu_department:'',
 			Edu_degree:'',
@@ -243,14 +294,13 @@ export default {
 					resultList = areaList[i].children;
 				}
 			}
-			this.Job_district = resultList[0].name;
 			return resultList;
 		}
 	},
 	created(){
 		this.type = this.$route.query.type || null;
     	this.checkLogin();
-    	window.bus.$on('checkLogin',this.checkLogin);
+		window.bus.$on('checkLogin',this.checkLogin);
 	},
 	methods:{
 		//检验用户登录
@@ -270,7 +320,7 @@ export default {
 			}
 			if(userId !== '' && userType !== ''){
 				this.employeeId = userId;
-				this.getTalentInfo();
+				this.getDistrictList();
 			}else{
 				this.employeeId = '';
 				this.initPage({});
@@ -290,6 +340,20 @@ export default {
 				}
 			})
 		},
+		getDistrictList(){
+			this.$http.get('/static/json/district.json').then((res) => {
+				if(res.status === 200){
+					this.PositionAreaList = res.data;
+				}
+				this.$nextTick(()=>{
+					this.getTalentInfo();
+				})
+			}).catch(()=>{
+				this.$nextTick(()=>{
+					this.getTalentInfo();
+				})
+			})
+		},
 		initPage(employeeInfo){
 			this.Name = employeeInfo.Name ? employeeInfo.Name:'';
 			this.Mobile = employeeInfo.Mobile ? employeeInfo.Mobile:'';
@@ -299,7 +363,9 @@ export default {
 			this.Job_position = employeeInfo.Job_position ? employeeInfo.Job_position:'';
 			this.Job_experience = employeeInfo.Job_experience ? employeeInfo.Job_experience:null;
 			this.Job_city = employeeInfo.Job_city ? employeeInfo.Job_city:'北京';
-			this.Job_district = employeeInfo.Job_district ? employeeInfo.Job_district:'海淀区';
+			this.$nextTick(()=>{
+				this.Job_district = employeeInfo.Job_district ? employeeInfo.Job_district:'海淀';
+			})
 			this.Edu_school = employeeInfo.Edu_school ? employeeInfo.Edu_school:'';
 			this.Edu_department = employeeInfo.Edu_department ? employeeInfo.Edu_department:'';
 			this.Edu_degree = employeeInfo.Edu_degree ? employeeInfo.Edu_degree:'';
@@ -378,6 +444,13 @@ export default {
 			}).catch((err) => {
 				this.$alert(err.message,{lockScroll:false});
 			})
+		}
+	},
+	watch:{
+		regionList(newVal){
+			if(!newVal.includes(this.Job_district)){
+				this.Job_district = newVal[0].name
+			}
 		}
 	}
 }
