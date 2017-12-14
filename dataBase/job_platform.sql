@@ -156,6 +156,7 @@ CREATE TABLE `project` (
   `Amount_paid` int(11) DEFAULT '0' COMMENT '项目已支付金额',
   `Delivery_number` int(1) DEFAULT '0' COMMENT '投递次数',
   `System_paidFlag` int(1) DEFAULT '0' COMMENT '系统结算状态,0:未结算,1:已结算',
+  `Project_Type` int(1) DEFAULT '0' COMMENT '项目类型，0:普通发布的项目，1:直接预约项目',
   PRIMARY KEY (`Project_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

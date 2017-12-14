@@ -448,7 +448,7 @@ export default {
 	},
 	watch:{
 		regionList(newVal){
-			if(!newVal.includes(this.Job_district)){
+			if(newVal.indexOf(this.Job_district) === -1){
 				this.Job_district = newVal[0].name
 			}
 		}

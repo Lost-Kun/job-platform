@@ -56,8 +56,9 @@
                 <a class="userInfo_button" v-show="item.State === 1 && userType === 1" @click.stop="contactWoker">沟通需求</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 0" @click.stop="addWorkLog(item)">新增工作记录</a>
                 <a class="userInfo_button" v-show="item.State === 2 && userType === 0" @click.stop="applyForComplete(item)">申请完工</a>
-                <a class="userInfo_button userInfo_button_full" v-show="item.State === 2 && userType === 1" @click.stop="payForEmploy(item)">支付佣金</a>
-                <a class="userInfo_button" v-show="item.State === 2 && userType === 1" @click.stop="extendOrder(item)">延长预约</a>
+                <a class="userInfo_button userInfo_button_full" v-show="(item.State === 2 || item.State === 9) && userType === 1" @click.stop="payForEmploy(item)">支付佣金</a>
+                <a class="userInfo_button" v-show="(item.State === 2 || item.State === 9) && userType === 1" @click.stop="extendOrder(item)">延长预约</a>
+                <a class="userInfo_button" v-show="item.State === 9 && userType === 1" @click.stop="cancelOrder(item)">取消预约</a>
                 <a class="userInfo_button" v-show="(item.State === 2 || item.State === 3) && userType === 1" @click.stop="applyForRefund(item)">申请退款</a>
                 <a class="userInfo_button userInfo_button_full" v-show="item.State === 3 && userType === 1" @click.stop="agreeComplete(item)">确认完工</a>
                 <a class="userInfo_button" v-show="item.State === 3 && userType === 1" @click.stop="rejectComplete(item)">驳回完工</a>
@@ -230,7 +231,7 @@ export default {
             if(this.selectOrderIndex !== undefined && this.selectOrderIndex !== '-1'){
               if(this.orderListObj[this.selectOrderIndex]){
                 if(this.orderListObj[this.selectOrderIndex].State === 1){
-                  if(this.orderListObj[this.selectOrderIndex].newDeliverNumber > 0){
+                  if(this.orderListObj[this.selectOrderIndex].newDeliverNumber > 0 || this.orderListObj[this.selectOrderIndex].newsNumber > 0){
                     this.showOrderdetail(this.selectOrderIndex);
                   }
                 }else if(this.orderListObj[this.selectOrderIndex].newsNumber > 0){
@@ -271,6 +272,9 @@ export default {
       if(State === 7){
         return '已评价';
       }
+      if(State === 9){
+        return '雇主支付阶段';
+      }
       return '';
     },
     showOrderdetail(selectOrderIndex){
@@ -285,6 +289,9 @@ export default {
                 selectedOrder.applyList = result.data;
               }
             })
+            if(selectedOrder.newsNumber > 0){
+              this.getLogList(selectedOrder);
+            }
           }else{//获取项目日志
             this.getLogList(selectedOrder);
           }
@@ -356,6 +363,25 @@ export default {
           self.getLogList(orderItem);
         }
       })
+    },
+    cancelOrder(orderItem){//取消预约
+      let self = this;
+      self.$confirm('是否确认取消预约', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        lockScroll:false
+      }).then(() => {
+        self.$http.post('/project/cancelOrder', {Project_ID:orderItem.Project_ID}).then((res) => {
+          let result = res.data;
+          if(result.success){
+            self.$alert('已取消预约',{lockScroll:false});
+          }else{
+            self.$alert(result.msg,{lockScroll:false});
+          }
+        })
+      }).catch(() => {       
+      });
     },
     applyForRefund(orderItem){//申请退款
       let self = this;
